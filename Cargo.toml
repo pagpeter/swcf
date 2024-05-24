@@ -1,0 +1,30 @@
+[package]
+name = "peet-deob"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+
+[dependencies]
+serde = "1"
+swc = "0.275.1"
+swc_common = "0.33.26"
+swc_core = { version = "0.92.5", features = [
+    "common",
+    "ecma_utils",
+    "ecma_plugin_transform",
+    "ecma_codegen",
+] }
+swc_ecma_ast = "0.113.4"
+swc_ecma_parser = "0.144.1"
+swc_ecma_transforms = "0.230.1"
+swc_ecma_transforms_typescript = "0.189.1"
+swc_ecma_visit = "0.99.1"
+
+# .cargo/config defines few alias to build plugin.
+# cargo build-wasi generates wasm-wasi32 binary
+# cargo build-wasm32 generates wasm32-unknown-unknown binary.
