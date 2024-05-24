@@ -1,10 +1,13 @@
 use std::io;
 use std::{env, fs, time};
 use swc::config::Options;
+use swc_common::Mark;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, source_map::SourceMap, sync::Lrc, GLOBALS,
+    chain, comments::SingleThreadedComments, errors::Handler, source_map::SourceMap, sync::Lrc,
+    GLOBALS,
 };
 use swc_core::ecma::visit::as_folder;
+use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::noop;
 mod transformations;
 fn main() {
@@ -18,8 +21,6 @@ fn main() {
     };
 
     let data = fs::read_to_string(filename).expect("Unable to read file");
-    let challenge = data.as_str().trim();
-    println!("Input code:\n{}\n===", challenge);
 
     let before = time::Instant::now();
     let cm = Lrc::new(SourceMap::new(swc_common::FilePathMapping::empty()));
@@ -42,13 +43,17 @@ fn main() {
                 SingleThreadedComments::default(),
                 |_| noop(),
                 |_| {
-                    as_folder(transformations::transform_computed_members::TransformComputedMembers)
+                    swc_common::chain!(
+                        expr_simplifier(Mark::new(), Default::default()),
+                        as_folder(transformations::proxy_vars::Visitor::default()),
+                        as_folder(transformations::strings::Visitor),
+                        as_folder(transformations::computed_members::Visitor)
+                    )
                 },
             )
             .expect("process_js_with_custom_pass failed");
-        print!("Output code:\n{}", output.code);
         println!(
-            "Elapsed time (Parsing + Transforming): {:.2?}",
+            "Elapsed time (Parsing + Transforming + Marshalling): {:.2?}",
             before.elapsed()
         );
         fs::write(format!("{}_out.js", filename), output.code).expect("Could not write to file");

@@ -1,9 +1,9 @@
 use swc_core::ecma::ast::{Expr, Ident, Lit, MemberExpr, MemberProp};
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
 
-pub struct TransformComputedMembers;
+pub struct Visitor;
 
-impl VisitMut for TransformComputedMembers {
+impl VisitMut for Visitor {
     fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
         member_expr.visit_mut_children_with(self);
 
