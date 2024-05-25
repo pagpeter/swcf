@@ -933,6 +933,7 @@ checksum = "8835116a5c179084a830efb3adc117ab007512b535bc1a21c991d3b32a6b44dd"
 name = "peet-deob"
 version = "0.1.0"
 dependencies = [
+ "regex",
  "serde",
  "swc",
  "swc_common",

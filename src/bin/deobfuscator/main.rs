@@ -1,13 +1,11 @@
 use std::io;
 use std::{env, fs, time};
 use swc::config::Options;
-use swc_common::Mark;
+// use swc_common::Mark;
 use swc_common::{
-    chain, comments::SingleThreadedComments, errors::Handler, source_map::SourceMap, sync::Lrc,
-    GLOBALS,
+    comments::SingleThreadedComments, errors::Handler, source_map::SourceMap, sync::Lrc, GLOBALS,
 };
 use swc_core::ecma::visit::as_folder;
-use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::noop;
 mod transformations;
 fn main() {
@@ -44,9 +42,9 @@ fn main() {
                 |_| noop(),
                 |_| {
                     swc_common::chain!(
-                        expr_simplifier(Mark::new(), Default::default()),
-                        as_folder(transformations::proxy_vars::Visitor::default()),
-                        as_folder(transformations::strings::Visitor),
+                        // expr_simplifier(Mark::new(), Default::default()),
+                        // as_folder(transformations::proxy_vars::Visitor::default()),
+                        as_folder(transformations::strings::Visitor::new(data.to_string())),
                         as_folder(transformations::computed_members::Visitor)
                     )
                 },
