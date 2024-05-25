@@ -1,5 +1,5 @@
-use swc_core::ecma::ast::{Expr, Ident, Lit, MemberExpr, MemberProp};
-use swc_core::ecma::visit::{VisitMut, VisitMutWith};
+use swc_core::ecma::ast::MemberExpr;
+use swc_core::ecma::visit::VisitMut;
 
 pub struct Visitor;
 

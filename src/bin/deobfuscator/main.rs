@@ -1,9 +1,6 @@
 use std::io;
 use std::{env, fs, time};
-use swc::config::{
-    CallerOptions, Config, DecoratorVersion, IsModule, JscConfig, ModuleConfig, Options,
-    TransformConfig,
-};
+use swc::config::{Config, IsModule, JscConfig, ModuleConfig, Options};
 use swc_common::{chain, Mark};
 // use swc_common::Mark;
 use swc_common::{
@@ -15,7 +12,9 @@ use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::modules::EsModuleConfig;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::noop;
+
 mod transformations;
+
 pub fn create_transform_options() -> Options {
     let jsc = JscConfig {
         external_helpers: false.into(),
