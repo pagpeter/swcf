@@ -50,10 +50,10 @@ fn main() {
                 },
             )
             .expect("process_js_with_custom_pass failed");
+        fs::write(format!("{}_out.js", filename), output.code).expect("Could not write to file");
         println!(
-            "Elapsed time (Parsing + Transforming + Marshalling): {:.2?}",
+            "Elapsed time (Parsing + Transforming + Marshalling + Writing): {:.2?}",
             before.elapsed()
         );
-        fs::write(format!("{}_out.js", filename), output.code).expect("Could not write to file");
     });
 }
