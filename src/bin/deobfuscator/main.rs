@@ -73,7 +73,7 @@ fn main() {
     println!("Elapsed time (Parsing): {:.2?}", before.elapsed());
 
     let globals = Default::default();
-    return GLOBALS.set(&globals, || {
+    GLOBALS.set(&globals, || {
         let output = c
             .process_js_with_custom_pass(
                 source,
@@ -100,5 +100,5 @@ fn main() {
             "Elapsed time (Parsing + Transforming + Marshalling + Writing): {:.2?}",
             before.elapsed()
         );
-    });
+    })
 }

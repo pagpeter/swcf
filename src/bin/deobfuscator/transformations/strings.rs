@@ -48,16 +48,9 @@ impl VisitMut for ReplaceProxyCalls {
                 let i: i32 = find.ints[0] as i32;
 
                 let works = usize::try_from(i - self.subtract);
-                match works {
-                    Ok(res) => {
-                        let str = self.strings[res].to_owned();
-                        // println!("b({:?}) -> {}", i, str);
-                        *expr = Expr::Lit(Lit::Str(Str::from(str)));
-                        return;
-                    }
-                    Err(_) => {
-                        return;
-                    }
+                if let Ok(res) = works {
+                    let str = self.strings[res].to_owned();
+                    *expr = Expr::Lit(Lit::Str(Str::from(str)));
                 }
             }
         }
@@ -85,13 +78,13 @@ impl VisitMut for FindAllStrings {
             if let Some(caps) = re.captures(&all) {
                 self.done_string = true;
                 let delimiter = &caps["delimiter"];
-                self.strings = all.split(delimiter).map(|f| String::from(f)).collect();
+                self.strings = all.split(delimiter).map(String::from).collect();
                 *n = JsWord::new("");
             }
         }
     }
     fn visit_mut_ident(&mut self, n: &mut swc_ecma_ast::Ident) {
-        if n.sym.to_string() != "JSON" || self.done_json {
+        if n.sym != "JSON" || self.done_json {
             return;
         }
         self.json_start = n.span.lo.0 - 1;
@@ -128,7 +121,7 @@ impl VisitMut for Visitor {
             .0;
 
         let first_int_re = Regex::new(r"(?<int>\d+)").unwrap();
-        if let Some(caps) = first_int_re.captures(&splits) {
+        if let Some(caps) = first_int_re.captures(splits) {
             self.stringify = caps["int"].parse::<i32>().unwrap();
         }
         let subtract_re = Regex::new(r".=.-(?<subtract>\d+?),.=").unwrap();

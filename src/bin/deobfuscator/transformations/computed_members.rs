@@ -9,7 +9,7 @@ impl VisitMut for Visitor {
 
         if let MemberProp::Computed(property) = &member_expr.prop {
             if let Expr::Lit(Lit::Str(s)) = &*property.expr {
-                if !s.value.contains("-") {
+                if !s.value.contains('-') {
                     member_expr.prop =
                         MemberProp::Ident(Ident::new(s.value.clone(), property.span));
                 }

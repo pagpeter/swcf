@@ -136,7 +136,7 @@ impl VisitMut for Visitor {
                         self.replacements.insert(
                             var_id.to_id(),
                             Ident {
-                                span: fn_id.span.clone(),
+                                span: fn_id.span,
                                 sym: replacement_sym,
                                 optional: false,
                             },
