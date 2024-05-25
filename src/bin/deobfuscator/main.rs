@@ -1,15 +1,56 @@
 use std::io;
 use std::{env, fs, time};
-use swc::config::Options;
+use swc::config::{
+    CallerOptions, Config, DecoratorVersion, IsModule, JscConfig, ModuleConfig, Options,
+    TransformConfig,
+};
 use swc_common::{chain, Mark};
 // use swc_common::Mark;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, source_map::SourceMap, sync::Lrc, GLOBALS,
 };
 use swc_core::ecma::visit::as_folder;
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_transforms::modules::EsModuleConfig;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::noop;
 mod transformations;
+pub fn create_transform_options() -> Options {
+    let jsc = JscConfig {
+        external_helpers: false.into(),
+        keep_class_names: true.into(),
+        loose: true.into(),
+        minify: None,
+        preserve_all_comments: true.into(),
+        syntax: Some(Syntax::Es(EsConfig {
+            allow_super_outside_method: false,
+            allow_return_outside_function: false,
+            decorators_before_export: true,
+            export_default_from: true,
+            fn_bind: true,
+            jsx: true,
+            ..EsConfig::default()
+        })),
+
+        target: Some(EsVersion::Es2022),
+        ..JscConfig::default()
+    };
+    Options {
+        config: Config {
+            // env,
+            is_module: Some(IsModule::Bool(true)),
+            jsc,
+            minify: false.into(),
+            module: Some(ModuleConfig::Es6(EsModuleConfig {
+                resolve_fully: false,
+            })),
+            ..Config::default()
+        },
+        ..Options::default()
+    }
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     let filename = match args.get(1) {
@@ -34,14 +75,12 @@ fn main() {
 
     let globals = Default::default();
     return GLOBALS.set(&globals, || {
-        let opts = Options::default();
-
         let output = c
             .process_js_with_custom_pass(
                 source,
                 None,
                 &handler,
-                &opts,
+                &create_transform_options(),
                 SingleThreadedComments::default(),
                 |_| noop(),
                 |_| {
@@ -49,6 +88,7 @@ fn main() {
                         as_folder(transformations::strings::Visitor::new(data.to_string())),
                         as_folder(transformations::computed_members::Visitor),
                         expr_simplifier(Mark::new(), Default::default()),
+                        as_folder(transformations::proxy_functions::Visitor),
                         // expr_simplifier(Mark::new(), Default::default()),
                         // as_folder(transformations::constant_evaluation::Visitor),
                         // as_folder(transformations::proxy_vars::Visitor::default()),
