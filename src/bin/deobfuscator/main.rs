@@ -1,11 +1,13 @@
 use std::io;
 use std::{env, fs, time};
 use swc::config::Options;
+use swc_common::{chain, Mark};
 // use swc_common::Mark;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, source_map::SourceMap, sync::Lrc, GLOBALS,
 };
 use swc_core::ecma::visit::as_folder;
+use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::noop;
 mod transformations;
 fn main() {
@@ -32,20 +34,24 @@ fn main() {
 
     let globals = Default::default();
     return GLOBALS.set(&globals, || {
+        let opts = Options::default();
+
         let output = c
             .process_js_with_custom_pass(
                 source,
                 None,
                 &handler,
-                &Options::default(),
+                &opts,
                 SingleThreadedComments::default(),
                 |_| noop(),
                 |_| {
-                    swc_common::chain!(
-                        // expr_simplifier(Mark::new(), Default::default()),
-                        // as_folder(transformations::proxy_vars::Visitor::default()),
+                    chain!(
                         as_folder(transformations::strings::Visitor::new(data.to_string())),
-                        as_folder(transformations::computed_members::Visitor)
+                        as_folder(transformations::computed_members::Visitor),
+                        expr_simplifier(Mark::new(), Default::default()),
+                        // expr_simplifier(Mark::new(), Default::default()),
+                        // as_folder(transformations::constant_evaluation::Visitor),
+                        // as_folder(transformations::proxy_vars::Visitor::default()),
                     )
                 },
             )

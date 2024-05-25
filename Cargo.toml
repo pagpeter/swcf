@@ -21,6 +21,7 @@ swc_core = { version = "0.92.5", features = [
     "ecma_codegen",
 ] }
 swc_ecma_ast = "0.113.4"
+swc_ecma_minifier = "0.194.5"
 swc_ecma_parser = "0.144.1"
 swc_ecma_transforms = "0.230.1"
 swc_ecma_transforms_typescript = "0.189.1"

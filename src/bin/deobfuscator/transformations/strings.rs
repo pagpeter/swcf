@@ -29,14 +29,14 @@ impl ReplaceProxyCalls {
 
 impl VisitMut for ReplaceProxyCalls {
     fn visit_mut_expr(&mut self, expr: &mut swc_ecma_ast::Expr) {
+        expr.visit_mut_children_with(self);
+
         if !expr.is_call() {
-            expr.visit_mut_children_with(self);
             return;
         }
         let n = expr.as_call().unwrap();
 
         if n.args.len() != 1 {
-            expr.visit_mut_children_with(self);
             return;
         }
 
@@ -53,19 +53,13 @@ impl VisitMut for ReplaceProxyCalls {
                         let str = self.strings[res].to_owned();
                         // println!("b({:?}) -> {}", i, str);
                         *expr = Expr::Lit(Lit::Str(Str::from(str)));
-                        expr.visit_mut_children_with(self);
                         return;
                     }
                     Err(_) => {
-                        expr.visit_mut_children_with(self);
                         return;
                     }
                 }
-            } else {
-                expr.visit_mut_children_with(self);
             }
-        } else {
-            expr.visit_mut_children_with(self);
         }
     }
 }
