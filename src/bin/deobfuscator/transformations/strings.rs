@@ -87,7 +87,7 @@ impl VisitMut for FindAllStrings {
         if n.sym != "JSON" || self.done_json {
             return;
         }
-        self.json_start = n.span.lo.0 - 1;
+        self.json_start = n.span.lo.0 + 6;
         self.done_json = true;
     }
 }
