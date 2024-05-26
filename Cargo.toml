@@ -8,6 +8,7 @@ crate-type = ["cdylib"]
 
 [profile.release]
 lto = true
+incremental = true
 
 [dependencies]
 regex = "1.10.4"

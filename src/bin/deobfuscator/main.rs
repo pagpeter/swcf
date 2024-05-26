@@ -87,6 +87,7 @@ fn main() {
                         as_folder(transformations::proxy_functions::Visitor),
                         expr_simplifier(Mark::new(), Default::default()),
                         as_folder(transformations::computed_members::Visitor),
+                        as_folder(transformations::control_flow_flattening::Visitor),
                     )
                 },
             )
