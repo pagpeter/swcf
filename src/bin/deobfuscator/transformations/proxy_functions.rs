@@ -1,7 +1,8 @@
 use swc::atoms::Atom;
+use swc_common::{util::take::Take, Span};
 use swc_core::ecma::ast::Program;
 use swc_core::ecma::visit::VisitMut;
-use swc_ecma_ast::{AssignOp, Expr};
+use swc_ecma_ast::{AssignOp, BinExpr, BinaryOp, CallExpr, Expr};
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 
 #[derive(Default)]
@@ -18,6 +19,18 @@ struct Proxy {
     proxy_type: String,
     key: String,
     string_value: String,
+    bin_operator: BinaryOp,
+}
+
+impl Proxy {
+    pub fn string(key: String, value: String) -> Proxy {
+        return Proxy {
+            proxy_type: "string".to_owned(),
+            key: key,
+            string_value: value,
+            bin_operator: BinaryOp::Add,
+        };
+    }
 }
 
 type Assignments = Vec<Proxy>;
@@ -50,11 +63,8 @@ impl Visit for FindProxyAssignments {
         if as_lit.is_some() {
             let mut str = FindString::default();
             n.value.visit_children_with(&mut str);
-            self.assignments.push(Proxy {
-                proxy_type: "string".to_owned(),
-                key: key.to_string(),
-                string_value: str.str,
-            })
+            self.assignments
+                .push(Proxy::string(key.to_string(), str.str))
         }
     }
     // e.pHFEm = "overlay",
@@ -84,13 +94,8 @@ impl Visit for FindProxyAssignments {
         if key.str.len() != 5 {
             return;
         }
-
-        // println!("visit_assign_expr: {} = {:?}", key.str, str.str)
-        self.assignments.push(Proxy {
-            proxy_type: "string".to_owned(),
-            key: key.str.to_string(),
-            string_value: str.str,
-        })
+        self.assignments
+            .push(Proxy::string(key.str.to_string(), str.str))
     }
 }
 
@@ -130,6 +135,20 @@ impl VisitMut for ReplaceProxies {
         if p.proxy_type == "string" {
             // println!("ReplaceProxies: {:?} {}", n, p.string_value);
             *n = Expr::from(Atom::new(p.string_value.to_owned()));
+        } else if p.proxy_type == "call" {
+            *n = Expr::from(CallExpr {
+                span: Span::dummy(),
+                callee: todo!(),
+                args: todo!(),
+                type_args: todo!(),
+            })
+        } else if p.proxy_type == "binary" {
+            *n = Expr::from(BinExpr {
+                span: Span::dummy(),
+                op: p.bin_operator,
+                left: todo!(),
+                right: todo!(),
+            })
         }
     }
 }
