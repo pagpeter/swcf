@@ -117,15 +117,7 @@ impl Visit for FindProxyAssignments {
             return;
         }
         let right_lit = n.right.as_lit();
-        if right_lit.is_none() {
-            return;
-        }
-        let mut str = FindString::default();
-        right_lit.unwrap().visit_children_with(&mut str);
-
-        if str.str.len() == 0 {
-            return;
-        }
+        let right_fun = n.right.as_fn_expr();
 
         let simple = n.left.as_simple();
         if simple.is_none() {
@@ -137,8 +129,51 @@ impl Visit for FindProxyAssignments {
         if key.str.len() != 5 {
             return;
         }
-        self.assignments
-            .push(Proxy::string(key.str.to_string(), str.str))
+
+        if right_lit.is_some() {
+            let mut str = FindString::default();
+            right_lit.unwrap().visit_children_with(&mut str);
+
+            if str.str.len() == 0 {
+                return;
+            }
+
+            self.assignments
+                .push(Proxy::string(key.str.to_string(), str.str))
+        } else if right_fun.is_some() {
+            let fun = right_fun.unwrap();
+            println!("visit_assign_expr: {} -> {:?}", key.str, fun);
+            let func = &fun.function;
+            let stmts = <Option<swc_ecma_ast::BlockStmt> as Clone>::clone(&func.body)
+                .unwrap()
+                .stmts;
+
+            let first = stmts.first();
+
+            if first.is_none() {
+                return;
+            }
+
+            let as_return_stmt = first.unwrap().as_return_stmt();
+            if as_return_stmt.is_none() {
+                return;
+            }
+            let expr =
+                <Option<Box<swc_ecma_ast::Expr>> as Clone>::clone(&as_return_stmt.unwrap().arg)
+                    .unwrap();
+            // println!("visit_key_value_prop: Unsupported {} (function)", key,);
+
+            let as_call = expr.as_call();
+            let as_bin = expr.as_bin();
+            if as_call.is_some() {
+                self.assignments.push(Proxy::call(key.str));
+            } else if as_bin.is_some() {
+                let bin = as_bin.unwrap();
+
+                // TODO: check if the params get reversed here
+                self.assignments.push(Proxy::binary(key.str, bin.op, false));
+            }
+        }
     }
 }
 
@@ -215,8 +250,8 @@ impl VisitMut for ReplaceProxies {
                     *n = Expr::from(BinExpr {
                         span: Span::dummy(),
                         op: p.bin_operator,
-                        left: Box::new(*left.to_owned()), //args.first(),
-                        right: Box::new(*right.to_owned()), //args.last(),
+                        left: Box::new(*left.to_owned()),
+                        right: Box::new(*right.to_owned()),
                     })
                 } else {
                     *n = Expr::from(BinExpr {

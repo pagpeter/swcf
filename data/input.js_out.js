@@ -44,13 +44,13 @@ window._cf_chl_opt.uaSR = false;
                         x1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                         continue;
                     case '3':
-                        x1.send(j1.ztORj(j1.ztORj('v_', fv._cf_chl_opt.cRay) + '=', C1));
+                        x1.send('v_' + fv._cf_chl_opt.cRay + '=' + C1);
                         continue;
                     case '4':
-                        o1 = j1.ztORj(j1.ztORj("/cdn-cgi/challenge-platform/" + s1 + "beacon/ov" + 1 + "/110965062:1716674953:4tvIWT64wiZo8SU2iujbXEdK-o4jR5nYygnUELoaHfc/" + fv._cf_chl_opt.cRay, '/') + fv._cf_chl_opt.cHash + '/', fv._cf_chl_opt.cType);
+                        o1 = "/cdn-cgi/challenge-platform/" + s1 + "beacon/ov" + 1 + "/110965062:1716674953:4tvIWT64wiZo8SU2iujbXEdK-o4jR5nYygnUELoaHfc/" + fv._cf_chl_opt.cRay + '/' + fv._cf_chl_opt.cHash + '/' + fv._cf_chl_opt.cType;
                         continue;
                     case '5':
-                        s1 = fv._cf_chl_opt.cFPWv ? j1.ztORj(j1.JwhVF('h/', fv._cf_chl_opt.cFPWv), '/') : '';
+                        s1 = fv._cf_chl_opt.cFPWv ? 'h/' + fv._cf_chl_opt.cFPWv + '/' : '';
                         continue;
                     case '6':
                         x1.open(B1, o1, true);
@@ -87,9 +87,9 @@ window._cf_chl_opt.uaSR = false;
         }, 1e3) : (m1 = [
             "Message: " + d,
             "URL: " + e,
-            j1.MGjgK("Line: ", f1),
+            "Line: " + f1,
             "Column: " + g1,
-            j1.rYUpy("Error object: ", JSON.stringify(h1))
+            "Error object: " + JSON.stringify(h1)
         ].join(" - "), fv.setTimeout(function(il) {
             il = ij, fv.oXia4(m1, undefined, "orc-onerror");
         }, 10), fv.setTimeout(function(im) {
@@ -426,7 +426,7 @@ window._cf_chl_opt.uaSR = false;
             return s1 < v1;
         }, j1.dNXlt = function(s1, v1) {
             return s1 === v1;
-        }, k1 = j1, l = Object.keys(i1), m1 = 0; k1.BfEUq(m1, l.length); m1++)if (n1 = l[m1], k1.dNXlt('f', n1) && (n1 = 'N'), h1[n1]) {
+        }, k1 = j1, l = Object.keys(i1), m1 = 0; m1 < l.length; m1++)if (n1 = l[m1], 'f' === n1 && (n1 = 'N'), h1[n1]) {
             for(o1 = 0; o1 < i1[l[m1]].length; -1 === h1[n1].indexOf(i1[l[m1]][o1]) && (hU(i1[l[m1]][o1]) || h1[n1].push('o.' + i1[l[m1]][o1])), o1++);
         } else h1[n1] = i1[l[m1]].map(function(s1) {
             return 'o.' + s1;
@@ -447,7 +447,7 @@ window._cf_chl_opt.uaSR = false;
             return n1 % s1;
         }, h1 = g1, m1, j1 = 32, l = fv._cf_chl_opt.cRay + '_' + 0, l = l.replace(/./g, function(n1, s1, li) {
             li = lh, j1 ^= l.charCodeAt(s1);
-        }), f1 = fv.atob(f1), k1 = [], i1 = -1; !isNaN(m1 = f1.charCodeAt(++i1)); k1.push(String.fromCharCode(h1.rZwOv(h1.BoNIQ(h1.uPcxB(m1, 255), j1) - h1.WoThk(i1, 65535), 65535) % 255)));
+        }), f1 = fv.atob(f1), k1 = [], i1 = -1; !isNaN(m1 = f1.charCodeAt(++i1)); k1.push(String.fromCharCode(m1 & 255 - j1 - i1 % 65535 + 65535 % 255)));
         return k1.join('');
     });
     function hS(c, kK, d) {
@@ -586,13 +586,13 @@ window._cf_chl_opt.uaSR = false;
                     fw.cookie = m1;
                     continue;
                 case '2':
-                    !fv.dSEMW3.hpSs8("cookies-secure-partitioned") && (i1.TyshB(fw.location.protocol, "https:") || fv.isSecureContext && !fy()) && (m1 += "; Secure; SameSite=None; Partitioned");
+                    !fv.dSEMW3.hpSs8("cookies-secure-partitioned") && (fw.location.protocol === "https:" || fv.isSecureContext && !fy()) && (m1 += "; Secure; SameSite=None; Partitioned");
                     continue;
                 case '3':
-                    l.setTime(l.getTime() + i1.OwmGf(i1.brMOz(g1, 60), 60) * 1e3);
+                    l.setTime(l.getTime() + g1 * 3600000);
                     continue;
                 case '4':
-                    m1 = i1.Szuyv(i1.XqEWq(i1.gIjFh(e, '='), f1), "; Expires=") + l.toUTCString() + "; Path=/";
+                    m1 = e + '=' + f1 + "; Expires=" + l.toUTCString() + "; Path=/";
                     continue;
             }
             break;
@@ -663,7 +663,7 @@ window._cf_chl_opt.uaSR = false;
                 return o1 + s1;
             }, n1 = m1, g1) return;
             g1 = true, fv.setTimeout(function(iq) {
-                iq = ip, fC(c, d, n1.oEEUX(e, 1));
+                iq = ip, fC(c, d, e + 1);
             }, 250 * (e + 1));
         }, i1 = new fv.XMLHttpRequest(), !i1) return;
         j1 = "POST", i1.open(j1, c, true), i1.timeout = 2500 * 1 + e, i1.ontimeout = function(ir) {
@@ -693,7 +693,7 @@ window._cf_chl_opt.uaSR = false;
             return j1 - k1;
         }, e.pXVhZ = function(j1, k1) {
             return j1 ^ k1;
-        }, f1 = e, g1 = f1.Dlefd(this.h[f1.Dlefd(14, this.g)][3], f1.SUkeo(this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++), 112) + 256 & 255.27) ^ 101, h1 = this.h[this.h[14.51 ^ this.g][3] ^ f1.nbnYA(f1.ILtaw(this.h[f1.ttkhd(14, this.g)][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112, 256), 255) ^ this.g], i1 = this.h[f1.TpPdH(14, this.g)][3] ^ f1.nbnYA(f1.oUAGP(this.h[f1.pXVhZ(14, this.g)][1].charCodeAt(this.h[this.g ^ 14][0]++), 112) + 256, 255) ^ 117.82, this.h[g1 ^ this.g] = h1.bind(this, i1);
+        }, f1 = e, g1 = this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255.27 ^ 101, h1 = this.h[this.h[14.51 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ this.g], i1 = this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255 ^ 117.82, this.h[g1 ^ this.g] = h1.bind(this, i1);
     }
     function hG(kv, g1, h1, i1, j1, l, n1, o1, x1, B1, s1, v1) {
         if (kv = i9, g1 = {
@@ -862,7 +862,7 @@ window._cf_chl_opt.uaSR = false;
     function fB(d, ie, e, f1, g1) {
         ie = i9, e = {}, e.WOYxe = function(h1, i1) {
             return h1 + i1;
-        }, f1 = e, g1 = f1.WOYxe(d, "=; Max-Age=-99999999"), !fv.dSEMW3.hpSs8("cookies-secure-partitioned") && (fw.location.protocol === "https:" || fv.isSecureContext && !fy()) && (g1 += "; Secure; SameSite=None; Partitioned"), fw.cookie = g1;
+        }, f1 = e, g1 = d + "=; Max-Age=-99999999", !fv.dSEMW3.hpSs8("cookies-secure-partitioned") && (fw.location.protocol === "https:" || fv.isSecureContext && !fy()) && (g1 += "; Secure; SameSite=None; Partitioned"), fw.cookie = g1;
     }
     function fx(ia, d, e) {
         switch(ia = i9, d = {}, d.Sxujl = "cf_chl_rc_m", e = d, fv._cf_chl_opt.cType){
@@ -884,8 +884,8 @@ window._cf_chl_opt.uaSR = false;
             return g1 === f1;
         }, d.YhgzN = "pqXdJ", d.PoUBk = function(f1, g1) {
             return f1 > g1;
-        }, e = d, e.uuOHY(gt.length, 0)) {
-            if (e.OxzZf("pqXdJ", "pqXdJ")) fv._cf_chl_opt.chlApiLanguage && fv._cf_chl_opt.chlApiLanguage !== "auto" && gt.push(fv._cf_chl_opt.chlApiLanguage.toLowerCase().replace('_', '-')), navigator.language && gt.push(navigator.language.toLowerCase().replace('_', '-')), navigator.languages && typeof navigator.languages === "object" && e.PoUBk(navigator.languages.length, 1) && navigator.languages.forEach(function(f1, iw) {
+        }, e = d, gt.length === 0) {
+            if (true) fv._cf_chl_opt.chlApiLanguage && fv._cf_chl_opt.chlApiLanguage !== "auto" && gt.push(fv._cf_chl_opt.chlApiLanguage.toLowerCase().replace('_', '-')), navigator.language && gt.push(navigator.language.toLowerCase().replace('_', '-')), navigator.languages && typeof navigator.languages === "object" && navigator.languages.length > 1 && navigator.languages.forEach(function(f1, iw) {
                 iw = iv, gt.push(f1.toLowerCase().replace('_', '-'));
             });
             else return g1 = {
@@ -960,7 +960,7 @@ window._cf_chl_opt.uaSR = false;
             return l ^ m1;
         }, f1.tXPjA = function(l, m1) {
             return l + m1;
-        }, g1 = f1, h1 = this.h[this.g ^ 14.91], i1 = g1.LerxI(this.h[this.g ^ 14.37][3], 144 + this.h[14.61 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.72][0]++) & 255.4) ^ 137.19, i1 = this.h[this.g ^ i1], j1 = g1.LOlvC(g1.LOlvC(g1.JQIbs(g1.LerxI(this.h[this.g ^ 14][3], g1.yFihT(g1.HQhwr(this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++), 112), 256) & 255), 16), g1.cEefO(g1.fRCEi(this.h[this.g ^ 14.51][3], g1.oBMhq(g1.oGnma(this.h[this.g ^ 14][1].charCodeAt(this.h[g1.EWWEU(14, this.g)][0]++), 112) + 256, 255)), 8)), this.h[this.g ^ 14.18][3] ^ g1.oBMhq(g1.HQhwr(this.h[14.19 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++), 112) + 256, 255)), k1 = this.h[this.g ^ 14][3] ^ g1.tXPjA(g1.oGnma(this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++), 112), 256) & 255.5, i1 && (h1[0] = j1, h1[3] = 170 ^ k1);
+        }, g1 = f1, h1 = this.h[this.g ^ 14.91], i1 = this.h[this.g ^ 14.37][3] ^ 144 + this.h[14.61 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.72][0]++) & 255.4 ^ 137.19, i1 = this.h[this.g ^ i1], j1 = this.h[this.g ^ 14][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255 << 16 | this.h[this.g ^ 14.51][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 << 8 | this.h[this.g ^ 14.18][3] ^ this.h[14.19 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255, k1 = this.h[this.g ^ 14][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255.5, i1 && (h1[0] = j1, h1[3] = 170 ^ k1);
     }
     function gO(j5, c) {
         if (j5 = i9, c = {
@@ -986,7 +986,7 @@ window._cf_chl_opt.uaSR = false;
     function fz(e, ic, f1, g1, h1, j1, k1) {
         for(ic = i9, f1 = {}, f1.BezLX = function(l, m1) {
             return l < m1;
-        }, g1 = f1, e += '=', h1 = fw.cookie.split(';'), j1 = 0; g1.BezLX(j1, h1.length); j1++){
+        }, g1 = f1, e += '=', h1 = fw.cookie.split(';'), j1 = 0; j1 < h1.length; j1++){
             for(k1 = h1[j1]; k1.charAt(0) == ' '; k1 = k1.substring(1));
             if (k1.indexOf(e) == 0) return k1.substring(e.length, k1.length);
         }
@@ -1043,12 +1043,12 @@ window._cf_chl_opt.uaSR = false;
             return f1 & g1;
         }, d.ZHrMT = function(f1, g1) {
             return f1 - g1;
-        }, e = d, this.h[e.BvmHk(this.h[e.BvmHk(14, this.g)][3] ^ e.wKMRm(e.ZHrMT(this.h[14 ^ this.g][1].charCodeAt(this.h[e.BvmHk(14, this.g)][0]++), 112) + 256, 255), 79) ^ this.g] = [];
+        }, e = d, this.h[this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 79 ^ this.g] = [];
     }
     function h2(d, e, ji, f1, g1, h1) {
         ji = i9, f1 = {}, f1.AMtBn = function(i1, j1) {
             return i1 + j1;
-        }, g1 = f1, h1 = gU(), h3(g1.AMtBn(h1, '-') + d, e);
+        }, g1 = f1, h1 = gU(), h3(h1 + '-' + d, e);
     }
     function hp(d, jJ, e, f1, g1) {
         for(jJ = i9, e = {}, e.RhULi = function(h1, i1) {
@@ -1065,24 +1065,24 @@ window._cf_chl_opt.uaSR = false;
             return h1 ^ i1;
         }, f1 = e, g1 = {}; !isNaN(d.h[d.g ^ 14][0]); g1 = {
             'i': g1.i
-        }, g1.i = d.h[14.55 ^ d.g][3] ^ f1.PAXTY(144 + d.h[f1.bnuxa(14, d.g)][1].charCodeAt(d.h[f1.VbGcO(14, d.g)][0]++), 255), (function(h1, jK, i1, j1) {
+        }, g1.i = d.h[14.55 ^ d.g][3] ^ 144 + d.h[14 ^ d.g][1].charCodeAt(d.h[14 ^ d.g][0]++) & 255, (function(h1, jK, i1, j1) {
             return jK = jJ, i1 = {}, i1.ObiBJ = function(k1, l) {
                 return l === k1;
             }, j1 = i1, function(jL, l, m1, n1, o1) {
-                l = (jL = jK, l = d.h[d.g ^ 14], l[3] = f1.RhULi(f1.PkWPR(17245, l[3] + h1.i) + 28103, 255), d.h[d.g ^ h1.i]);
+                l = (jL = jK, l = d.h[d.g ^ 14], l[3] = 17245 * l[3] + h1.i + 28103 & 255, d.h[d.g ^ h1.i]);
                 try {
                     l.bind(d)(h1.i);
                 } catch (s1) {
                     if (false) {
-                        if (null == g1[h1]) return j1.ObiBJ(void 0, i1[j1]) ? 'u' : 'x';
-                    } else if (l = d.h[f1.mUgnU(69, d.g)], 0 < l.length) {
+                        if (null == g1[h1]) return void 0 === i1[j1] ? 'u' : 'x';
+                    } else if (l = d.h[69 ^ d.g], 0 < l.length) {
                         for(m1 = "1|3|2|0|4".split('|'), n1 = 0; true;){
                             switch(m1[n1++]){
                                 case '0':
                                     d.h[d.g ^ 14] = l.pop();
                                     continue;
                                 case '1':
-                                    d.h[f1.mUgnU(209, d.g)] = s1;
+                                    d.h[209 ^ d.g] = s1;
                                     continue;
                                 case '2':
                                     if (-1 === o1) throw s1;
@@ -1091,7 +1091,7 @@ window._cf_chl_opt.uaSR = false;
                                     o1 = l.pop();
                                     continue;
                                 case '4':
-                                    d.h[f1.bnuxa(198, d.g)].splice(o1);
+                                    d.h[198 ^ d.g].splice(o1);
                                     continue;
                             }
                             break;
@@ -1100,7 +1100,7 @@ window._cf_chl_opt.uaSR = false;
                 }
             };
         })(g1)());
-        return d.h[f1.VbGcO(9, d.g)];
+        return d.h[9 ^ d.g];
     }
     function h0(jg, c, d, e) {
         for(jg = i9, c = {
@@ -1170,7 +1170,7 @@ window._cf_chl_opt.uaSR = false;
                 if (true) return;
                 else f1.style.display = g1, h1.style.visibility = "visible";
             }
-            f1 = true, !fv.dSEMW3.xTUQ7 && (e.vuMxx(i1, "c_thir") ? gA(i1) : gD(i1));
+            f1 = true, !fv.dSEMW3.xTUQ7 && (i1 === "c_thir" ? gA(i1) : gD(i1));
         }
     }
     function hy(kn, g1, h1, i1, j1, k1, l, m1) {
@@ -1194,9 +1194,9 @@ window._cf_chl_opt.uaSR = false;
             return n1 < o1;
         }, g1.tmhwd = function(n1, o1) {
             return n1 ^ o1;
-        }, h1 = g1, i1 = h1.ywUiU(this.h[14 ^ this.g][3] ^ h1.iYIFN(h1.kbvYK(this.h[this.g ^ 14.17][1].charCodeAt(this.h[h1.ywUiU(14, this.g)][0]++), 112) + 256, 255), 84), j1 = this.h[h1.ywUiU(this.h[h1.ssXKR(14, this.g)][3] ^ h1.EqBbf(h1.kbvYK(this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14.98][0]++), 112), 256) & 255 ^ 90, this.g)], k1 = this.h[14.45 ^ this.g][3] ^ h1.nOMXb(h1.giLrx(h1.kbvYK(this.h[h1.DjmIZ(14, this.g)][1].charCodeAt(this.h[this.g ^ 14][0]++), 112), 256), 255) ^ 113.01, l = [
+        }, h1 = g1, i1 = this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14.17][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 84, j1 = this.h[this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14.98][0]++) - 112 + 256 & 255 ^ 90 ^ this.g], k1 = this.h[14.45 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255 ^ 113.01, l = [
             null
-        ], m1 = 0; h1.bQbfM(m1, k1); l.push(this.h[h1.ssXKR(h1.tmhwd(this.h[h1.ywUiU(14, this.g)][3] ^ 144 + this.h[this.g ^ 14.64][1].charCodeAt(this.h[this.g ^ 14.35][0]++) & 255.09, 238), this.g)]), m1++);
+        ], m1 = 0; m1 < k1; l.push(this.h[this.h[14 ^ this.g][3] ^ 144 + this.h[this.g ^ 14.64][1].charCodeAt(this.h[this.g ^ 14.35][0]++) & 255.09 ^ 238 ^ this.g]), m1++);
         this.h[i1 ^ this.g] = new (Function.prototype.bind.apply(j1, l))();
     }
     function hW(kU, c, d, e, f1, g1) {
@@ -1278,7 +1278,7 @@ window._cf_chl_opt.uaSR = false;
             return i1 ^ h1;
         }, d.xHJgL = function(h1, i1) {
             return h1 ^ i1;
-        }, e = d, f1 = this.h[e.LFHvV(14, this.g)], g1 = e.DVzWa(e.DVzWa(e.wJrZC(e.LFHvV(this.h[e.tXXIj(14, this.g)][3], e.vBVpF(this.h[e.tXXIj(14, this.g)][1].charCodeAt(this.h[this.g ^ 14.11][0]++), 112) + 256 & 255), 16), e.wJrZC(e.EPMGe(this.h[this.g ^ 14.66][3], e.IUzHk(this.h[e.EPMGe(14, this.g)][1].charCodeAt(this.h[e.LFHvV(14, this.g)][0]++), 112) + 256 & 255.45), 8)), e.EPMGe(this.h[this.g ^ 14.62][3], 144 + this.h[e.EcjAf(14, this.g)][1].charCodeAt(this.h[this.g ^ 14][0]++) & 255.17)), f1[3] = this.h[e.tJsbr(14, this.g)][3] ^ 144 + this.h[e.xHJgL(14, this.g)][1].charCodeAt(this.h[e.LFHvV(14, this.g)][0]++) & 255.38 ^ 170, f1[0] = g1;
+        }, e = d, f1 = this.h[14 ^ this.g], g1 = this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.11][0]++) - 112 + 256 & 255 << 16 | this.h[this.g ^ 14.66][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255.45 << 8 | this.h[this.g ^ 14.62][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) & 255.17, f1[3] = this.h[14 ^ this.g][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255.38 ^ 170, f1[0] = g1;
     }
     function i0(kZ, c, d, e, j1, f1, g1) {
         if (kZ = i9, c = {
@@ -1411,8 +1411,8 @@ window._cf_chl_opt.uaSR = false;
             return m1 & l;
         }, h1 = g1, i1 = 0, 0);
         do {
-            k1 = f1.h[14 ^ f1.g][3] ^ h1.xlTQG(f1.h[14 ^ f1.g][1].charCodeAt(f1.h[h1.TkdEw(14, f1.g)][0]++) - 112, 256) & 255.75, i1 |= h1.DlBaS(k1 & 127, j1), j1 += 7;
-        }while (h1.dYVSL(k1, 128))
+            k1 = f1.h[14 ^ f1.g][3] ^ f1.h[14 ^ f1.g][1].charCodeAt(f1.h[14 ^ f1.g][0]++) - 112 + 256 & 255.75, i1 |= k1 & 127 << j1, j1 += 7;
+        }while (k1 & 128)
         return i1;
     }
     function hI(kx, d, e, f1, g1) {
@@ -1428,7 +1428,7 @@ window._cf_chl_opt.uaSR = false;
             return i1 ^ h1;
         }, d.dzHBs = function(h1, i1) {
             return h1 + i1;
-        }, e = d, f1 = e.oppAl(this.h[14 ^ this.g][3] ^ e.VLiOu(144 + this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14.02][0]++), 255), 106), g1 = this.h[e.FfnBP(e.RNTRc(e.YYmAW(this.h[this.g ^ 14][3], e.dzHBs(this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112, 256) & 255.65), 39), this.g)], this.h[this.g ^ f1] = g1;
+        }, e = d, f1 = this.h[14 ^ this.g][3] ^ 144 + this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14.02][0]++) & 255 ^ 106, g1 = this.h[this.h[this.g ^ 14][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255.65 ^ 39 ^ this.g], this.h[this.g ^ f1] = g1;
     }
     function h9(js, d, e, f1, g1) {
         return js = i9, d = {}, d.wvASt = "h_b_text", d.iOgHE = "10 em", d.UoNJR = "input", e = d, f1 = gw("h_b_text"), h8 = fw.createElement("div"), h8.height = "10 em", h8.style.display = "flex", g1 = fw.createElement("input"), g1.type = "button", g1.value = f1, fv.dSEMW3.LnJh7() === 1 ? g1.style.margin = '0' : g1.classList.add("pow-button"), g1.style.cursor = "pointer", h8.appendChild(g1), gJ().appendChild(h8), g1;
@@ -1505,16 +1505,16 @@ window._cf_chl_opt.uaSR = false;
             return f1 !== g1;
         }, e = d, fF("dark-mode")) return false;
         if (typeof this.darkmode !== "undefined") return this.darkmode;
-        if (e.rPTgp(fv._cf_chl_opt.chlApiOverrideDarkmode, undefined)) {
-            if (e.rPTgp("qqKkG", "ttTHY")) return this.darkmode = !!fv._cf_chl_opt.chlApiOverrideDarkmode, this.darkmode;
+        if (fv._cf_chl_opt.chlApiOverrideDarkmode !== undefined) {
+            if (true) return this.darkmode = !!fv._cf_chl_opt.chlApiOverrideDarkmode, this.darkmode;
             else {
-                for(j1 = e.mkoeC(this.h[e.mkoeC(14, this.g)][3], 144 + this.h[14.8 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) & 255) ^ 84, k1 = this.h[e.voflc(this.h[e.jkMJJ(14, this.g)][3] ^ 144 + this.h[e.mkoeC(14, this.g)][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255 ^ 90.93, this.g)], l = e.sLKwZ(this.h[this.g ^ 14][3] ^ 144 + this.h[14.54 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255.82, 113), m1 = [
+                for(j1 = this.h[14 ^ this.g][3] ^ 144 + this.h[14.8 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) & 255 ^ 84, k1 = this.h[this.h[14 ^ this.g][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255 ^ 90.93 ^ this.g], l = this.h[this.g ^ 14][3] ^ 144 + this.h[14.54 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255.82 ^ 113, m1 = [
                     null
-                ], n1 = 0; n1 < l; m1.push(this.h[e.sLKwZ(this.h[14 ^ this.g][3] ^ e.eyFms(e.aCbof(e.SkXgr(this.h[e.sEudF(14, this.g)][1].charCodeAt(this.h[e.sQVye(14, this.g)][0]++), 112), 256), 255) ^ 238.75, this.g)]), n1++);
+                ], n1 = 0; n1 < l; m1.push(this.h[this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 238.75 ^ this.g]), n1++);
                 this.h[j1 ^ this.g] = new (m1.prototype.bind.apply(k1, m1))();
             }
         }
-        return e.ngMxq(gV(), 1) && fv.matchMedia && fv.matchMedia("(prefers-color-scheme: dark)").matches ? (this.darkmode = true, this.darkmode) : (this.darkmode = false, this.darkmode);
+        return gV() !== 1 && fv.matchMedia && fv.matchMedia("(prefers-color-scheme: dark)").matches ? (this.darkmode = true, this.darkmode) : (this.darkmode = false, this.darkmode);
     }
     function gU(ja, d, e, f1, g1, h1) {
         for(ja = i9, d = {}, d.UqFgl = "0|4|3|1|2", d.VhTBE = function(i1, j1) {
@@ -1530,7 +1530,7 @@ window._cf_chl_opt.uaSR = false;
                 case '2':
                     return h1;
                 case '3':
-                    e.VhTBE(fv._cf_chl_opt.cTplB, "jdc") && (h1 = 'jc');
+                    fv._cf_chl_opt.cTplB === "jdc" && (h1 = 'jc');
                     continue;
                 case '4':
                     h1 = 'cf';
@@ -1544,7 +1544,7 @@ window._cf_chl_opt.uaSR = false;
             return f1 & g1;
         }, d.lJwZn = function(f1, g1) {
             return g1 ^ f1;
-        }, e = d, this.h[this.h[this.g ^ 14.9][3] ^ e.dfNIb(144 + this.h[14.65 ^ this.g][1].charCodeAt(this.h[e.lJwZn(14, this.g)][0]++), 255) ^ 135.1 ^ this.g];
+        }, e = d, this.h[this.h[this.g ^ 14.9][3] ^ 144 + this.h[14.65 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255 ^ 135.1 ^ this.g];
     }
     function gY(jc) {
         jc = i9, h3("challenge-running", function(c, jd) {
@@ -1587,7 +1587,7 @@ window._cf_chl_opt.uaSR = false;
             return i1 & h1;
         }, d.KhMgN = function(h1, i1) {
             return h1 + i1;
-        }, e = d, f1 = this.h[e.uhMzB(e.uhMzB(e.ZLDDT(this.h[e.WUyvQ(14, this.g)][3], e.dUhjm(this.h[this.g ^ 14.06][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112, 256) & 255), 124), this.g)], g1 = this.h[e.WUyvQ(e.jASwh(e.qGLAq(this.h[e.EQRpJ(14, this.g)][3], e.HyFvT(this.h[e.fNQzO(14, this.g)][1].charCodeAt(this.h[this.g ^ 14][0]++), 112) + 256 & 255), 104), this.g)], f1[g1] = this.h[e.UnZnn(this.h[14 ^ this.g][3], e.QEdfv(e.KhMgN(this.h[14.99 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.37][0]++) - 112, 256), 255)) ^ 225 ^ this.g];
+        }, e = d, f1 = this.h[this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14.06][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 124 ^ this.g], g1 = this.h[this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255 ^ 104 ^ this.g], f1[g1] = this.h[this.h[14 ^ this.g][3] ^ this.h[14.99 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.37][0]++) - 112 + 256 & 255 ^ 225 ^ this.g];
     }
     function hB(g1, kq, h1, i1, j1, k1, l, m1) {
         kq = i9, h1 = {}, h1.XlQfp = function(n1, o1) {
@@ -1610,7 +1610,7 @@ window._cf_chl_opt.uaSR = false;
             return o1 ^ n1;
         }, h1.mNIkk = function(n1, o1) {
             return n1 ^ o1;
-        }, i1 = h1, j1 = this.h[i1.XlQfp(14, this.g)][3] ^ i1.cLNfT(144 + this.h[this.g ^ 14][1].charCodeAt(this.h[i1.oMWhx(14, this.g)][0]++), 255), k1 = this.h[i1.XvtPE(14, this.g)][3] ^ i1.osdcp(this.h[this.g ^ 14.44][1].charCodeAt(this.h[14.72 ^ this.g][0]++), 112) + 256 & 255.36, i1.SGUNV(214, g1) ? (l = i1.XlQfp(j1, 106), m1 = typeof this.h[this.g ^ (26.5 ^ k1)]) : i1.PXWfk(50, g1) ? (l = i1.WxeYq(j1, 197), m1 = -this.h[i1.oMWhx(k1 ^ 71.13, this.g)]) : i1.PXWfk(167, g1) ? (l = i1.DFuPi(j1, 99), m1 = +this.h[i1.mNIkk(69.61 ^ k1, this.g)]) : 166 === g1 ? (l = i1.XvtPE(j1, 129), m1 = !this.h[i1.WxeYq(228 ^ k1, this.g)]) : 3 === g1 && (l = 124 ^ j1, m1 = ~this.h[i1.XlQfp(k1 ^ 253, this.g)]), this.h[this.g ^ l] = m1;
+        }, i1 = h1, j1 = this.h[14 ^ this.g][3] ^ 144 + this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255, k1 = this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14.44][1].charCodeAt(this.h[14.72 ^ this.g][0]++) - 112 + 256 & 255.36, 214 === g1 ? (l = j1 ^ 106, m1 = typeof this.h[this.g ^ (26.5 ^ k1)]) : 50 === g1 ? (l = j1 ^ 197, m1 = -this.h[k1 ^ 71.13 ^ this.g]) : 167 === g1 ? (l = j1 ^ 99, m1 = +this.h[69.61 ^ k1 ^ this.g]) : 166 === g1 ? (l = j1 ^ 129, m1 = !this.h[228 ^ k1 ^ this.g]) : 3 === g1 && (l = 124 ^ j1, m1 = ~this.h[k1 ^ 253 ^ this.g]), this.h[this.g ^ l] = m1;
     }
     function hx(km, h1, i1, j1, k1, l, m1, n1, o1) {
         for(km = i9, h1 = {}, h1.bCpXu = function(s1, v1) {
@@ -1639,8 +1639,8 @@ window._cf_chl_opt.uaSR = false;
             return v1 ^ s1;
         }, h1.DbWEG = function(s1, v1) {
             return s1 === v1;
-        }, i1 = h1, j1 = i1.bCpXu(i1.NWnur(this.h[i1.NWnur(14, this.g)][3], i1.sjCNe(144 + this.h[14 ^ this.g][1].charCodeAt(this.h[i1.XAkiA(14, this.g)][0]++), 255)), 173), k1 = this.h[this.g ^ 14.15][3] ^ 144 + this.h[this.g ^ 14.77][1].charCodeAt(this.h[i1.NWnur(14, this.g)][0]++) & 255.63 ^ 210.63, k1 = this.h[k1 ^ this.g], l = this.h[i1.XAkiA(i1.XAkiA(this.h[i1.bCpXu(14, this.g)][3] ^ i1.sjCNe(144 + this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++), 255), 50), this.g)], m1 = this.h[this.g ^ 14.5][3] ^ i1.gZuzo(144 + this.h[i1.bAvPK(14, this.g)][1].charCodeAt(this.h[i1.gUBWv(14, this.g)][0]++), 255) ^ 167.06, n1 = [], o1 = 0; i1.AJJJz(o1, m1); n1.push(this.h[i1.NWnur(i1.bCpXu(i1.GAYzG(this.h[i1.GKvdv(14, this.g)][3], i1.spJMw(this.h[this.g ^ 14][1].charCodeAt(this.h[i1.CelJL(14, this.g)][0]++) - 112, 256) & 255), 215), this.g)]), o1++);
-        this.h[this.g ^ j1] = i1.DbWEG(void 0, k1) ? l.apply(null, n1) : k1[l].apply(k1, n1);
+        }, i1 = h1, j1 = this.h[14 ^ this.g][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255 ^ 173, k1 = this.h[this.g ^ 14.15][3] ^ 144 + this.h[this.g ^ 14.77][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255.63 ^ 210.63, k1 = this.h[k1 ^ this.g], l = this.h[this.h[14 ^ this.g][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) & 255 ^ 50 ^ this.g], m1 = this.h[this.g ^ 14.5][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255 ^ 167.06, n1 = [], o1 = 0; o1 < m1; n1.push(this.h[this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 215 ^ this.g]), o1++);
+        this.h[this.g ^ j1] = void 0 === k1 ? l.apply(null, n1) : k1[l].apply(k1, n1);
     }
     function hC(kr, d, e, f1, g1) {
         kr = i9, d = {}, d.JTnqf = function(h1, i1) {
@@ -1655,7 +1655,7 @@ window._cf_chl_opt.uaSR = false;
             return h1 ^ i1;
         }, d.EiKSm = function(h1, i1) {
             return h1 ^ i1;
-        }, e = d, f1 = this.h[e.JTnqf(14, this.g)][3] ^ 144 + this.h[14.75 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255.46 ^ 112.68, f1 = this.h[e.xUkCS(f1, this.g)], g1 = this.h[e.JTnqf(14, this.g)][3] ^ e.aIClA(e.wjZCU(this.h[e.xUkCS(14, this.g)][1].charCodeAt(this.h[e.huHSR(14, this.g)][0]++), 112) + 256, 255) ^ 150.22, f1.push(this.h[e.EiKSm(g1, this.g)]);
+        }, e = d, f1 = this.h[14 ^ this.g][3] ^ 144 + this.h[14.75 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255.46 ^ 112.68, f1 = this.h[f1 ^ this.g], g1 = this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 150.22, f1.push(this.h[g1 ^ this.g]);
     }
     function gy(c, iI, d, e) {
         if (iI = i9, d = {
@@ -2320,7 +2320,7 @@ window._cf_chl_opt.uaSR = false;
             return j1 - k1;
         }, e.tAGQa = function(j1, k1) {
             return j1 & k1;
-        }, f1 = e, g1 = f1.rYBlS(this.h[f1.gnAJd(14, this.g)][3] ^ f1.AIwLM(this.h[f1.iouyh(14, this.g)][1].charCodeAt(this.h[this.g ^ 14.6][0]++) - 112, 256) & 255.46, 86), h1 = this.h[f1.rYBlS(this.h[f1.iouyh(14, this.g)][3] ^ f1.xVVvg(this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++), 112) + 256 & 255.35, 88) ^ this.g], i1 = this.h[this.h[this.g ^ 14.05][3] ^ f1.tAGQa(f1.xVVvg(this.h[14.45 ^ this.g][1].charCodeAt(this.h[f1.gnAJd(14, this.g)][0]++), 112) + 256, 255) ^ 8.91 ^ this.g], this.h[f1.rYBlS(g1, this.g)] = h1[i1];
+        }, f1 = e, g1 = this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.6][0]++) - 112 + 256 & 255.46 ^ 86, h1 = this.h[this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255.35 ^ 88 ^ this.g], i1 = this.h[this.h[this.g ^ 14.05][3] ^ this.h[14.45 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 8.91 ^ this.g], this.h[g1 ^ this.g] = h1[i1];
     }
     function gK(j1) {
         j1 = i9, gJ().innerHTML = '';
@@ -2339,7 +2339,7 @@ window._cf_chl_opt.uaSR = false;
             return f1 ^ g1;
         }, d.wNWVF = function(f1, g1) {
             return f1 + g1;
-        }, e = d, this.h[e.sESlw(e.scELl(this.h[e.sESlw(14, this.g)][3], e.wNWVF(this.h[e.sESlw(14, this.g)][1].charCodeAt(this.h[this.g ^ 14.93][0]++) - 112, 256) & 255) ^ 84.66, this.g)] = {};
+        }, e = d, this.h[this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.93][0]++) - 112 + 256 & 255 ^ 84.66 ^ this.g] = {};
     }
     function h3(c, d, jj, e, f1) {
         jj = i9, e = {
@@ -2384,7 +2384,7 @@ window._cf_chl_opt.uaSR = false;
         if (iZ = i9, d = {}, d.uZDpU = function(f1, g1) {
             return g1 === f1;
         }, d.pECDo = "jttmI", e = d, fF("overrun-warning")) {
-            if (e.uZDpU("mSCbg", "jttmI")) {
+            if (false) {
                 try {
                     new e(-1);
                 } catch (g1) {
@@ -2400,7 +2400,7 @@ window._cf_chl_opt.uaSR = false;
             return h1 instanceof i1;
         }, f1.EGqeR = function(h1, i1) {
             return h1 < i1;
-        }, g1 = f1, g1.GVxEi(e, d.Function) && g1.EGqeR(0, d.Function.prototype.toString.call(e).indexOf("[native code]"));
+        }, g1 = f1, e instanceof d.Function && 0 < d.Function.prototype.toString.call(e).indexOf("[native code]");
     }
     function fD(c) {
         c();
@@ -2435,7 +2435,7 @@ window._cf_chl_opt.uaSR = false;
             return j1 ^ k1;
         }, e.YHShy = function(j1, k1) {
             return k1 ^ j1;
-        }, f1 = e, g1 = f1.gVLlZ(this.h[this.g ^ 14.53][3] ^ f1.FmDMH(f1.bsekq(this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++), 112), 256) & 255.23, 18), h1 = f1.gVLlZ(this.h[this.g ^ 14.15][3], f1.CRJWg(144 + this.h[f1.gVLlZ(14, this.g)][1].charCodeAt(this.h[f1.VHdab(14, this.g)][0]++), 255)) ^ 133, i1 = this.h[this.g ^ g1], this.h[g1 ^ this.g] = this.h[f1.YHShy(h1, this.g)], this.h[h1 ^ this.g] = i1;
+        }, f1 = e, g1 = this.h[this.g ^ 14.53][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255.23 ^ 18, h1 = this.h[this.g ^ 14.15][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255 ^ 133, i1 = this.h[this.g ^ g1], this.h[g1 ^ this.g] = this.h[h1 ^ this.g], this.h[h1 ^ this.g] = i1;
     }
     function hA(kp, e, f1, g1, h1, i1) {
         kp = i9, e = {}, e.XJVBk = function(j1, k1) {
@@ -2446,7 +2446,7 @@ window._cf_chl_opt.uaSR = false;
             return j1 & k1;
         }, e.efwOy = function(j1, k1) {
             return j1 - k1;
-        }, f1 = e, g1 = this.h[f1.XJVBk(198, this.g)], h1 = this.h[f1.XJVBk(f1.KNcgj(this.h[14.6 ^ this.g][3] ^ f1.KAshy(f1.efwOy(this.h[14.32 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++), 112) + 256, 255), 174), this.g)], i1 = g1.pop(), this.h[this.g ^ i1] = h1, this.h[this.g ^ 69.98].splice(g1.pop());
+        }, f1 = e, g1 = this.h[198 ^ this.g], h1 = this.h[this.h[14.6 ^ this.g][3] ^ this.h[14.32 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 174 ^ this.g], i1 = g1.pop(), this.h[this.g ^ i1] = h1, this.h[this.g ^ 69.98].splice(g1.pop());
     }
     function gV(jb) {
         return jb = i9, fv._cf_chl_opt.cTplV;
@@ -2548,8 +2548,8 @@ window._cf_chl_opt.uaSR = false;
             return n1 - o1;
         }, g1.AWOqf = function(n1, o1) {
             return o1 ^ n1;
-        }, h1 = g1, i1 = this.h[14 ^ this.g][3] ^ h1.PbMiQ(this.h[this.g ^ 14][1].charCodeAt(this.h[h1.ZPKMd(14, this.g)][0]++) - 112, 256) & 255 ^ 200.92, j1 = hq(this), k1 = this.h[h1.fpBtX(14, this.g)][4], 88 === i1) i1 = h1.mOFUY(h1.PvEqu(this.h[14.63 ^ this.g][3], 144 + this.h[h1.cVHvI(14, this.g)][1].charCodeAt(this.h[h1.PvEqu(14, this.g)][0]++) & 255.61), 217), k1[j1].l = this.h[i1 ^ this.g];
-        else if (i1 === 9) i1 = this.h[14.89 ^ this.g][3] ^ h1.VgbRX(h1.PrcGA(this.h[14 ^ this.g][1].charCodeAt(this.h[14.61 ^ this.g][0]++), 112) + 256, 255) ^ 217.14, this.h[h1.AWOqf(i1, this.g)] = k1[j1].l;
+        }, h1 = g1, i1 = this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 200.92, j1 = hq(this), k1 = this.h[14 ^ this.g][4], 88 === i1) i1 = this.h[14.63 ^ this.g][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255.61 ^ 217, k1[j1].l = this.h[i1 ^ this.g];
+        else if (i1 === 9) i1 = this.h[14.89 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14.61 ^ this.g][0]++) - 112 + 256 & 255 ^ 217.14, this.h[i1 ^ this.g] = k1[j1].l;
         else if (148 === i1) {
             for(i1 = 0; i1 < j1; l = hq(this), m1 = {}, m1.l = void 0, k1[l] = m1, i1++);
         }
@@ -2570,7 +2570,7 @@ window._cf_chl_opt.uaSR = false;
             return i1 ^ h1;
         }, d.ayAgY = function(h1, i1) {
             return i1 ^ h1;
-        }, e = d, f1 = this.h[e.QxPjX(this.h[e.QxPjX(14, this.g)][3] ^ e.GAuCq(e.wBwHE(this.h[e.QxPjX(14, this.g)][1].charCodeAt(this.h[14 ^ this.g][0]++), 112), 256) & 255 ^ 24, this.g)], g1 = this.h[e.QxPjX(14, this.g)][3] ^ e.bkzMw(144 + this.h[e.xhhDt(14, this.g)][1].charCodeAt(this.h[this.g ^ 14][0]++), 255) ^ 72, this.h[e.ayAgY(g1, this.g)] = f1.pop();
+        }, e = d, f1 = this.h[this.h[14 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 24 ^ this.g], g1 = this.h[14 ^ this.g][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14][0]++) & 255 ^ 72, this.h[g1 ^ this.g] = f1.pop();
     }
     function hi(c, jy, e) {
         return jy = i9, e = {
@@ -2872,7 +2872,7 @@ window._cf_chl_opt.uaSR = false;
             return h1 - i1;
         }, d.Tnlfj = function(h1, i1) {
             return h1 ^ i1;
-        }, e = d, f1 = e.NVvnu(this.h[e.OpefR(14, this.g)][3] ^ 144 + this.h[e.CEokP(14, this.g)][1].charCodeAt(this.h[this.g ^ 14.98][0]++) & 255, 183), g1 = this.h[e.OpefR(14, this.g)].slice(), g1[0] = e.opsgl(e.jKjMt(this.h[this.g ^ 14][3] ^ e.yqFki(e.ivxbV(this.h[e.NVvnu(14, this.g)][1].charCodeAt(this.h[14.79 ^ this.g][0]++), 112) + 256, 255), 16) | (this.h[this.g ^ 14.84][3] ^ e.fqVXg(e.NPisG(this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++), 112), 256) & 255.16) << 8, e.cUhHD(this.h[this.g ^ 14][3], e.GlSPm(this.h[this.g ^ 14.04][1].charCodeAt(this.h[e.ahcij(14, this.g)][0]++) - 112, 256) & 255)), g1[3] = e.cUhHD(this.h[14.86 ^ this.g][3], e.fcqjk(e.lISnU(this.h[14.95 ^ this.g][1].charCodeAt(this.h[e.Tnlfj(14, this.g)][0]++), 112) + 256, 255)) ^ 170.12, this.h[e.cUhHD(f1, this.g)] = hr.bind(this, g1);
+        }, e = d, f1 = this.h[14 ^ this.g][3] ^ 144 + this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.98][0]++) & 255 ^ 183, g1 = this.h[14 ^ this.g].slice(), g1[0] = this.h[this.g ^ 14][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14.79 ^ this.g][0]++) - 112 + 256 & 255 << 16 | (this.h[this.g ^ 14.84][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255.16) << 8 | this.h[this.g ^ 14][3] ^ this.h[this.g ^ 14.04][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255, g1[3] = this.h[14.86 ^ this.g][3] ^ this.h[14.95 ^ this.g][1].charCodeAt(this.h[14 ^ this.g][0]++) - 112 + 256 & 255 ^ 170.12, this.h[f1 ^ this.g] = hr.bind(this, g1);
     }
     function gs(d, e, iu, f1, g1, h1, i1, j1, k1, l) {
         (iu = i9, f1 = {}, f1.jaAiz = function(m1, n1) {
@@ -2883,7 +2883,7 @@ window._cf_chl_opt.uaSR = false;
             return m1 === n1;
         }, f1.fiwrk = "interactive", f1.NGLEs = "Cloudflare", f1.kuJcT = '<a rel="noopener noreferrer" href="https://www.cloudflare.com?utm_source=challenge&utm_campaign=', f1.iOmkJ = function(m1, n1) {
             return m1 !== n1;
-        }, g1 = f1, h1 = decodeURIComponent(JSON.parse(g1.jaAiz(g1.GgXsN('"', e.replace(/\\'/g, "'").replace(/"/g, '\\"')), '"'))), d === "browser_not_supported_aux") && (h1 = (i1 = gw("c_brow", gr), h1.replace("challenge.supported_browsers", i1)));
+        }, g1 = f1, h1 = decodeURIComponent(JSON.parse('"' + e.replace(/\\'/g, "'").replace(/"/g, '\\"') + '"')), d === "browser_not_supported_aux") && (h1 = (i1 = gw("c_brow", gr), h1.replace("challenge.supported_browsers", i1)));
         (j1 = [
             "c_dela",
             "t_c_c_w_aux",
@@ -2899,7 +2899,7 @@ window._cf_chl_opt.uaSR = false;
             "l_m_w_aux",
             "r_text",
             "r_t_over"
-        ], d === "footer_text") ? h1 = (l = 'j', g1.ChEga(fv._cf_chl_opt.cType, "interactive") ? l = 'l' : fv._cf_chl_opt.cType === "managed" && (l = 'm'), h1.replace("Cloudflare", '<a rel="noopener noreferrer" href="https://www.cloudflare.com?utm_source=challenge&utm_campaign=' + l + '" target="_blank">Cloudflare</a>')) : g1.iOmkJ(k1.indexOf(d), -1) && fv._cf_chl_opt.cZone && (h1 = h1.replace("%{placeholder.com}", fv._cf_chl_opt.cZone));
+        ], d === "footer_text") ? h1 = (l = 'j', fv._cf_chl_opt.cType === "interactive" ? l = 'l' : fv._cf_chl_opt.cType === "managed" && (l = 'm'), h1.replace("Cloudflare", '<a rel="noopener noreferrer" href="https://www.cloudflare.com?utm_source=challenge&utm_campaign=' + l + '" target="_blank">Cloudflare</a>')) : k1.indexOf(d) !== -1 && fv._cf_chl_opt.cZone && (h1 = h1.replace("%{placeholder.com}", fv._cf_chl_opt.cZone));
         return h1;
     }
     function b(c, d, e) {
@@ -2963,7 +2963,7 @@ window._cf_chl_opt.uaSR = false;
                             j1.type === "wheel" && k1.aoNQs6++;
                             continue;
                         case '4':
-                            f1.tlMuK(j1.type, "click") && k1.cEQh1++;
+                            j1.type === "click" && k1.cEQh1++;
                             continue;
                         case '5':
                             j1.type === "pointermove" && k1.Hbyb2++;
@@ -3054,7 +3054,7 @@ window._cf_chl_opt.uaSR = false;
             return s1 >= v1;
         }, i1.jsqXR = function(s1, v1) {
             return v1 ^ s1;
-        }, j1 = i1, k1 = j1.OsXNc(this.h[j1.HXoxO(14, this.g)][3], j1.oOmhS(j1.qsmvr(this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++), 112), 256) & 255.12), l = this.h[14.34 ^ this.g][3] ^ j1.qsmvr(this.h[j1.aoiRa(14, this.g)][1].charCodeAt(this.h[this.g ^ 14.26][0]++), 112) + 256 & 255.59, m1 = j1.laWgP(this.h[j1.TTNmU(14, this.g)][3], j1.BIifW(144 + this.h[this.g ^ 14.76][1].charCodeAt(this.h[j1.AInuT(14, this.g)][0]++), 255)), n1 = -1, o1 = 0, 104 === h1 ? (n1 = j1.AInuT(k1, 252), o1 = j1.oOmhS(this.h[j1.HXoxO(3 ^ l, this.g)], this.h[j1.WCOqL(m1, 37) ^ this.g])) : 74 === h1 ? (n1 = j1.AAiwv(k1, 253), o1 = j1.qsmvr(this.h[j1.ojklK(22.78 ^ l, this.g)], this.h[j1.BOoqC(j1.ojklK(m1, 80), this.g)])) : h1 === 16 ? (n1 = k1 ^ 28.68, o1 = j1.kZUNv(this.h[this.g ^ (184.15 ^ l)], this.h[this.g ^ (249.14 ^ m1)])) : j1.xtnJu(105, h1) ? (n1 = j1.OsXNc(k1, 87), o1 = j1.YUkju(this.h[230.82 ^ l ^ this.g], this.h[j1.WCOqL(77.52 ^ m1, this.g)])) : h1 === 124 ? (n1 = j1.mJjFf(k1, 214), o1 = this.h[l ^ 36.11 ^ this.g] % this.h[j1.mJjFf(j1.xnUKC(m1, 42), this.g)]) : 190 === h1 ? (n1 = j1.AInuT(k1, 95), h1 = this.h[93 ^ m1 ^ this.g], o1 = this.h[j1.OsXNc(l, 185) ^ this.g] && h1) : j1.xtnJu(121, h1) ? (n1 = 168 ^ k1, h1 = this.h[j1.WCOqL(m1, 135) ^ this.g], o1 = this.h[j1.AAiwv(l, 26) ^ this.g] || h1) : 89 === h1 ? (n1 = k1 ^ 98, o1 = j1.LowRg(this.h[j1.TdNPQ(l, 194) ^ this.g], this.h[j1.AAiwv(251.64 ^ m1, this.g)])) : j1.WFiDM(11, h1) ? (n1 = 12 ^ k1, o1 = this.h[j1.OsXNc(180.79 ^ l, this.g)] | this.h[j1.VAsRQ(m1 ^ 41.7, this.g)]) : h1 === 81 ? (n1 = k1 ^ 246, o1 = this.h[j1.AAiwv(l, 157) ^ this.g] ^ this.h[j1.VsACF(j1.wJWvT(m1, 49), this.g)]) : j1.xtnJu(140, h1) ? (n1 = j1.ojklK(k1, 175), o1 = this.h[j1.AInuT(l ^ 91, this.g)] << this.h[j1.CCbhh(m1, 75) ^ this.g]) : j1.uIeFr(102, h1) ? (n1 = k1 ^ 20, o1 = j1.GyrRI(this.h[j1.VAsRQ(l, 95) ^ this.g], this.h[this.g ^ (192 ^ m1)])) : j1.fBVpm(95, h1) ? (n1 = j1.mJjFf(k1, 200), o1 = j1.bAhQH(this.h[this.g ^ (l ^ 29.33)], this.h[j1.mJjFf(m1 ^ 110.12, this.g)])) : h1 === 93 ? (n1 = k1 ^ 100.64, o1 = this.h[this.g ^ (142.06 ^ l)] == this.h[j1.wJWvT(m1, 197) ^ this.g]) : 72 === h1 ? (n1 = k1 ^ 246.18, o1 = this.h[l ^ 213 ^ this.g] === this.h[j1.laWgP(m1, 146) ^ this.g]) : 78 === h1 ? (n1 = j1.GMXfG(k1, 122), o1 = j1.vgiDo(this.h[j1.GjqGA(l ^ 156.96, this.g)], this.h[j1.mJjFf(m1 ^ 197, this.g)])) : j1.KyqLx(148, h1) ? (n1 = 14.14 ^ k1, o1 = j1.IzkGo(this.h[l ^ 107.34 ^ this.g], this.h[j1.jsqXR(17 ^ m1, this.g)])) : j1.xtnJu(182, h1) && (n1 = j1.HXoxO(k1, 148), o1 = this.h[this.g ^ (124 ^ l)] instanceof this.h[j1.wJWvT(m1 ^ 74, this.g)]), this.h[n1 ^ this.g] = o1;
+        }, j1 = i1, k1 = this.h[14 ^ this.g][3] ^ this.h[this.g ^ 14][1].charCodeAt(this.h[this.g ^ 14][0]++) - 112 + 256 & 255.12, l = this.h[14.34 ^ this.g][3] ^ this.h[14 ^ this.g][1].charCodeAt(this.h[this.g ^ 14.26][0]++) - 112 + 256 & 255.59, m1 = this.h[14 ^ this.g][3] ^ 144 + this.h[this.g ^ 14.76][1].charCodeAt(this.h[14 ^ this.g][0]++) & 255, n1 = -1, o1 = 0, 104 === h1 ? (n1 = k1 ^ 252, o1 = this.h[3 ^ l ^ this.g] + this.h[m1 ^ 37 ^ this.g]) : 74 === h1 ? (n1 = k1 ^ 253, o1 = this.h[22.78 ^ l ^ this.g] - this.h[m1 ^ 80 ^ this.g]) : h1 === 16 ? (n1 = k1 ^ 28.68, o1 = this.h[this.g ^ (184.15 ^ l)] * this.h[this.g ^ (249.14 ^ m1)]) : 105 === h1 ? (n1 = k1 ^ 87, o1 = this.h[230.82 ^ l ^ this.g] / this.h[77.52 ^ m1 ^ this.g]) : h1 === 124 ? (n1 = k1 ^ 214, o1 = this.h[l ^ 36.11 ^ this.g] % this.h[m1 ^ 42 ^ this.g]) : 190 === h1 ? (n1 = k1 ^ 95, h1 = this.h[93 ^ m1 ^ this.g], o1 = this.h[l ^ 185 ^ this.g] && h1) : 121 === h1 ? (n1 = 168 ^ k1, h1 = this.h[m1 ^ 135 ^ this.g], o1 = this.h[l ^ 26 ^ this.g] || h1) : 89 === h1 ? (n1 = k1 ^ 98, o1 = this.h[l ^ 194 ^ this.g] & this.h[251.64 ^ m1 ^ this.g]) : 11 === h1 ? (n1 = 12 ^ k1, o1 = this.h[180.79 ^ l ^ this.g] | this.h[m1 ^ 41.7 ^ this.g]) : h1 === 81 ? (n1 = k1 ^ 246, o1 = this.h[l ^ 157 ^ this.g] ^ this.h[m1 ^ 49 ^ this.g]) : 140 === h1 ? (n1 = k1 ^ 175, o1 = this.h[l ^ 91 ^ this.g] << this.h[m1 ^ 75 ^ this.g]) : 102 === h1 ? (n1 = k1 ^ 20, o1 = this.h[l ^ 95 ^ this.g] >> this.h[this.g ^ (192 ^ m1)]) : 95 === h1 ? (n1 = k1 ^ 200, o1 = this.h[this.g ^ (l ^ 29.33)] >>> this.h[m1 ^ 110.12 ^ this.g]) : h1 === 93 ? (n1 = k1 ^ 100.64, o1 = this.h[this.g ^ (142.06 ^ l)] == this.h[m1 ^ 197 ^ this.g]) : 72 === h1 ? (n1 = k1 ^ 246.18, o1 = this.h[l ^ 213 ^ this.g] === this.h[m1 ^ 146 ^ this.g]) : 78 === h1 ? (n1 = k1 ^ 122, o1 = this.h[l ^ 156.96 ^ this.g] > this.h[m1 ^ 197 ^ this.g]) : 148 === h1 ? (n1 = 14.14 ^ k1, o1 = this.h[l ^ 107.34 ^ this.g] >= this.h[17 ^ m1 ^ this.g]) : 182 === h1 && (n1 = k1 ^ 148, o1 = this.h[this.g ^ (124 ^ l)] instanceof this.h[m1 ^ 74 ^ this.g]), this.h[n1 ^ this.g] = o1;
     }
     function gX() {
         return gW;

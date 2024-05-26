@@ -6,7 +6,7 @@ Some parts are rewritten from https://github.com/wwhtrbbtt/deob-transformations
 
 ## Features
 
-At the moment, it only deobfuscates some parts of cloudflares obfuscation: the string scrambling, but not the proxy functions for binary/logical/call expressions.
+At the moment, it only deobfuscates some parts of cloudflares obfuscation: the string scrambling, the proxy functions / strings, and a bit more.
 
 ## Usage
 
