@@ -20,9 +20,19 @@ struct Proxy {
     string_value: String,
 }
 
+type Assignments = Vec<Proxy>;
+fn find_assignment(assignments: &Assignments, key: String) -> Option<&Proxy> {
+    for ass in assignments {
+        if ass.key == key {
+            return Some(ass);
+        }
+    }
+    None
+}
+
 #[derive(Default)]
 struct FindProxyAssignments {
-    assignments: Vec<Proxy>,
+    assignments: Assignments,
 }
 
 // TODO: support proxy functions, not just strings
@@ -86,7 +96,7 @@ impl Visit for FindProxyAssignments {
 
 #[derive(Default)]
 struct ReplaceProxies {
-    assignments: Vec<Proxy>,
+    assignments: Assignments,
 }
 
 impl VisitMut for ReplaceProxies {
@@ -110,21 +120,12 @@ impl VisitMut for ReplaceProxies {
             return;
         }
 
-        let mut p: &Proxy = &Proxy {
-            proxy_type: "".to_owned(),
-            key: "".to_owned(),
-            string_value: "".to_owned(),
-        };
-        for ass in &self.assignments {
-            if ass.key == str.str {
-                p = ass;
-                break;
-            }
-        }
+        let maybe_p = find_assignment(&self.assignments, str.str);
 
-        if p.key.len() != 5 {
+        if maybe_p.is_none() {
             return;
         }
+        let p = maybe_p.unwrap();
 
         if p.proxy_type == "string" {
             // println!("ReplaceProxies: {:?} {}", n, p.string_value);
