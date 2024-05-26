@@ -2,7 +2,6 @@ use std::io;
 use std::{env, fs, time};
 use swc::config::{Config, IsModule, JscConfig, ModuleConfig, Options};
 use swc_common::{chain, Mark};
-// use swc_common::Mark;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, source_map::SourceMap, sync::Lrc, GLOBALS,
 };
@@ -85,12 +84,9 @@ fn main() {
                 |_| {
                     chain!(
                         as_folder(transformations::strings::Visitor::new(data.to_string())),
-                        as_folder(transformations::computed_members::Visitor),
-                        expr_simplifier(Mark::new(), Default::default()),
                         as_folder(transformations::proxy_functions::Visitor),
-                        // expr_simplifier(Mark::new(), Default::default()),
-                        // as_folder(transformations::constant_evaluation::Visitor),
-                        // as_folder(transformations::proxy_vars::Visitor::default()),
+                        expr_simplifier(Mark::new(), Default::default()),
+                        as_folder(transformations::computed_members::Visitor),
                     )
                 },
             )

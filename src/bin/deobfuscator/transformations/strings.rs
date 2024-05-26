@@ -2,14 +2,15 @@ use regex::Regex;
 use swc_core::ecma::atoms::JsWord;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
 use swc_ecma_ast::{Expr, Lit, Program, Str};
+use swc_ecma_visit::{Visit, VisitWith};
 // use swc_ecma_visit::{VisitAllWith, VisitWith};
 
 #[derive(Default)]
 struct FindInteger {
     ints: Vec<f64>,
 }
-impl VisitMut for FindInteger {
-    fn visit_mut_number(&mut self, n: &mut swc_ecma_ast::Number) {
+impl Visit for FindInteger {
+    fn visit_number(&mut self, n: &swc_ecma_ast::Number) {
         self.ints.push(n.value)
     }
 }
@@ -43,7 +44,7 @@ impl VisitMut for ReplaceProxyCalls {
         let arg = n.args[0].expr.as_lit();
         if let Some(p) = arg {
             let mut find = FindInteger::default();
-            p.to_owned().visit_mut_children_with(&mut find);
+            p.to_owned().visit_children_with(&mut find);
             if find.ints.len() == 1 {
                 let i: i32 = find.ints[0] as i32;
 
