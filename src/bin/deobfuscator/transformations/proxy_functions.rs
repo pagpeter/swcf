@@ -205,10 +205,10 @@ impl VisitMut for ReplaceProxies {
             let args = &call.args;
 
             if p.proxy_type == "binary" {
-                println!(
-                    "ReplaceProxies: {}: {} {} {:?}\n",
-                    p.proxy_type, p.key, p.bin_operator, args
-                );
+                // println!(
+                //     "ReplaceProxies: {}: {} {} {:?}\n",
+                //     p.proxy_type, p.key, p.bin_operator, args
+                // );
                 let left = &args.first().unwrap().expr;
                 let right = &args.last().unwrap().expr;
                 if !p.reversed {
@@ -226,17 +226,16 @@ impl VisitMut for ReplaceProxies {
                         left: Box::new(*right.to_owned()),
                     })
                 }
+            } else if p.proxy_type == "call" {
+                let mut vec_args = args.to_vec();
+                let callee = vec_args.remove(0);
+                *n = Expr::from(CallExpr {
+                    span: Span::dummy(),
+                    callee: swc_ecma_ast::Callee::Expr(Box::new(*callee.expr.to_owned())),
+                    args: vec_args,
+                    type_args: None,
+                })
             }
-            // else if p.proxy_type == "call" {
-            //     *n = Expr::from(CallExpr {
-            //         span: Span::dummy(),
-            //         callee: swc_ecma_ast::Callee::Expr(Box::new(
-            //             *args.first().unwrap().expr.to_owned(),
-            //         )),
-            //         args: args.to_vec(),
-            //         type_args: None,
-            //     })
-            // }
         }
     }
 }
