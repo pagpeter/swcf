@@ -142,7 +142,7 @@ impl Visit for FindProxyAssignments {
                 .push(Proxy::string(key.str.to_string(), str.str))
         } else if right_fun.is_some() {
             let fun = right_fun.unwrap();
-            println!("visit_assign_expr: {} -> {:?}", key.str, fun);
+            // println!("visit_assign_expr: {} -> {:?}", key.str, fun);
             let func = &fun.function;
             let stmts = <Option<swc_ecma_ast::BlockStmt> as Clone>::clone(&func.body)
                 .unwrap()
@@ -278,11 +278,13 @@ impl VisitMut for ReplaceProxies {
 pub struct Visitor;
 impl VisitMut for Visitor {
     fn visit_mut_program(&mut self, program: &mut Program) {
+        println!("[*] Finding proxy functions");
         let mut obf_strings = FindProxyAssignments::default();
         program.visit_children_with(&mut obf_strings);
 
         let mut replacer = ReplaceProxies::default();
         replacer.assignments = obf_strings.assignments;
+        println!("[*] Replacing proxy functions");
         program.visit_mut_children_with(&mut replacer);
     }
 }

@@ -111,9 +111,10 @@ impl Visitor {
 
 impl VisitMut for Visitor {
     fn visit_mut_program(&mut self, program: &mut Program) {
+        println!("[*] Finding string array");
         let mut obf_strings = FindAllStrings::default();
         program.visit_mut_children_with(&mut obf_strings);
-        println!("{} {}", obf_strings.done_string, obf_strings.json_start);
+        // println!("{} {}", obf_strings.done_string, obf_strings.json_start);
         let splits = self
             .source
             .split_at(obf_strings.json_start.try_into().unwrap())
@@ -129,7 +130,7 @@ impl VisitMut for Visitor {
         if let Some(caps) = subtract_re.captures(&self.source) {
             self.subtract = caps["subtract"].parse::<i32>().unwrap();
         }
-        println!("stringify: {}, subtract: {}", self.stringify, self.subtract);
+        // println!("stringify: {}, subtract: {}", self.stringify, self.subtract);
         loop {
             obf_strings.strings.rotate_left(1);
             if obf_strings.strings[usize::try_from(self.stringify - self.subtract).unwrap()]
@@ -138,6 +139,7 @@ impl VisitMut for Visitor {
                 break;
             }
         }
+        println!("[*] Replacing string proxies");
         let mut replacer = ReplaceProxyCalls::new(self.subtract, obf_strings.strings);
         program.visit_mut_children_with(&mut replacer);
     }

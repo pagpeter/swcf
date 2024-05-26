@@ -69,7 +69,7 @@ fn main() {
         swc_common::FileName::Custom(filename.into()),
         data.to_string(),
     );
-    println!("Elapsed time (Parsing): {:.2?}", before.elapsed());
+    println!("[!] Elapsed time (Parsing): {:.2?}", before.elapsed());
 
     let globals = Default::default();
     GLOBALS.set(&globals, || {
@@ -93,7 +93,7 @@ fn main() {
             .expect("process_js_with_custom_pass failed");
         fs::write(format!("{}_out.js", filename), output.code).expect("Could not write to file");
         println!(
-            "Elapsed time (Parsing + Transforming + Marshalling + Writing): {:.2?}",
+            "[!] Elapsed time (Parsing + Transforming + Marshalling + Writing): {:.2?}",
             before.elapsed()
         );
     })
