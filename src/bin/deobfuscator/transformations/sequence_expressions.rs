@@ -2,7 +2,7 @@ use swc_common::util::take::Take;
 use swc_common::Span;
 use swc_core::ecma::utils::ExprFactory;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{Program, ReturnStmt};
+use swc_ecma_ast::{IfStmt, Program, ReturnStmt};
 
 pub struct Visitor;
 
@@ -40,6 +40,28 @@ impl VisitMut for Visitor {
                     new_stmtns.push(swc_ecma_ast::Stmt::Return(ReturnStmt {
                         span: Span::dummy(),
                         arg: last,
+                    }));
+                    added = true;
+                }
+            } else if stmt.is_if_stmt() {
+                let if_stmt = &stmt.as_if_stmt().unwrap();
+                if if_stmt.test.is_seq() {
+                    let seqs = if_stmt.test.as_seq().unwrap();
+
+                    let tmp = seqs.to_owned();
+
+                    let mut seq = tmp.exprs.to_vec();
+                    let last = seq.pop().unwrap();
+
+                    for expr in &seq {
+                        new_stmtns
+                            .push(<Box<swc_ecma_ast::Expr> as Clone>::clone(&expr).into_stmt());
+                    }
+                    new_stmtns.push(swc_ecma_ast::Stmt::If(IfStmt {
+                        span: Span::dummy(),
+                        test: last,
+                        cons: if_stmt.cons.to_owned(),
+                        alt: if_stmt.alt.to_owned(),
                     }));
                     added = true;
                 }
