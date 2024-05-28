@@ -2,7 +2,7 @@ use swc_common::util::take::Take;
 use swc_common::Span;
 use swc_core::ecma::utils::ExprFactory;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{IfStmt, Program, ReturnStmt};
+use swc_ecma_ast::{ForStmt, IfStmt, Program, ReturnStmt};
 
 pub struct Visitor;
 
@@ -47,10 +47,7 @@ impl VisitMut for Visitor {
                 let if_stmt = &stmt.as_if_stmt().unwrap();
                 if if_stmt.test.is_seq() {
                     let seqs = if_stmt.test.as_seq().unwrap();
-
-                    let tmp = seqs.to_owned();
-
-                    let mut seq = tmp.exprs.to_vec();
+                    let mut seq = seqs.exprs.to_vec();
                     let last = seq.pop().unwrap();
 
                     for expr in &seq {
@@ -62,6 +59,41 @@ impl VisitMut for Visitor {
                         test: last,
                         cons: if_stmt.cons.to_owned(),
                         alt: if_stmt.alt.to_owned(),
+                    }));
+                    added = true;
+                }
+            } else if stmt.is_for_stmt() {
+                let for_stmt = stmt.as_for_stmt().unwrap();
+
+                if for_stmt.init.is_some()
+                    && <Option<swc_ecma_ast::VarDeclOrExpr> as Clone>::clone(&for_stmt.init)
+                        .unwrap()
+                        .is_expr()
+                    && for_stmt
+                        .init
+                        .to_owned()
+                        .unwrap()
+                        .as_expr()
+                        .unwrap()
+                        .is_seq()
+                {
+                    // println!("visit_mut_stmts > for_stmt -> seq");
+
+                    let tmp = for_stmt.init.to_owned().unwrap();
+                    let seqs = tmp.as_expr().unwrap().as_seq().unwrap();
+                    let mut seq = seqs.exprs.to_vec();
+                    let last = seq.pop();
+
+                    for expr in &seq {
+                        new_stmtns
+                            .push(<Box<swc_ecma_ast::Expr> as Clone>::clone(&expr).into_stmt());
+                    }
+                    new_stmtns.push(swc_ecma_ast::Stmt::For(ForStmt {
+                        span: Span::dummy(),
+                        test: for_stmt.test.to_owned(),
+                        init: Some(swc_ecma_ast::VarDeclOrExpr::Expr(last.unwrap())),
+                        update: for_stmt.update.to_owned(),
+                        body: for_stmt.body.to_owned(),
                     }));
                     added = true;
                 }
