@@ -80,7 +80,6 @@ impl VisitMut for FindAllStrings {
                 self.done_string = true;
                 let delimiter = &caps["delimiter"];
                 self.strings = all.split(delimiter).map(String::from).collect();
-                *n = JsWord::new("");
             }
         }
     }
@@ -90,6 +89,19 @@ impl VisitMut for FindAllStrings {
         }
         self.json_start = n.span.lo.0 + 6;
         self.done_json = true;
+    }
+}
+
+#[derive(Default)]
+struct RemoveBigString;
+
+impl VisitMut for RemoveBigString {
+    fn visit_mut_atom(&mut self, n: &mut JsWord) {
+        let length = n.len();
+
+        if length > 200 {
+            *n = JsWord::new("\"\"");
+        }
     }
 }
 
@@ -114,7 +126,10 @@ impl VisitMut for Visitor {
         println!("[*] Finding string array");
         let mut obf_strings = FindAllStrings::default();
         program.visit_mut_children_with(&mut obf_strings);
-        // println!("{} {}", obf_strings.done_string, obf_strings.json_start);
+        if !obf_strings.done_string || !obf_strings.done_json {
+            println!("[!] Error finding string array");
+            return;
+        }
         let splits = self
             .source
             .split_at(obf_strings.json_start.try_into().unwrap())
@@ -130,6 +145,10 @@ impl VisitMut for Visitor {
         if let Some(caps) = subtract_re.captures(&self.source) {
             self.subtract = caps["subtract"].parse::<i32>().unwrap();
         }
+
+        let mut remover = RemoveBigString::default();
+        program.visit_mut_children_with(&mut remover);
+
         // println!("stringify: {}, subtract: {}", self.stringify, self.subtract);
         loop {
             obf_strings.strings.rotate_left(1);
