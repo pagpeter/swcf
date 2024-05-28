@@ -31,7 +31,7 @@ pub fn create_transform_options() -> Options {
             ..EsConfig::default()
         })),
 
-        target: Some(EsVersion::Es2022),
+        target: Some(EsVersion::latest()),
         ..JscConfig::default()
     };
     Options {
@@ -85,9 +85,9 @@ fn main() {
                     chain!(
                         as_folder(transformations::strings::Visitor::new(data.to_string())),
                         as_folder(transformations::proxy_functions::Visitor),
-                        expr_simplifier(Mark::new(), Default::default()),
                         as_folder(transformations::computed_members::Visitor),
                         as_folder(transformations::control_flow_flattening::Visitor),
+                        expr_simplifier(Mark::new(), Default::default()),
                     )
                 },
             )
