@@ -91,9 +91,18 @@ impl Visit for FindProxyAssignments {
             } else if as_bin.is_some() {
                 let bin = as_bin.unwrap();
 
-                // TODO: check if the params get reversed here
+                let reversed = bin.right.as_ident().unwrap().sym.as_str()
+                    == func
+                        .params
+                        .last()
+                        .unwrap()
+                        .pat
+                        .as_ident()
+                        .unwrap()
+                        .sym
+                        .as_str();
                 self.assignments
-                    .push(Proxy::binary(key.to_string(), bin.op, false));
+                    .push(Proxy::binary(key.to_string(), bin.op, reversed));
             }
         } else {
             // println!("visit_key_value_prop {} {:?}", key, n.value);
@@ -159,8 +168,19 @@ impl Visit for FindProxyAssignments {
             } else if as_bin.is_some() {
                 let bin = as_bin.unwrap();
 
-                // TODO: check if the params get reversed here
-                self.assignments.push(Proxy::binary(key.str, bin.op, false));
+                let reversed = bin.right.as_ident().unwrap().sym.as_str()
+                    == fun
+                        .function
+                        .params
+                        .last()
+                        .unwrap()
+                        .pat
+                        .as_ident()
+                        .unwrap()
+                        .sym
+                        .as_str();
+                self.assignments
+                    .push(Proxy::binary(key.str, bin.op, reversed));
             }
         }
     }
