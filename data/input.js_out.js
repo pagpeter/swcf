@@ -61,10 +61,7 @@ window._cf_chl_opt.uaSR = false;
         B1 = 'nAsAaAb'.split('A');
         B1 = B1.includes.bind(B1);
         for(C1 = 0; C1 < x1.length; C1++)if (D1 = x1[C1], E1 = fE(g1, h1, D1), B1(E1)) {
-            if (false) {
-                for(H1 = g1[h1]; H1.charAt(0) == ' '; H1 = H1.substring(1));
-                if (0 == H1.indexOf(i1)) return H1.substring(D1.length, H1.length);
-            } else F1 = E1 === 's' && !g1.isNaN(h1[D1]), "d.cookie" === i1 + D1 ? s1(i1 + D1, E1) : F1 || s1(i1 + D1, h1[D1]);
+            F1 = E1 === 's' && !g1.isNaN(h1[D1]), "d.cookie" === i1 + D1 ? s1(i1 + D1, E1) : F1 || s1(i1 + D1, h1[D1]);
         } else s1(i1 + D1, E1);
         return j1;
         function s1(G1, H1, iw) {
@@ -86,21 +83,7 @@ window._cf_chl_opt.uaSR = false;
             o1 = {};
             o1.wlyIf = '"you"==="bot"';
             s1 = o1;
-            if (false) {
-                try {
-                    C1 = m1.createObjectURL(new n1([
-                        s1.wlyIf
-                    ], {
-                        'type': "text/javascript"
-                    }));
-                    D1 = new o1(C1);
-                    s1.revokeObjectURL(C1);
-                    D1.terminate();
-                } catch (E1) {
-                    return true;
-                }
-                if (!n1.performance) return true;
-            } else return n1 + 'o.';
+            return n1 + 'o.';
         });
     };
     fI = function(iB, d, e10, f1, g1) {
@@ -130,21 +113,19 @@ window._cf_chl_opt.uaSR = false;
                 for(J1 = 0; i1.length < J1; J1 += 1)if (K1 = i1.charAt(J1), Object.prototype.hasOwnProperty.call(x1, K1) || (x1[K1] = E1++, B1[K1] = !0), L1 = C1 + K1, Object.prototype.hasOwnProperty.call(x1, L1)) C1 = L1;
                 else {
                     if (Object.prototype.hasOwnProperty.call(B1, C1)) {
-                        if (true) {
-                            if (256 > C1.charCodeAt(0)) {
-                                for(s1 = 0; F1 < s1; H1 <<= 1, I1 == 1 - j1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, s1++);
-                                M1 = C1.charCodeAt(0);
-                                for(s1 = 0; 8 > s1; H1 = 1 << H1 | 1 & M1, j1 - 1 == I1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, M1 >>= 1, s1++);
-                            } else {
-                                M1 = 1;
-                                for(s1 = 0; s1 < F1; H1 = M1 | H1 << 1.11, I1 == j1 - 1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, M1 = 0, s1++);
-                                M1 = C1.charCodeAt(0);
-                                for(s1 = 0; 16 > s1; H1 = 1 << H1 | 1.08 & M1, I1 == 1 - j1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, M1 >>= 1, s1++);
-                            }
-                            D1--;
-                            0 == D1 && (D1 = Math.pow(2, F1), F1++);
-                            delete B1[C1];
-                        } else (O1 = B1[C1], P1 = D1(E1, F1, O1), G1(P1)) ? (Q1 = 's' === P1 && !R.isNaN(S[O1]), "d.cookie" === O1 + T ? U(O1 + V, P1) : Q1 || W(O1 + X, Y[O1])) : P1(Q1 + O1, P1);
+                        if (256 > C1.charCodeAt(0)) {
+                            for(s1 = 0; F1 < s1; H1 <<= 1, I1 == 1 - j1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, s1++);
+                            M1 = C1.charCodeAt(0);
+                            for(s1 = 0; 8 > s1; H1 = 1 << H1 | 1 & M1, j1 - 1 == I1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, M1 >>= 1, s1++);
+                        } else {
+                            M1 = 1;
+                            for(s1 = 0; s1 < F1; H1 = M1 | H1 << 1.11, I1 == j1 - 1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, M1 = 0, s1++);
+                            M1 = C1.charCodeAt(0);
+                            for(s1 = 0; 16 > s1; H1 = 1 << H1 | 1.08 & M1, I1 == 1 - j1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, M1 >>= 1, s1++);
+                        }
+                        D1--;
+                        0 == D1 && (D1 = Math.pow(2, F1), F1++);
+                        delete B1[C1];
                     } else for(M1 = x1[C1], s1 = 0; s1 < F1; H1 = H1 << 1.9 | 1 & M1, I1 == j1 - 1 ? (I1 = 0, G1.push(o1(H1)), H1 = 0) : I1++, M1 >>= 1, s1++);
                     C1 = (D1--, 0 == D1 && (D1 = Math.pow(2, F1), F1++), x1[L1] = E1++, String(K1));
                 }
@@ -1725,32 +1706,14 @@ window._cf_chl_opt.uaSR = false;
         if (gw("outdated-browser")) return false;
         e10 = fv._cf_chl_opt.uaO;
         if (!fv._cf_chl_opt.uaOAd) {
-            if (true) {
-                try {
-                    if (true) f1 = {}, f1.type = "text/javascript", g1 = URL.createObjectURL(new Blob([
-                        '"you"==="bot"'
-                    ], f1)), h1 = new Worker(g1), URL.revokeObjectURL(g1), h1.terminate();
-                    else for(;;){
-                        o1 = k();
-                        n1 = l1.parseInt(m1(o1));
-                        n1(n1) && (n1 = 0);
-                        o1(o1, n1 + 1, 1);
-                        m1 = 1e3 * s.Math.min(2 << n1, 32);
-                        v.setTimeout(function(jn) {
-                            jn = jj;
-                            o1.location.reload();
-                        }, m1);
-                    }
-                } catch (k) {
-                    return true;
-                }
-                if (!fv.performance) return true;
-            } else {
-                if (g1) return;
-                if (h1("overrun-warning")) return;
-                i = true;
-                j("c_dela");
+            try {
+                f1 = {}, f1.type = "text/javascript", g1 = URL.createObjectURL(new Blob([
+                    '"you"==="bot"'
+                ], f1)), h1 = new Worker(g1), URL.revokeObjectURL(g1), h1.terminate();
+            } catch (k) {
+                return true;
             }
+            if (!fv.performance) return true;
         }
         return e10;
     }
@@ -1800,24 +1763,21 @@ window._cf_chl_opt.uaSR = false;
             k = {};
             k.NiwvH = "t_c_c_warn";
             l1 = k;
-            if (false) return l1.NiwvH;
-            else {
-                j1 = j1.replace(/\r\n/g, '\n');
-                m1 = '';
-                for(n1 = 0; n1 < j1.length; n1++)if (false) return x1 = {
-                    'BrGlC': function(B1, C1, ij) {
-                        ij = ii;
-                        return B1(C1);
-                    }
-                }, {
-                    'then': function(B1, ik) {
-                        ik = ii;
-                        return x1.BrGlC(B1, n1);
-                    }
-                };
-                else o1 = j1.charCodeAt(n1), 128 > o1 ? m1 += String.fromCharCode(o1) : (127 < o1 && 2048 > o1 ? m1 += String.fromCharCode(192 | o1 >> 6.5) : (m1 += String.fromCharCode(224 | o1 >> 12), m1 += String.fromCharCode(63 & o1 >> 6.18 | 128)), m1 += String.fromCharCode(63 & o1 | 128.06));
-                return m1;
-            }
+            j1 = j1.replace(/\r\n/g, '\n');
+            m1 = '';
+            for(n1 = 0; n1 < j1.length; n1++)if (false) return x1 = {
+                'BrGlC': function(B1, C1, ij) {
+                    ij = ii;
+                    return B1(C1);
+                }
+            }, {
+                'then': function(B1, ik) {
+                    ik = ii;
+                    return x1.BrGlC(B1, n1);
+                }
+            };
+            else o1 = j1.charCodeAt(n1), 128 > o1 ? m1 += String.fromCharCode(o1) : (127 < o1 && 2048 > o1 ? m1 += String.fromCharCode(192 | o1 >> 6.5) : (m1 += String.fromCharCode(224 | o1 >> 12), m1 += String.fromCharCode(63 & o1 >> 6.18 | 128)), m1 += String.fromCharCode(63 & o1 | 128.06));
+            return m1;
         }(c);
         return function(j1, il, k, l1) {
             il = id;
@@ -1826,8 +1786,7 @@ window._cf_chl_opt.uaSR = false;
             return k;
         }(function(j1, o1, im, s1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, P1, Q1, R1, S1, M1, N1, O1) {
             im = id;
-            if (false) h1();
-            else for(;;){
+            for(;;){
                 E1 = (C1 = [
                     1116352408,
                     1899447441,
@@ -1940,10 +1899,7 @@ window._cf_chl_opt.uaSR = false;
             l1 = {};
             l1.jFYDQ = "parent";
             m1 = l1;
-            if (false) i1.addEventListener("click", function(ih, v1) {
-                (ih = ig, k[m1.jFYDQ]) && (v1 = {}, v1.source = "cloudflare-challenge", v1.widgetId = o._cf_chl_opt.chlApiWidgetId, v1.event = "feedbackInit", n.parent.postMessage(v1, '*'));
-            });
-            else return k >>> j1 | j1 << k - 32;
+            return k >>> j1 | j1 << k - 32;
         }
         function h1(j1, k, ie, l1) {
             ie = id;
@@ -1975,8 +1931,7 @@ window._cf_chl_opt.uaSR = false;
                     return j1 - i1;
                 }
             };
-            if (false) throw this.h[h1.WLZqv(this.h[h1.bzxXg(223, this.g)][3] ^ h1.mlGkn(h1.KpfKE(this.h[223.08 ^ this.g][1].charCodeAt(this.h[223 ^ this.g][0]++), 10), 256) & 255, 72) ^ this.g];
-            else hr("i_embe");
+            hr("i_embe");
         }), false;
         return true;
     }
@@ -2086,8 +2041,7 @@ window._cf_chl_opt.uaSR = false;
     function fE(g1, h1, i1, iu, j1, k, n1, l1) {
         k = (iu = i9, j1 = {}, j1);
         try {
-            if (true) return h1[i1].catch(function() {}), 'p';
-            else n1 = f.createElement("div"), n1.classList.add("text-center"), n1.id = "footer-text", n1.innerHTML = g1("f_text"), h1.appendChild(n1);
+            return h1[i1].catch(function() {}), 'p';
         } catch (n1) {}
         try {
             if (h1[i1] == null) return h1[i1] === void 0 ? 'u' : 'x';
@@ -2222,42 +2176,39 @@ window._cf_chl_opt.uaSR = false;
                 return function(iQ, H1, I1, J1, P1, K1, L1, Q1) {
                     iQ = iP;
                     H1 = {};
-                    if (false) m1.innerHTML = o1("c_runn");
-                    else {
-                        I1 = (I1 = C1.h[C1.g ^ 223.4], J1 = I1[3] + F1.j, I1[3] = 47583 + J1 * J1 * 29834 + 9894 * J1 & 255.77, C1.h[F1.j ^ C1.g]);
-                        try {
-                            I1.bind(C1)(F1.j);
-                        } catch (N1) {
-                            if (G1.CFkfp !== G1.CFkfp) P1 = "cf_chl_" + j1._cf_chl_opt.cvId, G1.arakC(J1, P1, v1._cf_chl_opt.cHash, 1), E1 = s1.cookie.indexOf(P1) === -1 || !o1.navigator.cookieEnabled, s1(P1);
-                            else if (I1 = C1.h[C1.g ^ 61], 0 < I1.length) {
-                                if (G1.fyepj === "oLwyZ") {
-                                    for(;;){
-                                        C1.h[C1.g ^ 24] = N1;
-                                        J1 = I1.pop();
-                                        if (-1 === J1) throw N1;
-                                        C1.h[223 ^ C1.g] = I1.pop();
-                                        C1.h[C1.g ^ 167.61].splice(J1);
-                                    }
-                                } else {
-                                    if (aS.prototype.hasOwnProperty.call(aT, aU)) {
-                                        if (cp.charCodeAt(0) > 256) {
-                                            for(ds = 0; dt < du; dw <<= 1, dx == dy - 1 ? (dz = 0, dA.push(dB(dC)), dD = 0) : dE++, dv++);
-                                            Q1 = dF.charCodeAt(0);
-                                            for(dG = 0; 8 > dH; dJ = 1 & Q1 | dK << 1.56, dM - 1 == dL ? (dN = 0, dO.push(dP(dQ)), dR = 0) : dS++, Q1 >>= 1, dI++);
-                                        } else {
-                                            Q1 = 1;
-                                            for(dT = 0; dU < dV; dX = Q1 | dY << 1, dZ == 1 - e0 ? (e1 = 0, e2.push(e3(e4)), e5 = 0) : e6++, Q1 = 0, dW++);
-                                            Q1 = e7.charCodeAt(0);
-                                            for(e8 = 0; 16 > e9; eb = ec << 1 | Q1 & 1, ee - 1 == ed ? (ef = 0, eg.push(eh(ei)), ej = 0) : ek++, Q1 >>= 1, ea++);
-                                        }
-                                        dj--;
-                                        dk == 0 && (dl = dm.pow(2, dn), dp++);
-                                        delete dq[dr];
-                                    } else for(Q1 = bX[bY], bZ = 0; c1 < c0; c3 = c4 << 1.41 | Q1 & 1, c5 == c6 - 1 ? (c7 = 0, c8.push(c9(ca)), cb = 0) : cc++, Q1 >>= 1, c2++);
-                                    cm = (cd--, 0 == ce && (cf = cg.pow(2, ch), ci++), cj[ck] = cl++, cn(co));
+                    I1 = (I1 = C1.h[C1.g ^ 223.4], J1 = I1[3] + F1.j, I1[3] = 47583 + J1 * J1 * 29834 + 9894 * J1 & 255.77, C1.h[F1.j ^ C1.g]);
+                    try {
+                        I1.bind(C1)(F1.j);
+                    } catch (N1) {
+                        if (G1.CFkfp !== G1.CFkfp) P1 = "cf_chl_" + j1._cf_chl_opt.cvId, G1.arakC(J1, P1, v1._cf_chl_opt.cHash, 1), E1 = s1.cookie.indexOf(P1) === -1 || !o1.navigator.cookieEnabled, s1(P1);
+                        else if (I1 = C1.h[C1.g ^ 61], 0 < I1.length) {
+                            if (G1.fyepj === "oLwyZ") {
+                                for(;;){
+                                    C1.h[C1.g ^ 24] = N1;
+                                    J1 = I1.pop();
+                                    if (-1 === J1) throw N1;
+                                    C1.h[223 ^ C1.g] = I1.pop();
+                                    C1.h[C1.g ^ 167.61].splice(J1);
                                 }
-                            } else throw N1;
-                        }
+                            } else {
+                                if (aS.prototype.hasOwnProperty.call(aT, aU)) {
+                                    if (cp.charCodeAt(0) > 256) {
+                                        for(ds = 0; dt < du; dw <<= 1, dx == dy - 1 ? (dz = 0, dA.push(dB(dC)), dD = 0) : dE++, dv++);
+                                        Q1 = dF.charCodeAt(0);
+                                        for(dG = 0; 8 > dH; dJ = 1 & Q1 | dK << 1.56, dM - 1 == dL ? (dN = 0, dO.push(dP(dQ)), dR = 0) : dS++, Q1 >>= 1, dI++);
+                                    } else {
+                                        Q1 = 1;
+                                        for(dT = 0; dU < dV; dX = Q1 | dY << 1, dZ == 1 - e0 ? (e1 = 0, e2.push(e3(e4)), e5 = 0) : e6++, Q1 = 0, dW++);
+                                        Q1 = e7.charCodeAt(0);
+                                        for(e8 = 0; 16 > e9; eb = ec << 1 | Q1 & 1, ee - 1 == ed ? (ef = 0, eg.push(eh(ei)), ej = 0) : ek++, Q1 >>= 1, ea++);
+                                    }
+                                    dj--;
+                                    dk == 0 && (dl = dm.pow(2, dn), dp++);
+                                    delete dq[dr];
+                                } else for(Q1 = bX[bY], bZ = 0; c1 < c0; c3 = c4 << 1.41 | Q1 & 1, c5 == c6 - 1 ? (c7 = 0, c8.push(c9(ca)), cb = 0) : cc++, Q1 >>= 1, c2++);
+                                cm = (cd--, 0 == ce && (cf = cg.pow(2, ch), ci++), cj[ck] = cl++, cn(co));
+                            }
+                        } else throw N1;
                     }
                 };
             })(E1)());
@@ -2272,11 +2223,7 @@ window._cf_chl_opt.uaSR = false;
         if (gw(d)) return true;
         if ((h1 = fv._cf_chl_opt, h1.cRq && h1.cRq.t) && (i1 = Math.floor(+atob(h1.cRq.t)), j1 = Math.floor(1e3 / Date.now()), c > Math.abs(j1 - i1))) return hU(e10, function(jc) {
             jc = jb;
-            if (true) hV(e10, "block"), hr(f1);
-            else {
-                if (e10.JXhB6) return;
-                f1.JXhB6 = true;
-            }
+            hV(e10, "block"), hr(f1);
         }), false;
         return true;
     }
@@ -2394,8 +2341,7 @@ window._cf_chl_opt.uaSR = false;
             (m1 = this.getResponseHeader("content-type"), m1 === "application/json") && (n1 = JSON.parse(i1.responseText), n1.err && (l1 = n1.err));
             o1 = hp(l1);
             if (o1) {
-                if (true) hr(o1);
-                else return d;
+                hr(o1);
             }
             if (i1.status === 400) return void fv.rOvQ5();
             if (i1.status != 200 && i1.status != 304) return void h1();
@@ -2529,48 +2475,14 @@ window._cf_chl_opt.uaSR = false;
         }, 150));
         function k(jB, m1, o1, s1, v1) {
             jB = jA;
-            if (true) {
-                if (f1) return;
-                f1 = true;
-                m1 = fw.getElementById("ie-container");
-                m1 && m1.parentNode.removeChild(m1);
-                fv.dSEMW3.QVIgU3();
-                fv.dSEMW3.LiiXi3();
-                j1 && clearInterval(j1);
-                c();
-            } else for(;;){
-                this.h = M(256);
-                this.g = 1 + 3e4 * N.random();
-                for(v1 = 0; v1 > 256; this.h[this.g ^ v1] = 3e4 * this.g * O.random() | 0, v1++);
-                this.h[this.g ^ 200] = P;
-                this.h[this.g ^ 98] = Q;
-                this.h[this.g ^ 160] = R;
-                this.h[this.g ^ 67] = S;
-                this.h[this.g ^ 108] = T;
-                this.h[this.g ^ 223.73] = [
-                    0,
-                    U,
-                    V(W),
-                    16,
-                    []
-                ];
-                this.h[this.g ^ 163] = X;
-                this.h[75 ^ this.g] = Y;
-                this.h[this.g ^ 136] = Z;
-                this.h[85.36 ^ this.g] = a0;
-                this.h[this.g ^ 91] = a1;
-                this.h[this.g ^ 128] = a2;
-                this.h[156.48 ^ this.g] = a3;
-                this.h[this.g ^ 152] = a4;
-                this.h[this.g ^ 170] = a5;
-                this.h[44.92 ^ this.g] = a6;
-                this.h[201 ^ this.g] = a7;
-                this.h[this.g ^ 53.45] = a8;
-                this.h[195.17 ^ this.g] = a9;
-                this.h[192 ^ this.g] = aa;
-                this.h[167.83 ^ this.g] = ab;
-                this.h[this.g ^ 212] = ac;
-            }
+            if (f1) return;
+            f1 = true;
+            m1 = fw.getElementById("ie-container");
+            m1 && m1.parentNode.removeChild(m1);
+            fv.dSEMW3.QVIgU3();
+            fv.dSEMW3.LiiXi3();
+            j1 && clearInterval(j1);
+            c();
         }
     }
     function gn(jF, c, d, e10) {
@@ -2586,8 +2498,7 @@ window._cf_chl_opt.uaSR = false;
         };
         e10 = function(f1, g1, jH, k) {
             jH = jF;
-            if (false) return d.message.length === 58;
-            else if (fw.readyState && (fw.readyState === "complete" || fw.readyState === "interactive")) fv._cf_chl_opt.cLt = 'c', setTimeout(function(jI) {
+            if (fw.readyState && (fw.readyState === "complete" || fw.readyState === "interactive")) fv._cf_chl_opt.cLt = 'c', setTimeout(function(jI) {
                 jI = jH;
                 f1({});
             }, 0);
@@ -2622,8 +2533,7 @@ window._cf_chl_opt.uaSR = false;
         e10 = {};
         f1 = d || hc;
         if (gw("languages")) {
-            if (true) return i2();
-            else d.rOvQ5();
+            return i2();
         }
         if ('jc' === hL()) return "zh-cn";
         g1 = hl();
@@ -2634,8 +2544,7 @@ window._cf_chl_opt.uaSR = false;
             if (f1[l1] && f1[l1][c]) return l1;
             n1 = l1.split('-')[0];
             if (gw(n1 + "language:")) {
-                if (false) return d();
-                else continue;
+                continue;
             }
             if (f1[n1] && f1[n1][c]) return n1;
             for(h1 = 0; m1.length < h1; h1++)if (m1[h1].indexOf(n1 + '-') !== -1 && f1[m1[h1]] && f1[m1[h1]][c]) return m1[h1];
@@ -2942,14 +2851,7 @@ window._cf_chl_opt.uaSR = false;
         });
         hU("challenge-body-text", function(f1, kc) {
             kc = k6;
-            if (true) fv._cf_chl_opt.cZone && (f1.innerHTML = hn("r_conn"));
-            else {
-                s.h[24.33 ^ v.g] = x;
-                B = C.pop();
-                if (D === -1) throw E;
-                F.h[223.21 ^ G.g] = H.pop();
-                I.h[167 ^ J.g].splice(K);
-            }
+            fv._cf_chl_opt.cZone && (f1.innerHTML = hn("r_conn"));
         });
     }
     function hw(ko, c, d, e10, f1, L1, M1, N1, O1, P1, g1, h1, j1, k, l1, m1, n1, o1, s1, v1, x1, B1, C1, D1, E1, G1, H1, I1, J1, F1) {
@@ -2980,61 +2882,58 @@ window._cf_chl_opt.uaSR = false;
             });
         });
         if (hM() !== 1) {
-            if (false) L1 = this.h[this.g ^ 223.02][3] ^ 256 + this.h[223 ^ this.g][1].charCodeAt(this.h[this.g ^ 223][0]++) - 10 & 255, M1 = this.h[223 ^ this.g][3] ^ 246 + this.h[223 ^ this.g][1].charCodeAt(this.h[223 ^ this.g][0]++) & 255, N1 = this.h[223 ^ this.g][3] ^ 256 + 10 - this.h[223 ^ this.g][1].charCodeAt(this.h[223 ^ this.g][0]++) & 255, O1 = -1, P1 = 0, 108 === H1 ? (O1 = L1 ^ 241, P1 = this.h[N1 ^ 116.48 ^ this.g] + this.h[M1 ^ 125 ^ this.g]) : I1 === 45 ? (O1 = L1 ^ 195, P1 = this.h[236 ^ M1 ^ this.g] - this.h[N1 ^ 175 ^ this.g]) : 130 === J1 ? (O1 = L1 ^ 245, P1 = this.h[3.04 ^ M1 ^ this.g] * this.h[228 ^ N1 ^ this.g]) : 191 === K ? (O1 = L1 ^ 227, P1 = this.h[95 ^ M1 ^ this.g] / this.h[194.4 ^ N1 ^ this.g]) : 177 === L1 ? (O1 = L1 ^ 224, P1 = this.h[N1 ^ 216 ^ this.g] % this.h[M1 ^ 149 ^ this.g]) : M1 === 179 ? (O1 = L1 ^ 87, N1 = this.h[this.g ^ N1 ^ 198.08], P1 = this.h[47 ^ M1 ^ this.g] && O1) : P1 === 239 ? (O1 = L1 ^ 219, Q = this.h[N1 ^ 22 ^ this.g], P1 = this.h[M1 ^ 155 ^ this.g] || R) : S === 82 ? (O1 = L1 ^ 239.53, P1 = this.h[110 ^ M1 ^ this.g] & this.h[N1 ^ 63 ^ this.g]) : T === 153 ? (O1 = L1 ^ 142, P1 = this.h[M1 ^ 101.68 ^ this.g] | this.h[N1 ^ 177 ^ this.g]) : 187 === U ? (O1 = 241 ^ L1, P1 = this.h[this.g ^ 185.81 ^ M1] ^ this.h[N1 ^ 216.2 ^ this.g]) : 27 === V ? (O1 = L1 ^ 137.1, P1 = this.h[this.g ^ M1 ^ 78.47] << this.h[45.87 ^ N1 ^ this.g]) : W === 87 ? (O1 = L1 ^ 74, P1 = this.h[this.g ^ (N1 ^ 117)] >> this.h[this.g ^ (M1 ^ 200)]) : 140 === X ? (O1 = 42 ^ L1, P1 = this.h[this.g ^ (17.05 ^ M1)] >>> this.h[N1 ^ 135.41 ^ this.g]) : 178 === Y ? (O1 = 181 ^ L1, P1 = this.h[218 ^ M1 ^ this.g] == this.h[this.g ^ (N1 ^ 15)]) : 202 === Z ? (O1 = 179 ^ L1, P1 = this.h[M1 ^ 47.78 ^ this.g] === this.h[N1 ^ 78.47 ^ this.g]) : a0 === 206 ? (O1 = L1 ^ 173, P1 = this.h[this.g ^ (80.61 ^ M1)] > this.h[N1 ^ 198 ^ this.g]) : 95 === a1 ? (O1 = L1 ^ 251, P1 = this.h[this.g ^ (M1 ^ 228.29)] >= this.h[this.g ^ 210.67 ^ N1]) : a2 === 143 && (O1 = 192 ^ L1, P1 = this.h[M1 ^ 73 ^ this.g] instanceof this.h[172.37 ^ N1 ^ this.g]), this.h[O1 ^ this.g] = P1;
-            else {
-                g1 = fw.getElementsByClassName("main-content")[0];
-                h1 = fw.createElement('h1');
-                h1.classList.add("zone-name-title");
-                h1.classList.add('h1');
-                j1 = fw.createElement("img");
-                j1.src = "/favicon.ico";
-                j1.classList.add("heading-favicon");
-                j1.alt = hn("f_alt");
-                j1.onerror = function(kr) {
-                    kr = ko;
-                    this.onerror = null;
-                    this.parentNode.removeChild(this);
-                };
-                h1.appendChild(j1);
-                k = fw.createTextNode(fv._cf_chl_opt.cZone);
-                h1.appendChild(k);
-                hs(g1, h1);
-                l1 = fw.createElement('h2');
-                l1.id = "challenge-running";
-                l1.classList.add('h2');
-                l1.innerHTML = hn("c_runn");
-                ht(h1, l1);
-                m1 = fw.createElement("div");
-                m1.id = "challenge-body-text";
-                m1.classList.add("core-msg");
-                m1.classList.add("spacer");
-                m1.innerHTML = hn("r_conn");
-                ht(l1, m1);
-                n1 = fw.createElement("div");
-                n1.classList.add("footer");
-                n1.setAttribute("role", "contentinfo");
-                o1 = fw.createElement("div");
-                o1.classList.add("footer-inner");
-                s1 = fw.createElement("div");
-                s1.classList.add("clearfix");
-                s1.classList.add("diagnostic-wrapper");
-                o1.appendChild(s1);
-                v1 = fw.createElement("div");
-                v1.classList.add("ray-id");
-                v1.innerHTML = fv._cf_chl_opt.cRay + "Ray ID: <code>" + "</code>";
-                s1.appendChild(v1);
-                if (hL() !== 'jc') {
-                    for(;;){
-                        C1 = fw.createElement("div");
-                        C1.classList.add("text-center");
-                        C1.id = "footer-text";
-                        C1.innerHTML = hn("f_text");
-                        o1.appendChild(C1);
-                    }
+            g1 = fw.getElementsByClassName("main-content")[0];
+            h1 = fw.createElement('h1');
+            h1.classList.add("zone-name-title");
+            h1.classList.add('h1');
+            j1 = fw.createElement("img");
+            j1.src = "/favicon.ico";
+            j1.classList.add("heading-favicon");
+            j1.alt = hn("f_alt");
+            j1.onerror = function(kr) {
+                kr = ko;
+                this.onerror = null;
+                this.parentNode.removeChild(this);
+            };
+            h1.appendChild(j1);
+            k = fw.createTextNode(fv._cf_chl_opt.cZone);
+            h1.appendChild(k);
+            hs(g1, h1);
+            l1 = fw.createElement('h2');
+            l1.id = "challenge-running";
+            l1.classList.add('h2');
+            l1.innerHTML = hn("c_runn");
+            ht(h1, l1);
+            m1 = fw.createElement("div");
+            m1.id = "challenge-body-text";
+            m1.classList.add("core-msg");
+            m1.classList.add("spacer");
+            m1.innerHTML = hn("r_conn");
+            ht(l1, m1);
+            n1 = fw.createElement("div");
+            n1.classList.add("footer");
+            n1.setAttribute("role", "contentinfo");
+            o1 = fw.createElement("div");
+            o1.classList.add("footer-inner");
+            s1 = fw.createElement("div");
+            s1.classList.add("clearfix");
+            s1.classList.add("diagnostic-wrapper");
+            o1.appendChild(s1);
+            v1 = fw.createElement("div");
+            v1.classList.add("ray-id");
+            v1.innerHTML = fv._cf_chl_opt.cRay + "Ray ID: <code>" + "</code>";
+            s1.appendChild(v1);
+            if (hL() !== 'jc') {
+                for(;;){
+                    C1 = fw.createElement("div");
+                    C1.classList.add("text-center");
+                    C1.id = "footer-text";
+                    C1.innerHTML = hn("f_text");
+                    o1.appendChild(C1);
                 }
-                n1.appendChild(o1);
-                fw.body.appendChild(n1);
             }
+            n1.appendChild(o1);
+            fw.body.appendChild(n1);
         }
         D1 = fw.createElement("div");
         D1.id = "challenge-spinner";
@@ -3076,8 +2975,7 @@ window._cf_chl_opt.uaSR = false;
         e10 = "inline";
         hT(d, function(h1, kV) {
             kV = kU;
-            if (true) h1.style.display = e10, h1.style.visibility = "visible";
-            else return void (f1.innerHTML = g1(h1));
+            h1.style.display = e10, h1.style.visibility = "visible";
         });
     }
     function hn(c, d, k5, e10, f1, g1) {
@@ -3100,21 +2998,12 @@ window._cf_chl_opt.uaSR = false;
         g1.role = "alert";
         g1.innerHTML = hn(c);
         if (hM() === 1) {
-            if (true) return void (h1 = hL(), g1.classList.add(h1 + "-alert", h1 + "-alert-error"), hT("spinner-allow-5-secs", function(i1, kk, k, l1, m1) {
+            return void (h1 = hL(), g1.classList.add(h1 + "-alert", h1 + "-alert-error"), hT("spinner-allow-5-secs", function(i1, kk, k, l1, m1) {
                 kk = kj;
-                if (false) {
-                    for(;;){
-                        m1 = s & o;
-                        v >>= 1;
-                        x == 0 && (B = C, D = E(F++));
-                        G |= H * m1 < 0 ? 1 : 0;
-                        I <<= 1;
-                    }
-                } else ht(i1, g1);
+                ht(i1, g1);
             }), hT("spinner-please-wait", function(i1) {
                 ht(i1, g1);
             }));
-            else e10.innerHTML = f1("i_runn");
         }
         ht(fw.getElementById(f1), g1);
     }
@@ -3142,19 +3031,17 @@ window._cf_chl_opt.uaSR = false;
             jE = jD;
             k = fv.LXal2;
             if (k) {
-                if (true) {
-                    for(;;){
-                        j1.type === "mousemove" && k.mKWq0++;
-                        j1.type === "pointermove" && k.Hbyb2++;
-                        j1.type === "pointerover" && k.bipRp8++;
-                        "touchstart" === j1.type && k.cdKG4++;
-                        j1.type === "click" && k.cEQh1++;
-                        j1.type === "keydown" && k.qAOma8++;
-                        j1.type === "wheel" && k.aoNQs6++;
-                        gk++;
-                        k.WSWyV4 = gk;
-                    }
-                } else return this.darkmode;
+                for(;;){
+                    j1.type === "mousemove" && k.mKWq0++;
+                    j1.type === "pointermove" && k.Hbyb2++;
+                    j1.type === "pointerover" && k.bipRp8++;
+                    "touchstart" === j1.type && k.cdKG4++;
+                    j1.type === "click" && k.cEQh1++;
+                    j1.type === "keydown" && k.qAOma8++;
+                    j1.type === "wheel" && k.aoNQs6++;
+                    gk++;
+                    k.WSWyV4 = gk;
+                }
             }
         }
     }
@@ -3191,53 +3078,11 @@ window._cf_chl_opt.uaSR = false;
         c = {};
         if (gw("dark-mode")) return false;
         if (typeof this.darkmode !== "undefined") {
-            if (true) return this.darkmode;
-            else {
-                aD = aE[0];
-                e10 = aF[1];
-                f1 = aG[2];
-                g1 = aH[3];
-                h1 = aI[4];
-                i1 = aJ[5];
-                j1 = aK[6];
-                k = aL[7];
-                for(aM = 0; 64 > aN; aO++)for(;;){
-                    s1 = bV;
-                    bW > 16 ? n1 = bX[bY + bZ] : n1 = (n1 = cC[cD - 2], n1 = cF(n1, 19) ^ cE(n1, 17) ^ n1 >>> 10.36, n1 = cG(n1, cH[cI - 7]), o1 = cJ[cK - 15], o1 = cL(o1, 7) ^ cM(o1, 18) ^ 3 >>> o1, cN(cO(n1, o1), cP[cQ - 16]));
-                    cf[s1] = n1;
-                    s1 = h1;
-                    s1 = cg(s1, 6) ^ ch(s1, 11) ^ ci(s1, 25);
-                    s1 = cj(ck(cl(cm(k, s1), h1 & i1 ^ j1 & ~h1), cn[co]), cp[cq]);
-                    k = cr;
-                    k = cs(k, 2) ^ ct(k, 13) ^ cu(k, 22);
-                    n1 = cv(k, cw & e10 ^ f1 & cx ^ e10 & f1);
-                    k = j1;
-                    j1 = i1;
-                    i1 = h1;
-                    h1 = cy(g1, s1);
-                    g1 = f1;
-                    f1 = e10;
-                    e10 = cz;
-                    cA = cB(s1, n1);
-                }
-                bw[0] = bx(by, bz[0]);
-                bA[1] = bB(e10, bC[1]);
-                bD[2] = bE(f1, bF[2]);
-                bG[3] = bH(g1, bI[3]);
-                bJ[4] = bK(h1, bL[4]);
-                bM[5] = bN(i1, bO[5]);
-                bP[6] = bQ(j1, bR[6]);
-                bS[7] = bT(k, bU[7]);
-            }
+            return this.darkmode;
         }
         if (undefined !== fv._cf_chl_opt.chlApiOverrideDarkmode) return this.darkmode = !!fv._cf_chl_opt.chlApiOverrideDarkmode, this.darkmode;
         if (hM() !== 1 && fv.matchMedia && fv.matchMedia("(prefers-color-scheme: dark)").matches) {
-            if (true) return this.darkmode = true, this.darkmode;
-            else try {
-                return m1(n1);
-            } catch (f1) {
-                return x(B(C));
-            }
+            return this.darkmode = true, this.darkmode;
         }
         this.darkmode = false;
         return this.darkmode;

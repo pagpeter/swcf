@@ -6,3 +6,4 @@ pub mod proxy_functions;
 pub mod proxy_vars;
 pub mod sequence_expressions;
 pub mod strings;
+pub mod useless_if;

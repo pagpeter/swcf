@@ -90,6 +90,7 @@ fn main() {
                         as_folder(transformations::cleanup_deleted::Visitor),
                         as_folder(transformations::sequence_expressions::Visitor),
                         expr_simplifier(Mark::new(), Default::default()),
+                        as_folder(transformations::useless_if::Visitor),
                     )
                 },
             )
