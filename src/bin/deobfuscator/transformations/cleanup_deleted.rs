@@ -9,7 +9,6 @@ impl VisitMut for Visitor {
         if left_as_sim.is_some() {
             let as_in = left_as_sim.unwrap().as_invalid();
             if as_in.is_some() {
-                println!("Removed invalid node!");
                 n.take();
                 return;
             }
@@ -17,7 +16,6 @@ impl VisitMut for Visitor {
 
         let right_as_in = n.right.as_invalid();
         if right_as_in.is_some() {
-            println!("Removed invalid node!");
             n.take();
             return;
         }
@@ -43,10 +41,6 @@ impl VisitMut for Visitor {
         match s {
             Stmt::Decl(Decl::Var(var)) => {
                 if var.decls.is_empty() {
-                    // Variable declaration without declarator is invalid.
-                    //
-                    // After this, `s` becomes `Stmt::Empty`.
-
                     s.take();
                 }
             }
@@ -56,13 +50,7 @@ impl VisitMut for Visitor {
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
-
-        // We remove `Stmt::Empty` from the statement list.
-        // This is optional, but it's required if you don't want extra `;` in output.
-        stmts.retain(|s| {
-            // We use `matches` macro as this match is trivial.
-            !matches!(s, Stmt::Empty(..))
-        });
+        stmts.retain(|s| !matches!(s, Stmt::Empty(..)));
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
@@ -89,26 +77,8 @@ impl VisitMut for Visitor {
     //     });
     // }
 
-    fn visit_mut_object_pat(&mut self, n: &mut swc_ecma_ast::ObjectPat) {
-        n.visit_mut_children_with(self);
-
-        n.props.retain(|s| {
-            let as_kv = s.as_key_value();
-            if as_kv.is_some() {
-                let kv = as_kv.unwrap();
-                if kv.value.is_invalid() {
-                    return false;
-                }
-            }
-            false
-        })
-    }
-
-    // fn visit_mut_assign_pat(&mut self, n: &mut swc_ecma_ast::AssignPat) {
-    //     if n.left.is_invalid() || n.right.is_invalid() {
-    //         n.take();
-    //     }
-    // }
+    // fn visit_mut_object_pat(&mut self, n: &mut swc_ecma_ast::ObjectPat) {
+    //     n.visit_mut_children_with(self);
 
     fn visit_mut_seq_expr(&mut self, n: &mut swc_ecma_ast::SeqExpr) {
         n.visit_mut_children_with(self);
@@ -131,5 +101,17 @@ impl VisitMut for Visitor {
 
             true
         })
+    }
+    fn visit_mut_object_lit(&mut self, n: &mut swc_ecma_ast::ObjectLit) {
+        n.props.retain(|s| {
+            let as_kv = s.as_prop();
+            if as_kv.is_some() {
+                let kv = as_kv.unwrap().as_key_value().unwrap();
+                if kv.value.is_invalid() {
+                    return false;
+                }
+            }
+            true
+        });
     }
 }

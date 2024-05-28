@@ -76,8 +76,9 @@ impl VisitMut for FindProxyAssignments {
             n.value.visit_children_with(&mut str);
             self.assignments
                 .push(Proxy::string(key.to_string(), str.str));
-            // n.value.take();
-            // n.key.take();
+
+            n.value.take();
+            n.key.take();
         } else if as_fn.is_some() {
             let func = &as_fn.unwrap().function;
             let stmts = <Option<swc_ecma_ast::BlockStmt> as Clone>::clone(&func.body)
@@ -91,9 +92,8 @@ impl VisitMut for FindProxyAssignments {
             let as_bin = expr.as_bin();
             if as_call.is_some() {
                 self.assignments.push(Proxy::call(key.to_string()));
-                // n.value.take();
-                // n.key.take();
-                // as_fn.unwrap().take();
+                n.value.take();
+                n.key.take();
             } else if as_bin.is_some() {
                 let bin = as_bin.unwrap();
 
@@ -109,8 +109,8 @@ impl VisitMut for FindProxyAssignments {
                         .as_str();
                 self.assignments
                     .push(Proxy::binary(key.to_string(), bin.op, reversed));
-                // n.value.take();
-                // n.key.take();
+                n.value.take();
+                n.key.take();
             }
         } else {
             // println!("visit_key_value_prop {} {:?}", key, n.value);
