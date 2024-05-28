@@ -1,7 +1,8 @@
+use swc::atoms::Atom;
 use swc_common::util::take::Take;
 use swc_common::Span;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{BlockStmt, Program};
+use swc_ecma_ast::{BlockStmt, Expr, Ident, Program, VarDeclOrExpr};
 use swc_ecma_visit::{Visit, VisitWith};
 
 pub struct Visitor;
@@ -76,11 +77,60 @@ impl Visit for FindSwitchCases {
     }
 }
 
+#[derive(Default)]
+struct Cleanup;
+impl VisitMut for Cleanup {
+    fn visit_mut_stmts(&mut self, n: &mut std::vec::Vec<swc_ecma_ast::Stmt>) {
+        n.visit_mut_children_with(self);
+        let mut new_stmtns: std::vec::Vec<swc_ecma_ast::Stmt> = vec![];
+
+        for stmt in &n.to_owned() {
+            let mut added = false;
+            if stmt.is_for_stmt() {
+                let for_stmt = stmt.as_for_stmt().unwrap();
+
+                if for_stmt.test.is_none()
+                    && for_stmt.update.is_none()
+                    && for_stmt.init.is_some()
+                    && <Option<swc_ecma_ast::VarDeclOrExpr> as Clone>::clone(&for_stmt.init)
+                        .unwrap()
+                        .as_expr()
+                        .unwrap()
+                        .is_ident()
+                    && <Option<swc_ecma_ast::VarDeclOrExpr> as Clone>::clone(&for_stmt.init)
+                        .unwrap()
+                        .as_expr()
+                        .unwrap()
+                        .as_ident()
+                        .unwrap()
+                        .sym
+                        .to_string()
+                        == "CFF_REPLACE_ME"
+                {
+                    let stmnts = &for_stmt.body.as_block().unwrap().stmts;
+                    for s in stmnts {
+                        new_stmtns.push(s.to_owned());
+                    }
+                    added = true;
+                }
+            }
+
+            if !added {
+                new_stmtns.push(stmt.clone());
+            }
+        }
+        *n = new_stmtns;
+    }
+}
+
 impl VisitMut for Visitor {
     fn visit_mut_program(&mut self, n: &mut Program) {
         println!("[*] Replacing CFF (Switch statements)");
         n.visit_mut_children_with(self);
-        println!("[*] Done replacing CFF");
+        println!("[*] Cleaning up for loops");
+
+        let mut obf_strings = Cleanup::default();
+        n.visit_mut_children_with(&mut obf_strings);
     }
     fn visit_mut_for_stmt(&mut self, n: &mut swc_ecma_ast::ForStmt) {
         n.visit_mut_children_with(self);
@@ -107,7 +157,10 @@ impl VisitMut for Visitor {
 
         *n = swc_ecma_ast::ForStmt {
             span: Span::dummy(),
-            init: None,
+            init: Some(VarDeclOrExpr::Expr(Box::new(Expr::Ident(Ident::new(
+                Atom::new("CFF_REPLACE_ME"),
+                Span::dummy(),
+            ))))),
             test: None,
             update: None,
             body: Box::new(swc_ecma_ast::Stmt::Block(BlockStmt::from(BlockStmt {
