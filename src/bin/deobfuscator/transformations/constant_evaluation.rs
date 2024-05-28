@@ -1,6 +1,6 @@
 use swc_core::ecma::ast::Expr;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{Lit, Module};
+use swc_ecma_ast::{Lit, Module, Program};
 use swc_ecma_minifier::eval::Evaluator;
 use swc_ecma_minifier::{self, eval, marks};
 pub struct EvaluateVisitor {
@@ -29,6 +29,10 @@ impl VisitMut for EvaluateVisitor {
                 eval::EvalResult::Undefined => {}
             }
         }
+    }
+    fn visit_mut_program(&mut self, n: &mut Program) {
+        println!("[*] Running constant evaluation");
+        n.visit_mut_children_with(self);
     }
 }
 pub struct Visitor;

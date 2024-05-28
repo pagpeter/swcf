@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
 use swc_common::Span;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::BlockStmt;
+use swc_ecma_ast::{BlockStmt, Program};
 use swc_ecma_visit::{Visit, VisitWith};
 
 pub struct Visitor;
@@ -55,7 +55,6 @@ impl Visit for FindString {
 struct CaseData {
     key: usize,
     stmt: swc_ecma_ast::Stmt,
-    pos: usize,
 }
 
 #[derive(Default)]
@@ -73,12 +72,15 @@ impl Visit for FindSwitchCases {
         self.cases.push(CaseData {
             key: str.str.parse().unwrap(),
             stmt: n.cons.first().unwrap().to_owned(),
-            pos: 0,
         })
     }
 }
 
 impl VisitMut for Visitor {
+    fn visit_mut_program(&mut self, n: &mut Program) {
+        println!("[*] Replacing CFF (Switch statements)");
+        n.visit_mut_children_with(self);
+    }
     fn visit_mut_for_stmt(&mut self, n: &mut swc_ecma_ast::ForStmt) {
         n.visit_mut_children_with(self);
 

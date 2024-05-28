@@ -53,6 +53,7 @@ pub struct Visitor {
 
 impl VisitMut for Visitor {
     fn visit_mut_program(&mut self, program: &mut Program) {
+        println!("[*] Replacing proxy variables");
         /*
         Because of cases like these:
 

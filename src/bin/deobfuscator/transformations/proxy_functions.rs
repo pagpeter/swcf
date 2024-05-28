@@ -53,22 +53,11 @@ impl Proxy {
     }
 }
 
-type Assignments = Vec<Proxy>;
-fn find_assignment(assignments: &Assignments, key: String) -> Option<&Proxy> {
-    for ass in assignments {
-        if ass.key == key {
-            return Some(ass);
-        }
-    }
-    None
-}
-
 #[derive(Default)]
 struct FindProxyAssignments {
-    assignments: Assignments,
+    assignments: Vec<Proxy>,
 }
 
-// TODO: support proxy functions, not just strings
 impl Visit for FindProxyAssignments {
     // "abcdef": function() {}
     fn visit_key_value_prop(&mut self, n: &swc_ecma_ast::KeyValueProp) {
@@ -179,7 +168,7 @@ impl Visit for FindProxyAssignments {
 
 #[derive(Default)]
 struct ReplaceProxies {
-    assignments: Assignments,
+    assignments: Vec<Proxy>,
 }
 
 impl VisitMut for ReplaceProxies {
@@ -201,7 +190,7 @@ impl VisitMut for ReplaceProxies {
                 return;
             }
 
-            let maybe_p = find_assignment(&self.assignments, str.str);
+            let maybe_p = self.assignments.iter().find(|p| p.key == str.str);
 
             if maybe_p.is_none() {
                 return;
@@ -230,7 +219,7 @@ impl VisitMut for ReplaceProxies {
                 return;
             }
 
-            let maybe_p = find_assignment(&self.assignments, str.str);
+            let maybe_p = self.assignments.iter().find(|p| p.key == str.str);
 
             if maybe_p.is_none() {
                 return;
