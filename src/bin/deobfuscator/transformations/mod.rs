@@ -1,3 +1,4 @@
+pub mod cleanup_deleted;
 pub mod computed_members;
 pub mod constant_evaluation;
 pub mod control_flow_flattening;

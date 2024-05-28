@@ -80,6 +80,7 @@ impl VisitMut for Visitor {
     fn visit_mut_program(&mut self, n: &mut Program) {
         println!("[*] Replacing CFF (Switch statements)");
         n.visit_mut_children_with(self);
+        println!("[*] Done replacing CFF");
     }
     fn visit_mut_for_stmt(&mut self, n: &mut swc_ecma_ast::ForStmt) {
         n.visit_mut_children_with(self);

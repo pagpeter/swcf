@@ -1,5 +1,6 @@
 use swc::atoms::Atom;
-use swc_common::{util::take::Take, Span};
+use swc_common::util::take::Take;
+use swc_common::Span;
 use swc_core::ecma::ast::Program;
 use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinExpr, BinaryOp, CallExpr, Expr};
@@ -58,10 +59,10 @@ struct FindProxyAssignments {
     assignments: Vec<Proxy>,
 }
 
-impl Visit for FindProxyAssignments {
+impl VisitMut for FindProxyAssignments {
     // "abcdef": function() {}
-    fn visit_key_value_prop(&mut self, n: &swc_ecma_ast::KeyValueProp) {
-        n.visit_children_with(self);
+    fn visit_mut_key_value_prop(&mut self, n: &mut swc_ecma_ast::KeyValueProp) {
+        n.visit_mut_children_with(self);
         let key = &n.key.as_str().unwrap().value;
         if key.len() != 5 {
             return;
@@ -74,7 +75,9 @@ impl Visit for FindProxyAssignments {
             let mut str = FindString::default();
             n.value.visit_children_with(&mut str);
             self.assignments
-                .push(Proxy::string(key.to_string(), str.str))
+                .push(Proxy::string(key.to_string(), str.str));
+            // n.value.take();
+            // n.key.take();
         } else if as_fn.is_some() {
             let func = &as_fn.unwrap().function;
             let stmts = <Option<swc_ecma_ast::BlockStmt> as Clone>::clone(&func.body)
@@ -88,6 +91,9 @@ impl Visit for FindProxyAssignments {
             let as_bin = expr.as_bin();
             if as_call.is_some() {
                 self.assignments.push(Proxy::call(key.to_string()));
+                // n.value.take();
+                // n.key.take();
+                // as_fn.unwrap().take();
             } else if as_bin.is_some() {
                 let bin = as_bin.unwrap();
 
@@ -103,14 +109,16 @@ impl Visit for FindProxyAssignments {
                         .as_str();
                 self.assignments
                     .push(Proxy::binary(key.to_string(), bin.op, reversed));
+                // n.value.take();
+                // n.key.take();
             }
         } else {
             // println!("visit_key_value_prop {} {:?}", key, n.value);
         }
     }
     // e.pHFEm = "overlay",
-    fn visit_assign_expr(&mut self, n: &swc_ecma_ast::AssignExpr) {
-        n.visit_children_with(self);
+    fn visit_mut_assign_expr(&mut self, n: &mut swc_ecma_ast::AssignExpr) {
+        n.visit_mut_children_with(self);
         if n.op != AssignOp::Assign {
             return;
         }
@@ -137,7 +145,8 @@ impl Visit for FindProxyAssignments {
             }
 
             self.assignments
-                .push(Proxy::string(key.str.to_string(), str.str))
+                .push(Proxy::string(key.str.to_string(), str.str));
+            n.take();
         } else if right_fun.is_some() {
             let fun = right_fun.unwrap();
             // println!("visit_assign_expr: {} -> {:?}", key.str, fun);
@@ -165,6 +174,7 @@ impl Visit for FindProxyAssignments {
             let as_bin = expr.as_bin();
             if as_call.is_some() {
                 self.assignments.push(Proxy::call(key.str));
+                n.take();
             } else if as_bin.is_some() {
                 let bin = as_bin.unwrap();
 
@@ -181,6 +191,7 @@ impl Visit for FindProxyAssignments {
                         .as_str();
                 self.assignments
                     .push(Proxy::binary(key.str, bin.op, reversed));
+                n.take();
             }
         }
     }
@@ -289,7 +300,7 @@ impl VisitMut for Visitor {
     fn visit_mut_program(&mut self, program: &mut Program) {
         println!("[*] Finding proxy functions");
         let mut obf_strings = FindProxyAssignments::default();
-        program.visit_children_with(&mut obf_strings);
+        program.visit_mut_children_with(&mut obf_strings);
 
         let mut replacer = ReplaceProxies::default();
         replacer.assignments = obf_strings.assignments;
