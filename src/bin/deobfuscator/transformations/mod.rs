@@ -4,4 +4,5 @@ pub mod constant_evaluation;
 pub mod control_flow_flattening;
 pub mod proxy_functions;
 pub mod proxy_vars;
+pub mod sequence_expressions;
 pub mod strings;
