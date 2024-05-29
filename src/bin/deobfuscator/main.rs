@@ -42,7 +42,7 @@ fn main() {
                         as_folder(transformations::control_flow_flattening::Visitor),
                         as_folder(transformations::cleanup_deleted::Visitor),
                         as_folder(transformations::sequence_expressions::Visitor),
-                        expr_simplifier(Mark::new(), Default::default()),
+                        // expr_simplifier(Mark::new(), Default::default()),
                         as_folder(transformations::useless_if::Visitor),
                         as_folder(transformations::simplify_binary::Visitor),
                         as_folder(extractor::Visitor),

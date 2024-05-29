@@ -32,11 +32,11 @@ impl Visit for ExtractStrings<'_> {
                     let left_member = as_member.unwrap();
 
                     // matches this.h = Array(256)
+                    let right_call = ass.right.as_call();
                     if left_member.obj.is_this()
                         && left_member.prop.as_ident().unwrap().sym.to_string() == "h"
-                        && ass
-                            .right
-                            .as_call()
+                        && right_call.is_some()
+                        && right_call
                             .unwrap()
                             .callee
                             .as_expr()
@@ -372,6 +372,11 @@ impl VisitMut for Visitor {
         n.visit_children_with(&mut ExtractStrings {
             vm_config: &mut vm_config,
         });
+
+        if vm_config.registers.is_empty() {
+            println!("Could not find main VM func and get registers");
+            return;
+        }
 
         n.visit_children_with(&mut IdentifyOpcodes {
             vm_config: &mut vm_config,

@@ -5,7 +5,9 @@ pub struct Visitor;
 
 impl VisitMut for Visitor {
     fn visit_mut_assign_expr(&mut self, n: &mut swc_ecma_ast::AssignExpr) {
+        n.visit_mut_children_with(self);
         let left_as_sim = n.left.as_simple();
+
         if left_as_sim.is_some() {
             let as_in = left_as_sim.unwrap().as_invalid();
             if as_in.is_some() {
@@ -19,7 +21,6 @@ impl VisitMut for Visitor {
             n.take();
             return;
         }
-        n.visit_mut_children_with(self);
     }
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.visit_mut_children_with(self);

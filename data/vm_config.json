@@ -1,34 +1,11 @@
 {
-  "registers": {
-    "SetObj": 136.0,
-    "NewArr": 160.0,
-    "SetMem": 152.0,
-    "Apply": 195.0,
-    "BindFunc": 167.0,
-    "ShuffleReg": 200.0,
-    "BinaryExp": 108.0,
-    "GetObj": 192.0,
-    "UnaryExp": 91.0,
-    "NewObj": 67.0,
-    "SplicePop": 201.0,
-    "Jump": 44.0,
-    "ArrPush": 98.0,
-    "ArrPop": 85.0,
-    "VMDATA": 223.0,
-    "ThrowError": 128.0,
-    "BindFunc2": 170.0,
-    "fL": 163.0,
-    "Literal": 156.0,
-    "JumpIf": 212.0,
-    "WeirdNew": 75.0,
-    "NewClass": 53.0
-  },
+  "registers": {},
   "magicBits": {
     "startEnc": 0,
     "opcodeEnc": []
   },
   "bytecodes": {
-    "init": "wfhpbp5E2boOlbkLbsj5Pi4ieZyuOnnErt15Y64XeZGuGHmOrrZ5MK5Zec+uPXnDrkR5uq7geWauDXmTrjx5wq54ee6u93lxrthiTq53YvGuw2I9rg9ima7kYlquqNX2JjlZFudm9jkJNrT0trU7tr12tteMttNott5qtt0HttsetuPYtu6rtvTgthCGtg4XtgzXthhfthQVthO9tigctinptiRAtjCKtjZStj6ltj86tkdGtkMNtlDvtk8WtlgbtlkdtlbJtlLPtlwFtnTLtnNXtsjUts82tudktkEQR/AL/pND/Zpfajh5X4Uq79z+X5MWgAnP9QqklciZv6Vqr8HoWX8byZwB10W4Pvkr3A==",
+    "init": "rEFrBgpL73iGxa8Cxh6vKcaYr6vGlq+xxoGvRsa2r5HG16/sxjuvCMbir+XGMa8WxievHMYary3Gfa9Kxtqv7cZZr27GM68QxssR+MY6EQ3GFREyxqkRnsaVEbLGDLk7mHLOVMcw5Pmp5Pt25P1z5OO+5OVx5Oc55OiL5PDL5BYd5Agm5Awu5BCC5Daw5Drk5CTF5FYL5FzF5GDT5EOE5FIC5HxW5IBo5IJQ5GOX5Gg35G/s5J2y5ITq5IW25JCG5Lb55LhH5MKl5KO55KUY5KZE5Kt75NQ/5DBi5Eocn3F85J+k0b28yjf9i5E9PEgSuAJUcPKgnsYz/lDyoJ7Gw+hQ8qAvbv8tW5KuE0K7dQ==",
     "main": ""
   },
   "chlData": {}
