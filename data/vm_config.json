@@ -1,11 +1,34 @@
 {
-  "registers": {},
+  "registers": {
+    "SetObj": 44.0,
+    "BindFunc": 177.0,
+    "ShuffleReg": 81.0,
+    "JumpIf": 187.0,
+    "WeirdNew": 112.0,
+    "SplicePop": 53.0,
+    "NewObj": 171.0,
+    "GetObj": 245.0,
+    "BinaryExp": 216.0,
+    "Apply": 123.0,
+    "ArrPop": 222.0,
+    "fz": 211.0,
+    "ThrowError": 191.0,
+    "Literal": 106.0,
+    "SetMem": 17.0,
+    "UnaryExp": 86.0,
+    "Jump": 208.0,
+    "NewArr": 55.0,
+    "VMDATA": 67.0,
+    "BindFunc2": 169.0,
+    "ArrPush": 32.0,
+    "NewClass": 75.0
+  },
   "magicBits": {
     "startEnc": 0,
     "opcodeEnc": []
   },
   "bytecodes": {
-    "init": "rEFrBgpL73iGxa8Cxh6vKcaYr6vGlq+xxoGvRsa2r5HG16/sxjuvCMbir+XGMa8WxievHMYary3Gfa9Kxtqv7cZZr27GM68QxssR+MY6EQ3GFREyxqkRnsaVEbLGDLk7mHLOVMcw5Pmp5Pt25P1z5OO+5OVx5Oc55OiL5PDL5BYd5Agm5Awu5BCC5Daw5Drk5CTF5FYL5FzF5GDT5EOE5FIC5HxW5IBo5IJQ5GOX5Gg35G/s5J2y5ITq5IW25JCG5Lb55LhH5MKl5KO55KUY5KZE5Kt75NQ/5DBi5Eocn3F85J+k0b28yjf9i5E9PEgSuAJUcPKgnsYz/lDyoJ7Gw+hQ8qAvbv8tW5KuE0K7dQ==",
+    "init": "a+CSmXnQ+qkR8trHMc1a9LHMWvWxaFoRsdtaprEBWrixOFqBsa5a07GSWuexLFpVscFa+LFGWnuxdlpLsZBa6bGqWs+xwlr3sZ3U5LEr1FaxBdS8sYnUMLFM1HWx8tF+KtiNBuDQ9qQ2tr7HtrOGtspCtswBts6+tlnntlIPtmjjtm0ztmOItnEdtodqtomUto0gtoIXtg9XthESthN5tij9tjAwtjK9tkk+tkJdtkYdtueVtuwhtu1ztt9mtuBRtuULtvzgtu9htvE6tgf0tgt/tgxHtrcxtmlIto6S647n3remM01LWGT4J/cdG4ruQ4oUoKh3p10xijS4Z7cdG5l0uGdzl6T4J9i+O4c6OA==",
     "main": ""
   },
   "chlData": {}

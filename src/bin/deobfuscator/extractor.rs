@@ -5,10 +5,10 @@ use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
 
-struct ExtractStrings<'a> {
+struct FindVM<'a> {
     vm_config: &'a mut config_builder::VMConfig,
 }
-impl Visit for ExtractStrings<'_> {
+impl Visit for FindVM<'_> {
     fn visit_function(&mut self, n: &swc_ecma_ast::Function) {
         n.visit_children_with(self);
         if n.body.is_some() {
@@ -115,6 +115,9 @@ impl IdentifyOpcode {
     fn found(&mut self) -> bool {
         return self.opcode.type_id() != config_builder::Opcode::Invalid.type_id();
     }
+    fn report_find(&mut self, opcode: config_builder::Opcode) {
+        self.opcode = opcode
+    }
 }
 impl Visit for IdentifyOpcode {
     fn visit_ident(&mut self, n: &swc_ecma_ast::Ident) {
@@ -125,9 +128,9 @@ impl Visit for IdentifyOpcode {
 
         let str = n.sym.to_string();
         if str == "Function" {
-            self.opcode = config_builder::Opcode::NewClass
+            self.report_find(config_builder::Opcode::NewClass);
         } else if str == "Infinity" {
-            self.opcode = config_builder::Opcode::Literal
+            self.report_find(config_builder::Opcode::Literal);
         }
     }
     fn visit_bin_expr(&mut self, n: &swc_ecma_ast::BinExpr) {
@@ -136,7 +139,7 @@ impl Visit for IdentifyOpcode {
         }
         n.visit_children_with(self);
         if n.op == BinaryOp::InstanceOf {
-            self.opcode = config_builder::Opcode::BinaryExp
+            self.report_find(config_builder::Opcode::BinaryExp);
         }
     }
     fn visit_expr(&mut self, n: &swc_ecma_ast::Expr) {
@@ -159,7 +162,7 @@ impl Visit for IdentifyOpcode {
         if right_un.op != UnaryOp::Void || !right_un.arg.is_lit() {
             return;
         }
-        self.opcode = config_builder::Opcode::WeirdNew
+        self.report_find(config_builder::Opcode::WeirdNew);
     }
     fn visit_unary_expr(&mut self, n: &swc_ecma_ast::UnaryExpr) {
         if self.found() {
@@ -167,7 +170,7 @@ impl Visit for IdentifyOpcode {
         }
         n.visit_children_with(self);
         if n.op == UnaryOp::TypeOf {
-            self.opcode = config_builder::Opcode::UnaryExp
+            self.report_find(config_builder::Opcode::UnaryExp);
         }
     }
     fn visit_stmts(&mut self, n: &[swc_ecma_ast::Stmt]) {
@@ -178,7 +181,7 @@ impl Visit for IdentifyOpcode {
 
         if n.first().is_some() && n.first().unwrap().is_throw() {
             // throw ...
-            self.opcode = config_builder::Opcode::ThrowError;
+            self.report_find(config_builder::Opcode::ThrowError);
             return;
         } else if n.last().is_some() && n.last().unwrap().is_expr() {
             let expr = &n.last().unwrap().as_expr().unwrap().expr;
@@ -190,19 +193,19 @@ impl Visit for IdentifyOpcode {
                     let callee2 = callee.as_expr().unwrap().as_member().unwrap();
                     // f1.push(this.h[g1 ^ this.g]);
                     if callee2.prop.is_ident() && callee2.prop.as_ident().unwrap().sym == "push" {
-                        self.opcode = config_builder::Opcode::ArrPush;
+                        self.report_find(config_builder::Opcode::ArrPush);
                         return;
                     }
                     // this.h[61 ^ this.g].splice(g1.pop());
                     if callee2.prop.is_ident() && callee2.prop.as_ident().unwrap().sym == "splice" {
-                        self.opcode = config_builder::Opcode::SplicePop;
+                        self.report_find(config_builder::Opcode::SplicePop);
                         return;
                     }
                 }
             }
 
             if expr.is_bin() {
-                self.opcode = config_builder::Opcode::JumpIf;
+                self.report_find(config_builder::Opcode::JumpIf);
                 return;
             }
 
@@ -215,10 +218,10 @@ impl Visit for IdentifyOpcode {
                         && fun.as_member().unwrap().prop.as_ident().unwrap().sym == "bind"
                     {
                         if n.len() == 7 {
-                            self.opcode = config_builder::Opcode::BindFunc;
+                            self.report_find(config_builder::Opcode::BindFunc);
                             return;
                         } else if n.len() == 8 {
-                            self.opcode = config_builder::Opcode::BindFunc2;
+                            self.report_find(config_builder::Opcode::BindFunc2);
                             return;
                         }
                     }
@@ -226,12 +229,12 @@ impl Visit for IdentifyOpcode {
 
                 // this.h[206 ^ this.h[...] = [];
                 if ass.right.is_array() && ass.right.as_array().unwrap().elems.is_empty() {
-                    self.opcode = config_builder::Opcode::NewArr;
+                    self.report_find(config_builder::Opcode::NewArr);
                     return;
                 }
 
                 if ass.right.is_object() && ass.right.as_object().unwrap().props.is_empty() {
-                    self.opcode = config_builder::Opcode::NewObj;
+                    self.report_find(config_builder::Opcode::NewObj);
                     return;
                 }
 
@@ -242,7 +245,7 @@ impl Visit for IdentifyOpcode {
                         && left_mem.prop.is_computed()
                         && left_mem.prop.as_computed().unwrap().expr.is_lit()
                     {
-                        self.opcode = config_builder::Opcode::Jump;
+                        self.report_find(config_builder::Opcode::Jump);
                         return;
                     }
                 }
@@ -254,13 +257,13 @@ impl Visit for IdentifyOpcode {
                         && left_left_mem.is_some()
                         && left_left_mem.unwrap().obj.is_this()
                     {
-                        self.opcode = config_builder::Opcode::SetMem;
+                        self.report_find(config_builder::Opcode::SetMem);
                         return;
                     } else if n.len() == 8
                         && left_left_mem.is_some()
                         && left_left_mem.unwrap().obj.is_this()
                     {
-                        self.opcode = config_builder::Opcode::ShuffleReg;
+                        self.report_find(config_builder::Opcode::ShuffleReg);
                         return;
                     }
                 }
@@ -272,13 +275,14 @@ impl Visit for IdentifyOpcode {
 
                     // f[g] = this.h[this...
                     if left_mem.obj.is_ident() && left_mem.prop.is_computed() {
-                        self.opcode = config_builder::Opcode::SetObj
+                        self.report_find(config_builder::Opcode::SetObj);
+                        return;
                     }
                 }
 
                 //  this.h[this.g ^ j1] = void 0 === k ? l1.apply(null, n1) : k[l1].apply(k, n1);
                 if ass.right.is_cond() {
-                    self.opcode = config_builder::Opcode::Apply;
+                    self.report_find(config_builder::Opcode::Apply);
                     return;
                 }
 
@@ -289,7 +293,8 @@ impl Visit for IdentifyOpcode {
                         && right_mem.prop.is_computed()
                         && right_mem.prop.as_computed().unwrap().expr.is_ident()
                     {
-                        self.opcode = config_builder::Opcode::GetObj
+                        self.report_find(config_builder::Opcode::GetObj);
+                        return;
                     }
                 }
             }
@@ -314,8 +319,8 @@ impl Visit for IdentifyOpcode {
             if right_mem.is_some() && right_mem.unwrap().prop.as_ident().unwrap().sym == "pop" {
                 let left_mem = n.left.as_simple().unwrap().as_member();
                 if left_mem.is_some() {
-                    self.opcode = Opcode::ArrPop;
-                    // println!("Identified ARR_POP {:?}", n)
+                    self.report_find(config_builder::Opcode::ArrPop);
+                    return;
                 }
             }
         }
@@ -324,6 +329,7 @@ impl Visit for IdentifyOpcode {
 
 struct IdentifyOpcodes<'a> {
     vm_config: &'a mut config_builder::VMConfig,
+    found: &'a mut usize,
 }
 
 impl Visit for IdentifyOpcodes<'_> {
@@ -344,18 +350,19 @@ impl Visit for IdentifyOpcodes<'_> {
 
         match identifier.opcode {
             config_builder::Opcode::Invalid => {
-                println!("FnDecl: {:?} could not identify opcode", name)
+                println!("[Error]: {:?} could not identify opcode", name)
             }
             op => {
                 if alr_exists.contains(&&op) {
-                    println!("Error: {} was already identified", op)
+                    println!("[Error]: {} was already identified", op)
                 }
                 alr_exists.push(&op);
-                println!("Identified {:?} as {:?}", name, &op);
+                // println!("Identified {:?} as {:?}", name, &op);
                 let val = &self.vm_config.registers.remove(&name);
                 self.vm_config
                     .registers
                     .insert(op.to_string(), val.unwrap());
+                *self.found += 1;
             }
         };
     }
@@ -369,18 +376,21 @@ impl VisitMut for Visitor {
 
         let mut vm_config = config_builder::VMConfig::default();
 
-        n.visit_children_with(&mut ExtractStrings {
+        n.visit_children_with(&mut FindVM {
             vm_config: &mut vm_config,
         });
 
         if vm_config.registers.is_empty() {
-            println!("Could not find main VM func and get registers");
+            println!("[ERROR] Could not find main VM func and get registers");
             return;
         }
 
-        n.visit_children_with(&mut IdentifyOpcodes {
+        let identifier = &mut IdentifyOpcodes {
             vm_config: &mut vm_config,
-        });
+            found: &mut 0,
+        };
+        n.visit_children_with(identifier);
+        println!("[*] Found {}/20 opcodes", identifier.found);
 
         println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
         let json = serde_json::to_string_pretty(&vm_config);
