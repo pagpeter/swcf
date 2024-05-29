@@ -29,25 +29,39 @@ impl Visit for FindVM<'_> {
                     if as_member.is_none() {
                         continue;
                     }
+
+                    // matches this.h = "%3Cb%
                     let left_member = as_member.unwrap();
+                    if ass.right.is_lit() {
+                        if ass.left.is_simple() {
+                            if left_member.prop.is_ident()
+                                && left_member.prop.as_ident().unwrap().sym.to_string() == "h"
+                                && left_member.obj.is_this()
+                            {
+                                is_vm = true;
+                            }
+                        }
+                    }
 
                     // matches this.h = Array(256)
                     let right_call = ass.right.as_call();
                     if left_member.obj.is_this()
                         && left_member.prop.as_ident().unwrap().sym.to_string() == "h"
-                        && right_call.is_some()
-                        && right_call
-                            .unwrap()
-                            .callee
-                            .as_expr()
-                            .unwrap()
-                            .as_ident()
-                            .unwrap()
-                            .sym
-                            .to_string()
-                            == "Array"
                     {
-                        is_vm = true;
+                        if right_call.is_some()
+                            && right_call
+                                .unwrap()
+                                .callee
+                                .as_expr()
+                                .unwrap()
+                                .as_ident()
+                                .unwrap()
+                                .sym
+                                .to_string()
+                                == "Array"
+                        {
+                            is_vm = true;
+                        }
                     }
 
                     handler_assigns.push(ass);
