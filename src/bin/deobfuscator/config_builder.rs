@@ -1,3 +1,4 @@
+use core::fmt;
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
@@ -450,4 +451,33 @@ pub struct VMConfig {
     pub magic_bits: MagicBits,
     pub bytecodes: Bytecodes,
     pub chl_data: ChlData,
+}
+
+#[derive(Debug)]
+pub enum Opcode {
+    ArrPop,
+    ArrPush,
+    SetMem,
+    Apply,
+    NewArr,
+    JumpIf,
+    GetObj,
+    SetObj,
+    SplicePop,
+    BindFunc,
+    Jump,
+    NewClass,
+    NewObj,
+    ThrowError,
+    ShuffleReg,
+    UnaryExp,
+    BinaryExp,
+    Literal,
+    Invalid,
+}
+
+impl fmt::Display for Opcode {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
 }
