@@ -88,13 +88,16 @@ impl VisitMut for Visitor {
                         new_stmtns
                             .push(<Box<swc_ecma_ast::Expr> as Clone>::clone(&expr).into_stmt());
                     }
-                    new_stmtns.push(swc_ecma_ast::Stmt::For(ForStmt {
-                        span: Span::dummy(),
-                        test: for_stmt.test.to_owned(),
-                        init: Some(swc_ecma_ast::VarDeclOrExpr::Expr(last.unwrap())),
-                        update: for_stmt.update.to_owned(),
-                        body: for_stmt.body.to_owned(),
-                    }));
+                    if last.is_some() {
+                        new_stmtns.push(swc_ecma_ast::Stmt::For(ForStmt {
+                            span: Span::dummy(),
+                            test: for_stmt.test.to_owned(),
+                            init: Some(swc_ecma_ast::VarDeclOrExpr::Expr(last.unwrap())),
+                            update: for_stmt.update.to_owned(),
+                            body: for_stmt.body.to_owned(),
+                        }));
+                    }
+
                     added = true;
                 }
             }

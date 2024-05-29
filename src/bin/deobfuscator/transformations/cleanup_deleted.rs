@@ -12,7 +12,6 @@ impl VisitMut for Visitor {
             let as_in = left_as_sim.unwrap().as_invalid();
             if as_in.is_some() {
                 n.take();
-                return;
             }
         }
 
@@ -22,6 +21,7 @@ impl VisitMut for Visitor {
             return;
         }
     }
+
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.visit_mut_children_with(self);
 
@@ -51,7 +51,25 @@ impl VisitMut for Visitor {
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
-        stmts.retain(|s| !matches!(s, Stmt::Empty(..)));
+        let mut new_stmts = vec![];
+
+        for s in stmts.to_vec() {
+            if s.is_empty() {
+                continue;
+            }
+            if s.is_expr() {
+                let expr = s.as_expr().unwrap();
+                let ass = expr.expr.as_assign();
+                if ass.is_some() {
+                    if ass.unwrap().right.is_invalid() {
+                        println!("visit_mut_stmts: removing empty node");
+                        continue;
+                    }
+                }
+            }
+            new_stmts.push(s.to_owned());
+        }
+        *stmts = new_stmts
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
@@ -87,7 +105,10 @@ impl VisitMut for Visitor {
             true
         })
     }
+
     fn visit_mut_object_lit(&mut self, n: &mut swc_ecma_ast::ObjectLit) {
+        n.visit_mut_children_with(self);
+
         n.props.retain(|s| {
             let as_kv = s.as_prop();
             if as_kv.is_some() {
@@ -98,5 +119,10 @@ impl VisitMut for Visitor {
             }
             true
         });
+    }
+
+    fn visit_mut_program(&mut self, n: &mut swc_ecma_ast::Program) {
+        println!("[*] Cleaning up tree from deletions");
+        n.visit_mut_children_with(self);
     }
 }

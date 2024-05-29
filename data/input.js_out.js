@@ -4,7 +4,7 @@ window._cf_chl_opt.uaSR = false;
     i9 = b;
     function(c, d1, i8, e, f) {
         i8 = b;
-        for(e = c(); !![];)try {
+        for(e = c(); true;)try {
             f = parseInt("20SlAytr") / 1 * (parseInt("98650pKLYNx") / 2) + -parseInt("814413fgvOMW") / 3 + parseInt("634072lPimQF") / 4 + -parseInt("729355PCmMIF") / 5 + parseInt("237414ZxakZd") / 6 * (-parseInt("98mEvoDY") / 7) + -parseInt("183088PJLLgW") / 8 * (parseInt("396JbRxul") / 9) + parseInt("60fbjdVp") / 10 * (parseInt("2632058reGkIR") / 11);
             if (f === d1) break;
             else e.push(e.shift());
@@ -18,13 +18,13 @@ window._cf_chl_opt.uaSR = false;
     fv.gayxv3 = function(im) {
         im = i9;
         clearTimeout(fD);
-        fv.trPbq3 = !![];
+        fv.trPbq3 = true;
     };
-    fv.JXhB6 = ![];
+    fv.JXhB6 = false;
     fv.QgHlK1 = function(is) {
         is = i9;
         if (fv.JXhB6) return;
-        fv.JXhB6 = !![];
+        fv.JXhB6 = true;
     };
     fF = 0;
     fI();
@@ -44,26 +44,23 @@ window._cf_chl_opt.uaSR = false;
     fv.oXia4 = function(f, g, h1, iM, i1, j1, k1, l1, m1, n1, o1, s1, x1, B1) {
         j1 = (iM = i9, i1 = {}, i1);
         try {
-            if ("cFUGT" !== "cFUGT") return;
-            else {
-                k1 = h1 || "undefined-source";
-                l1 = fv._cf_chl_opt.cFPWv ? 'h/' + fv._cf_chl_opt.cFPWv + '/' : '';
-                m1 = fv._cf_chl_opt.cType + '/' + fv._cf_chl_opt.cRay + "/959248275:1716989242:ZJmyQjIhD7RG91UWn5uvisvv8hvOwxgaAq4ritcWfig/" + "/cdn-cgi/challenge-platform/" + l1 + "beacon/ov" + 1 + fv._cf_chl_opt.cHash + '/';
-                n1 = new fv.XMLHttpRequest();
-                if (!n1) return;
-                o1 = "POST";
-                n1.open(o1, m1, !![]);
-                n1.timeout = 2500;
-                n1.ontimeout = function() {};
-                n1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                s1 = {};
-                s1.msg = f;
-                s1.cc = g;
-                s1.source = k1;
-                x1 = JSON.stringify(s1);
-                B1 = i0.cWMJxj(x1).replace('+', "%2b");
-                n1.send('=' + fv._cf_chl_opt.cRay + 'v_' + B1);
-            }
+            k1 = h1 || "undefined-source";
+            l1 = fv._cf_chl_opt.cFPWv ? 'h/' + fv._cf_chl_opt.cFPWv + '/' : '';
+            m1 = fv._cf_chl_opt.cType + '/' + fv._cf_chl_opt.cRay + "/959248275:1716989242:ZJmyQjIhD7RG91UWn5uvisvv8hvOwxgaAq4ritcWfig/" + "/cdn-cgi/challenge-platform/" + l1 + "beacon/ov" + 1 + fv._cf_chl_opt.cHash + '/';
+            n1 = new fv.XMLHttpRequest();
+            if (!n1) return;
+            o1 = "POST";
+            n1.open(o1, m1, true);
+            n1.timeout = 2500;
+            n1.ontimeout = function() {};
+            n1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            s1 = {};
+            s1.msg = f;
+            s1.cc = g;
+            s1.source = k1;
+            x1 = JSON.stringify(s1);
+            B1 = i0.cWMJxj(x1).replace('+', "%2b");
+            n1.send('=' + fv._cf_chl_opt.cRay + 'v_' + B1);
         } catch (D1) {}
     };
     fv.onerror = function(d1, e, f, g, h1, iN, i1, j1, k1, l1, m1) {
@@ -78,12 +75,12 @@ window._cf_chl_opt.uaSR = false;
             "Error object: " + JSON.stringify(h1)
         ].join(" - "), fv.setTimeout(function(iP) {
             iP = iN;
-            "XmHys" === "uMvpV" ? f(g, h1) : fv.oXia4(m1, undefined, "orc-onerror");
+            fv.oXia4(m1, undefined, "orc-onerror");
         }, 10), fv.setTimeout(function(iQ) {
             iQ = iN;
             fv.rOvQ5();
         }, 1e3), fv.console.log("[[[ERROR]]]:", m1));
-        return ![];
+        return false;
     };
     fQ = {};
     fQ.obOOm2 = fP;
@@ -1331,9 +1328,9 @@ window._cf_chl_opt.uaSR = false;
     gw["zh-tw"] = gv;
     gx = gw;
     gy = {};
-    gy["ar-eg"] = !![];
-    gy["fa-ir"] = !![];
-    gy["he-il"] = !![];
+    gy["ar-eg"] = true;
+    gy["fa-ir"] = true;
+    gy["he-il"] = true;
     gz = gy;
     gA = {};
     gA.c_brow = "https%3A%2F%2Fdevelopers.cloudflare.com%2Ffundamentals%2Fget-started%2Fconcepts%2Fcloudflare-challenges%2F%23browser-support";
@@ -1382,9 +1379,9 @@ window._cf_chl_opt.uaSR = false;
     gC["zh-tw"] = {};
     gD = gC;
     gF = [];
-    gS = ![];
+    gS = false;
     h5 = undefined;
-    h8 = ![];
+    h8 = false;
     !fR("ui-heartbeat") && (hr(), setInterval(function(k1, c, d1) {
         k1 = i9;
         c = 1e4;
@@ -1392,7 +1389,7 @@ window._cf_chl_opt.uaSR = false;
         !fv.lbHW2 && !h9() && !fv.dSEMW3.xTUQ7 && d1 - ho > c ? gT() : gU();
     }, 1e3));
     hs = {};
-    hs.xTUQ7 = ![];
+    hs.xTUQ7 = false;
     hs.hpSs8 = fR;
     hs.OSGMi1 = gR;
     hs.ieWjU6 = hm;
@@ -1446,7 +1443,6 @@ window._cf_chl_opt.uaSR = false;
             'h': function(h1, kN, i1, j1) {
                 kN = kM;
                 i1 = {};
-                <invalid> = <invalid>;
                 j1 = i1;
                 return null == h1 ? '' : f.g(h1, 6, function(k1, kO) {
                     kO = kN;
@@ -1456,11 +1452,6 @@ window._cf_chl_opt.uaSR = false;
             'g': function(i1, j1, o1, kQ, s1, x1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1, N1, P1, Q1, R1, S1, T1) {
                 kQ = kM;
                 s1 = {
-                    : <invalid>,
-                    : <invalid>,
-                    : <invalid>,
-                    : <invalid>,
-                    : <invalid>,
                     'nMjeM': function(O1, P1, kP) {
                         kP = b;
                         return P1 < O1;
@@ -1477,7 +1468,7 @@ window._cf_chl_opt.uaSR = false;
                 I1 = 0;
                 J1 = 0;
                 for(K1 = 0; K1 < i1.length; K1 += 1)if (L1 = i1.charAt(K1), Object.prototype.hasOwnProperty.call(B1, L1) || (B1[L1] = F1++, C1[L1] = !0), M1 = D1 + L1, Object.prototype.hasOwnProperty.call(B1, M1)) D1 = M1;
-                else if ("TVgCl" === "TVgCl") {
+                else if (true) {
                     if (Object.prototype.hasOwnProperty.call(C1, D1)) {
                         if (256 > D1.charCodeAt(0)) {
                             for(x1 = 0; G1 < x1; I1 <<= 1, j1 - 1 == J1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, x1++);
@@ -1500,26 +1491,23 @@ window._cf_chl_opt.uaSR = false;
                     for(P1 = 0; s1.nMjeM(P1, Q1); S1 = j1(this), T1 = {}, T1.l = void 0, R1[S1] = T1, P1++);
                 }
                 if ('' !== D1) {
-                    if ("AUpzP" !== "AUpzP") return;
-                    else {
-                        if (Object.prototype.hasOwnProperty.call(C1, D1)) {
-                            if (D1.charCodeAt(0) > 256) {
-                                for(x1 = 0; G1 < x1; I1 <<= 1, J1 == 1 - j1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, x1++);
-                                N1 = D1.charCodeAt(0);
-                                for(x1 = 0; 8 > x1; I1 = 1 & N1 | I1 << 1, j1 - 1 == J1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 >>= 1, x1++);
-                            } else {
-                                N1 = 1;
-                                for(x1 = 0; x1 < G1; I1 = 1 << I1 | N1, j1 - 1 == J1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 = 0, x1++);
-                                N1 = D1.charCodeAt(0);
-                                for(x1 = 0; 16 > x1; I1 = I1 << 1.94 | 1 & N1, J1 == j1 - 1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 >>= 1, x1++);
-                            }
-                            E1--;
-                            0 == E1 && (E1 = Math.pow(2, G1), G1++);
-                            delete C1[D1];
-                        } else for(N1 = B1[D1], x1 = 0; x1 < G1; I1 = I1 << 1.62 | 1 & N1, J1 == 1 - j1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 >>= 1, x1++);
+                    if (Object.prototype.hasOwnProperty.call(C1, D1)) {
+                        if (D1.charCodeAt(0) > 256) {
+                            for(x1 = 0; G1 < x1; I1 <<= 1, J1 == 1 - j1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, x1++);
+                            N1 = D1.charCodeAt(0);
+                            for(x1 = 0; 8 > x1; I1 = 1 & N1 | I1 << 1, j1 - 1 == J1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 >>= 1, x1++);
+                        } else {
+                            N1 = 1;
+                            for(x1 = 0; x1 < G1; I1 = 1 << I1 | N1, j1 - 1 == J1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 = 0, x1++);
+                            N1 = D1.charCodeAt(0);
+                            for(x1 = 0; 16 > x1; I1 = I1 << 1.94 | 1 & N1, J1 == j1 - 1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 >>= 1, x1++);
+                        }
                         E1--;
-                        0 == E1 && G1++;
-                    }
+                        0 == E1 && (E1 = Math.pow(2, G1), G1++);
+                        delete C1[D1];
+                    } else for(N1 = B1[D1], x1 = 0; x1 < G1; I1 = I1 << 1.62 | 1 & N1, J1 == 1 - j1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 >>= 1, x1++);
+                    E1--;
+                    0 == E1 && G1++;
                 }
                 N1 = 2;
                 for(x1 = 0; G1 < x1; I1 = I1 << 1.96 | 1 & N1, 1 - j1 == J1 ? (J1 = 0, H1.push(o1(I1)), I1 = 0) : J1++, N1 >>= 1, x1++);
@@ -1573,7 +1561,7 @@ window._cf_chl_opt.uaSR = false;
                         return '';
                 }
                 E1 = s1[3] = O1;
-                for(D1.push(O1);;)if ("iExsz" !== "IFWvx") {
+                for(D1.push(O1);;)if (true) {
                     if (I1 > i1) return '';
                     J1 = 0;
                     K1 = Math.pow(2, C1);
@@ -1666,11 +1654,11 @@ window._cf_chl_opt.uaSR = false;
         f = {};
         e = e || 0;
         if (e >= 5) return void fv.rOvQ5();
-        g = ![];
+        g = false;
         h1 = function(iS) {
             iS = iR;
             if (g) return;
-            g = !![];
+            g = true;
             fv.setTimeout(function(iT) {
                 iT = iS;
                 fO(c, d1, 1 + e);
@@ -1679,7 +1667,7 @@ window._cf_chl_opt.uaSR = false;
         i1 = new fv.XMLHttpRequest();
         if (!i1) return;
         j1 = "POST";
-        i1.open(j1, c, !![]);
+        i1.open(j1, c, true);
         i1.timeout = 2500 * (1 + e);
         i1.ontimeout = function() {
             h1();
@@ -1704,15 +1692,13 @@ window._cf_chl_opt.uaSR = false;
             };
             m1 = "600010";
             if (i1.readyState != 4) {
-                if ("GRsiP" !== "FonXy") return;
-                else C1 = j1._cf_chl_opt.cvId + "cf_chl_", l1.LMCUB(k1, C1, l1._cf_chl_opt.cHash, 1), m1 = n1.cookie.indexOf(C1) === -1 || !o1.navigator.cookieEnabled, s1(C1);
+                return;
             }
             n1 = this.getResponseHeader("content-type");
             if (n1 === "application/json") {
-                if ("DyqFw" === "CMFXF") return D1 = l1.TCzFY(g, 65535) + (65535 & h1), l1.XoKpi(D1 >> 16 + j1 >> 16 + 16 >> i1, 16) | l1.TCzFY(D1, 65535);
-                else o1 = JSON.parse(i1.responseText), o1.err && (m1 = o1.err);
+                o1 = JSON.parse(i1.responseText), o1.err && (m1 = o1.err);
             }
-            (s1 = gK(m1), s1) && ("USYdd" !== "USYdd" ? (E1 = "=; Max-Age=-99999999" + i1, !j1.dSEMW3.hpSs8("cookies-secure-partitioned") && (k1.location.protocol === "https:" || l1.isSecureContext && !m1()) && (E1 += "; Secure; SameSite=None; Partitioned"), n1.cookie = E1) : gM(s1));
+            (s1 = gK(m1), s1) && (gM(s1));
             if (400 === i1.status) return void fv.rOvQ5();
             if (i1.status != 200 && i1.status != 304) return void h1();
             (v1 = ht(i1.responseText), v1.startsWith("window._")) ? new fv.Function(v1)(d1, fO) : (x1 = hW(v1), typeof x1 === "function" && x1(d1, fO));
@@ -1729,7 +1715,7 @@ window._cf_chl_opt.uaSR = false;
         });
     }
     function hd(jM, c, d1, e) {
-        h8 = ![];
+        h8 = false;
         hr();
         h2();
         gW();
@@ -1761,19 +1747,16 @@ window._cf_chl_opt.uaSR = false;
             return function(k7, i1, j1) {
                 i1 = (k7 = b, i1 = d1.h[134 ^ d1.g], j1 = h1.i + i1[3], i1[3] = 255 & 31251 * j1 * j1 + j1 * 59314 + 61178, d1.h[d1.g ^ h1.i]);
                 try {
-                    if ("WpMYO" !== "WpMYO") return j1[f];
-                    else i1.bind(d1)(h1.i);
+                    i1.bind(d1)(h1.i);
                 } catch (l1) {
-                    if ("fwbZm" !== "dKYqo") {
-                        i1 = d1.h[146 ^ d1.g];
-                        if (0 < i1.length) {
-                            d1.h[226 ^ d1.g] = l1;
-                            j1 = i1.pop();
-                            if (-1 === j1) throw l1;
-                            d1.h[134 ^ d1.g] = i1.pop();
-                            d1.h[120 ^ d1.g].splice(j1);
-                        } else throw l1;
-                    } else return void i1();
+                    i1 = d1.h[146 ^ d1.g];
+                    if (0 < i1.length) {
+                        d1.h[226 ^ d1.g] = l1;
+                        j1 = i1.pop();
+                        if (-1 === j1) throw l1;
+                        d1.h[134 ^ d1.g] = i1.pop();
+                        d1.h[120 ^ d1.g].splice(j1);
+                    } else throw l1;
                 }
             };
         })(g)());
@@ -1831,7 +1814,7 @@ window._cf_chl_opt.uaSR = false;
         return e;
     }
     function gG(j0, c, e, f) {
-        (j0 = i9, c = {}, gF.length === 0) && ("rKDVH" !== "rKDVH" ? (e = 1e4, f = j(), !k.lbHW2 && !l() && !m.dSEMW3.xTUQ7 && n - f > e ? v() : x()) : (fv._cf_chl_opt.chlApiLanguage && fv._cf_chl_opt.chlApiLanguage !== "auto" && gF.push(fv._cf_chl_opt.chlApiLanguage.toLowerCase().replace('_', '-')), navigator.language && gF.push(navigator.language.toLowerCase().replace('_', '-')), navigator.languages && typeof navigator.languages === "object" && navigator.languages.length > 1 && navigator.languages.forEach(function(e, j1) {
+        (j0 = i9, c = {}, gF.length === 0) && ((fv._cf_chl_opt.chlApiLanguage && fv._cf_chl_opt.chlApiLanguage !== "auto" && gF.push(fv._cf_chl_opt.chlApiLanguage.toLowerCase().replace('_', '-')), navigator.language && gF.push(navigator.language.toLowerCase().replace('_', '-')), navigator.languages && typeof navigator.languages === "object" && navigator.languages.length > 1 && navigator.languages.forEach(function(e, j1) {
             j1 = j0;
             gF.push(e.toLowerCase().replace('_', '-'));
         })));
@@ -1848,35 +1831,34 @@ window._cf_chl_opt.uaSR = false;
     function fE(io, c, d1, f) {
         io = i9;
         c = {};
-        d1 = ![];
+        d1 = false;
         fD = fv.setTimeout(function(iq) {
             iq = io;
             e("c_dela");
         }, 3500);
         f = fw.createElement("script");
         f.src = fv._cf_chl_opt.cFPWv + "https://challenges.cloudflare.com/turnstile/v0/" + "/695da7821231/api.js?onload=gayxv3&render=explicit";
-        f.async = !![];
-        f.defer = !![];
+        f.async = true;
+        f.defer = true;
         f.onerror = function(ir) {
             ir = io;
             e("c_thir");
         };
         f.setAttribute("crossorigin", "anonymous");
         fw.head.appendChild(f);
-        return !![];
+        return true;
         function e(g, ip) {
             ip = io;
             if (fv.trPbq3) return;
             if (d1) {
-                if ("rkmHa" !== "MthmY") return;
-                else d1.QgHlK1();
+                return;
             }
-            d1 = !![];
+            d1 = true;
             !fv.dSEMW3.xTUQ7 && (g === "c_thir" ? gM(g) : gP(g));
         }
     }
     function gP(c, jh, d1, l1, m1, n1, o1, s1, e, f, g, h1, i1, j1) {
-        (jh = i9, d1 = {}, !fv.dSEMW3.xTUQ7) && ("WuXaC" !== "URCao" ? hh("challenge-body-text") : (l1 = 255 & 256 + this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++) - 195 ^ this.h[134 ^ this.g][3], m1 = this.h[134 ^ this.g][3] ^ 255 & 61 + this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++), n1 = this.h[134 ^ this.g][3] ^ 255 & 256 + 195 - this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++), o1 = -1, s1 = 0, H === 151 ? (o1 = 107 ^ l1, s1 = this.h[this.g ^ 91 ^ n1] + this.h[this.g ^ 1 ^ m1]) : I === 248 ? (o1 = 149 ^ l1, s1 = this.h[this.g ^ 13 ^ m1] - this.h[144 ^ n1 ^ this.g]) : J === 20 ? (o1 = 69 ^ l1, s1 = this.h[248 ^ m1 ^ this.g] * this.h[this.g ^ 214 ^ n1]) : 243 === K ? (o1 = 23 ^ l1, s1 = this.h[17 ^ n1 ^ this.g] / this.h[165 ^ m1 ^ this.g]) : L === 176 ? (o1 = 159 ^ l1, s1 = this.h[this.g ^ 246 ^ m1] % this.h[60 ^ n1 ^ this.g]) : M === 93 ? (o1 = 168 ^ l1, N = this.h[this.g ^ (161 ^ n1)], s1 = this.h[30 ^ m1 ^ this.g] && O) : 188 === P ? (o1 = 68 ^ l1, Q = this.h[176 ^ n1 ^ this.g], s1 = this.h[40 ^ m1 ^ this.g] || R) : S === 221 ? (o1 = 59 ^ l1, s1 = this.h[this.g ^ 226 ^ m1] & this.h[this.g ^ (146 ^ n1)]) : T === 175 ? (o1 = 101 ^ l1, s1 = this.h[94 ^ n1 ^ this.g] | this.h[187 ^ m1 ^ this.g]) : U === 89 ? (o1 = 157 ^ l1, s1 = this.h[this.g ^ (190 ^ m1)] ^ this.h[this.g ^ 158 ^ n1]) : 52 === V ? (o1 = 86 ^ l1, s1 = this.h[109 ^ m1 ^ this.g] << this.h[67 ^ n1 ^ this.g]) : W === 50 ? (o1 = 174 ^ l1, s1 = this.h[130 ^ n1 ^ this.g] >> this.h[81 ^ m1 ^ this.g]) : X === 137 ? (o1 = 196 ^ l1, s1 = this.h[30 ^ n1 ^ this.g] >>> this.h[150 ^ m1 ^ this.g]) : 229 === Y ? (o1 = 254 ^ l1, s1 = this.h[31 ^ n1 ^ this.g] == this.h[this.g ^ 126 ^ m1]) : Z === 131 ? (o1 = 154 ^ l1, s1 = this.h[49 ^ m1 ^ this.g] === this.h[this.g ^ (186 ^ n1)]) : 159 === a0 ? (o1 = 6 ^ l1, s1 = this.h[74 ^ n1 ^ this.g] > this.h[this.g ^ 98 ^ m1]) : a1 === 240 ? (o1 = 31 ^ l1, s1 = this.h[7 ^ m1 ^ this.g] >= this.h[this.g ^ (88 ^ n1)]) : 113 === a2 && (o1 = 167 ^ l1, s1 = this.h[80 ^ m1 ^ this.g] instanceof this.h[25 ^ n1 ^ this.g]), this.h[this.g ^ o1] = s1));
+        (jh = i9, d1 = {}, !fv.dSEMW3.xTUQ7) && (hh("challenge-body-text"));
         e = "challenge-transient-error";
         f = "challenge-body-text";
         g = fw.getElementById(e);
@@ -1920,7 +1902,7 @@ window._cf_chl_opt.uaSR = false;
         try {
             return !fv.top.location.hostname;
         } catch (c) {
-            return !![];
+            return true;
         }
     }
     function hK(ko, e, f, g, h1, i1) {
@@ -1968,13 +1950,12 @@ window._cf_chl_opt.uaSR = false;
             try {
                 return !!fv.addEventListener;
             } catch (h1) {
-                if ("GHzrH" !== "GHzrH") j1 = this.h[120 ^ this.g], k1 = this.h[133 ^ this.h[134 ^ this.g][3] ^ 255 & 195 - this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++) + 256 ^ this.g], l1 = j1.pop(), this.h[this.g ^ l1] = k1, this.h[146 ^ this.g].splice(j1.pop());
-                else return !1;
+                return !1;
             }
         };
         e = function(f, g, iC) {
             iC = iA;
-            "sCJRZ" !== "sCJRZ" ? d1("i_embe") : fw.readyState && (fw.readyState === "complete" || fw.readyState === "interactive") ? (fv._cf_chl_opt.cLt = 'c', setTimeout(function(iD) {
+            fw.readyState && (fw.readyState === "complete" || fw.readyState === "interactive") ? (fv._cf_chl_opt.cLt = 'c', setTimeout(function(iD) {
                 iD = iC;
                 f({});
             }, 0)) : d1() ? fw.addEventListener("DOMContentLoaded", f, g) : fw.attachEvent("onreadystatechange", f);
@@ -2017,10 +1998,9 @@ window._cf_chl_opt.uaSR = false;
         e = d1;
         if (gS) return;
         if (fR("overrun-warning")) {
-            if ("YLuLF" === "YLuLF") return;
-            else d1.style.margin = '0';
+            return;
         }
-        gS = !![];
+        gS = true;
         gP("c_dela");
     }
     function hG(kk, d1, e, f, g) {
@@ -2035,7 +2015,7 @@ window._cf_chl_opt.uaSR = false;
         j3 = i9;
         e = d1 || gx;
         f = gH(c, e);
-        return !e[f][c] ? "vXVtv" === "vXVtv" ? '' : this.darkmode : gE(c, e[f][c]);
+        return !e[f][c] ? '' : gE(c, e[f][c]);
     }
     function fP(c) {
         c();
@@ -2044,7 +2024,7 @@ window._cf_chl_opt.uaSR = false;
         throw kn = i9, d1 = {}, e = d1, this.h[this.g ^ 191 ^ this.h[134 ^ this.g][3] ^ 255 & 256 + 195 - this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++)];
     }
     function hc(jL, c, d1, e) {
-        h8 = !![];
+        h8 = true;
         hr();
         h1();
         gW();
@@ -2065,9 +2045,9 @@ window._cf_chl_opt.uaSR = false;
         iI = i9;
         g = {};
         h1 = new Date();
-        h1.setTime(1e3 * 1 * f * 60 * 60 + h1.getTime());
+        h1.setTime(1e3 * 1 * f * 3600 + h1.getTime());
         i1 = e + '=' + c + "; Expires=" + h1.toUTCString() + "; Path=/";
-        !fv.dSEMW3.hpSs8("cookies-secure-partitioned") && (fw.location.protocol === "https:" || fv.isSecureContext && !fK()) && ("ceFLg" !== "ceFLg" ? (e.style.display = "none", f.style.visibility = "hidden") : i1 += "; Secure; SameSite=None; Partitioned");
+        !fv.dSEMW3.hpSs8("cookies-secure-partitioned") && (fw.location.protocol === "https:" || fv.isSecureContext && !fK()) && (i1 += "; Secure; SameSite=None; Partitioned");
         fw.cookie = i1;
     }
     function i4(e, g, h1, kV, i1, n1, j1) {
@@ -2079,8 +2059,7 @@ window._cf_chl_opt.uaSR = false;
         try {
             if (g[h1] == null) return g[h1] === void 0 ? 'u' : 'x';
         } catch (l1) {
-            if ("TlcmC" !== "SOhvU") return 'i';
-            else n1 = {}, n1.source = "cloudflare-challenge", n1.widgetId = l1._cf_chl_opt.chlApiWidgetId, n1.parent.postMessage(n1, '*');
+            return 'i';
         }
         return e.Array.isArray(g[h1]) ? 'a' : e.Array === g[h1] ? 'C' : !0 === g[h1] ? 'T' : g[h1] === !1 ? 'F' : (j1 = typeof g[h1], j1 == "function" ? i3(e, g[h1]) ? 'N' : 'f' : i2[j1] || '?');
     }
@@ -2092,7 +2071,7 @@ window._cf_chl_opt.uaSR = false;
     function hg(c, d1, jP, e) {
         jP = i9;
         e = {};
-        d1 = "inline" || d1;
+        d1 = "inline";
         hf(c, function(f, jQ) {
             jQ = jP;
             f.style.display = d1;
@@ -2102,31 +2081,20 @@ window._cf_chl_opt.uaSR = false;
     function fK(iG, d1, e, i1, j1) {
         e = (iG = i9, d1 = {}, d1);
         try {
-            if ("jsaQI" === "jsaQI") new Array(-1);
-            else return !![];
+            new Array(-1);
         } catch (g) {
-            if ("EGvcn" !== "EGvcn") {
-                D = E.h[146 ^ F.g];
-                if (0 < G.length) {
-                    V.h[226 ^ W.g] = X;
-                    Y = Z.pop();
-                    if (-1 === a0) throw a1;
-                    a2.h[134 ^ a3.g] = a4.pop();
-                    a5.h[120 ^ a6.g].splice(a7);
-                } else throw U;
-            } else return g.message.length === 58;
+            return g.message.length === 58;
         }
-        return ![];
+        return false;
     }
     function gZ(jz, c) {
         jz = i9;
         c = {};
-        if (fR("dark-mode")) return ![];
+        if (fR("dark-mode")) return false;
         if (typeof this.darkmode !== "undefined") {
-            if ("OZbzc" !== "OZbzc") d();
-            else return this.darkmode;
+            return this.darkmode;
         }
-        return fv._cf_chl_opt.chlApiOverrideDarkmode !== undefined ? (this.darkmode = !!fv._cf_chl_opt.chlApiOverrideDarkmode, this.darkmode) : 1 !== h7() && fv.matchMedia && fv.matchMedia("(prefers-color-scheme: dark)").matches ? (this.darkmode = !![], this.darkmode) : (this.darkmode = ![], this.darkmode);
+        return fv._cf_chl_opt.chlApiOverrideDarkmode !== undefined ? (this.darkmode = !!fv._cf_chl_opt.chlApiOverrideDarkmode, this.darkmode) : 1 !== h7() && fv.matchMedia && fv.matchMedia("(prefers-color-scheme: dark)").matches ? (this.darkmode = true, this.darkmode) : (this.darkmode = false, this.darkmode);
     }
     function h7(jG) {
         jG = i9;
@@ -2137,7 +2105,7 @@ window._cf_chl_opt.uaSR = false;
         e = {};
         f = e;
         h1 = {};
-        h1.passive = !![];
+        h1.passive = true;
         i1 = h1;
         fw.addEventListener("keydown", g, i1);
         fw.addEventListener("pointermove", g, i1);
@@ -2165,22 +2133,18 @@ window._cf_chl_opt.uaSR = false;
     function fC(ii, c, i1, j1, k1, d1, e, f, g) {
         ii = i9;
         c = {};
-        if (fv._cf_chl_opt.cLt !== 'd') "TurXN" !== "hrTTl" ? fv._cf_chl_opt.cLt = 'd' : (i1 = 243 ^ this.h[134 ^ this.g][3] ^ 255 & 61 + this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++), j1 = this.h[this.g ^ 162 ^ 255 & 195 - this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++) + 256 ^ this.h[134 ^ this.g][3]], k1 = this.h[151 ^ this.h[134 ^ this.g][3] ^ 255 & 195 - this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++) + 256 ^ this.g], this.h[i1 ^ this.g] = j1[k1]);
+        if (fv._cf_chl_opt.cLt !== 'd') fv._cf_chl_opt.cLt = 'd';
         else return;
         fv._cf_chl_opt.FUyfm4 = performance.now();
-        if (fz()) return gM("o_brow"), ![];
+        if (fz()) return gM("o_brow"), false;
         if (!fR("cookie-probe")) {
-            (d1 = ![], fR("cookie-probe-cookieless")) ? (e = "cf_chl_" + fv._cf_chl_opt.cvId, fM(e, fv._cf_chl_opt.cHash, 1), d1 = -1 === fw.cookie.indexOf(e) || !fv.navigator.cookieEnabled, fN(e)) : !navigator.cookieEnabled && ("YPQqt" !== "YPQqt" ? (h = i1 || "inline", j1(k1, function(o1, ij) {
-                ij = ii;
-                o1.style.display = m;
-                o1.style.visibility = "visible";
-            })) : d1 = !![]);
-            if (d1) return 1 === h7() ? hg("no-cookie-warning", "block") : gM("c_miss"), ![];
+            (d1 = false, fR("cookie-probe-cookieless")) ? (e = "cf_chl_" + fv._cf_chl_opt.cvId, fM(e, fv._cf_chl_opt.cHash, 1), d1 = -1 === fw.cookie.indexOf(e) || !fv.navigator.cookieEnabled, fN(e)) : !navigator.cookieEnabled && (d1 = true);
+            if (d1) return 1 === h7() ? hg("no-cookie-warning", "block") : gM("c_miss"), false;
         }
-        return !fx(12 * 3600, "time-check", "cached-challenge-warning", "t_c_c_warn") ? ![] : !fy() ? ![] : (h2(), fv.setTimeout(function(ik) {
+        return !fx(43200, "time-check", "cached-challenge-warning", "t_c_c_warn") ? false : !fy() ? false : (h2(), fv.setTimeout(function(ik) {
             ik = ii;
             fv.QgHlK1();
-        }, +fv._cf_chl_opt.cTTimeMs), !fE()) ? ![] : (fH(), f = fv._cf_chl_opt.cFPWv ? fv._cf_chl_opt.cFPWv + 'h/' + '/' : '', g = fv._cf_chl_opt.cHash + fv._cf_chl_opt.cRay + "/cdn-cgi/challenge-platform/" + f + "flow/ov" + 1 + "/959248275:1716989242:ZJmyQjIhD7RG91UWn5uvisvv8hvOwxgaAq4ritcWfig/" + '/', hW("AkHTIJeNkIqPl4JC0yKJmIWSgj/TFpqPs5qUjZCHgkDTIqqFmomCPdMUl46JkLOahYSSiYI80xSTiZq6jZGJj5magjnTGIeJmrqJk5qFhI2SjZqdgjrTGIqJiI2QibaUj5aJlJqdgjfTH4WQh5mShZSCONMghaqyvLxTOc0NDmBMwmRrsfCt101Lys2uZ8sQI5JM02S802W802a802e802gXVV3eWt0rMuKwU5sQDxcF+c+7UrHpD9gci1LRLg7zN3ZyZm9wbK6vsKtwbG9yZmKyo+IqBvIyZSsybZGVzEpS0TycL738jBEN2tXW3CXi5wsQBfHVrFIMSlHQPIktvPyZFL3Z4L+9vreuEkIusGrj/Sw1Nhw6LEpS0f1LRJEpzwvci1LRRFJSHqFFA/T5CahclAcIIA5CCXOJ4OiA5mfAff56R6uvaf9Wf7QKDpFuFVygQqWusu8QERA5HuECMv3Zga2K0h85Qe/K0iE5QfTCJm7ZgbWSExkBu9oni1AjkkzTZL3Og9leoe6lnvAJQjX62YGyitIDUaXtWpJGgfT6EkzII49M04K802QFoHR4ibtclzUiMT4L2/mJjPnykCkWw720M4IyAdmBtAImbtmBtZITGQG7wsdrsCOSTNNkvNNlvNNmvNNnF1ZhXV5cYXr+Pj66byM4+XaZ28y67ItS0UUh9Pf+AtujSQP4NrMiXp6eGs+D+Dm2WV6h7qWe8AkzlfxUZYKlplyMGoSYqWTfAqLk+YP4NLNZXrx3yOvj8uwBgnyLg3MSeZ58tDAyQaJDnp07pTHCtYo2iLTR4/cGxOmOaGpjZzl4nKBa8EZw4rV6WYGtitIfOUHvytIhOUH0wiZu2YG1khMZAbux5C4=")(), fG(function(il) {
+        }, +fv._cf_chl_opt.cTTimeMs), !fE()) ? false : (fH(), f = fv._cf_chl_opt.cFPWv ? fv._cf_chl_opt.cFPWv + 'h/' + '/' : '', g = fv._cf_chl_opt.cHash + fv._cf_chl_opt.cRay + "/cdn-cgi/challenge-platform/" + f + "flow/ov" + 1 + "/959248275:1716989242:ZJmyQjIhD7RG91UWn5uvisvv8hvOwxgaAq4ritcWfig/" + '/', hW("AkHTIJeNkIqPl4JC0yKJmIWSgj/TFpqPs5qUjZCHgkDTIqqFmomCPdMUl46JkLOahYSSiYI80xSTiZq6jZGJj5magjnTGIeJmrqJk5qFhI2SjZqdgjrTGIqJiI2QibaUj5aJlJqdgjfTH4WQh5mShZSCONMghaqyvLxTOc0NDmBMwmRrsfCt101Lys2uZ8sQI5JM02S802W802a802e802gXVV3eWt0rMuKwU5sQDxcF+c+7UrHpD9gci1LRLg7zN3ZyZm9wbK6vsKtwbG9yZmKyo+IqBvIyZSsybZGVzEpS0TycL738jBEN2tXW3CXi5wsQBfHVrFIMSlHQPIktvPyZFL3Z4L+9vreuEkIusGrj/Sw1Nhw6LEpS0f1LRJEpzwvci1LRRFJSHqFFA/T5CahclAcIIA5CCXOJ4OiA5mfAff56R6uvaf9Wf7QKDpFuFVygQqWusu8QERA5HuECMv3Zga2K0h85Qe/K0iE5QfTCJm7ZgbWSExkBu9oni1AjkkzTZL3Og9leoe6lnvAJQjX62YGyitIDUaXtWpJGgfT6EkzII49M04K802QFoHR4ibtclzUiMT4L2/mJjPnykCkWw720M4IyAdmBtAImbtmBtZITGQG7wsdrsCOSTNNkvNNlvNNmvNNnF1ZhXV5cYXr+Pj66byM4+XaZ28y67ItS0UUh9Pf+AtujSQP4NrMiXp6eGs+D+Dm2WV6h7qWe8AkzlfxUZYKlplyMGoSYqWTfAqLk+YP4NLNZXrx3yOvj8uwBgnyLg3MSeZ58tDAyQaJDnp07pTHCtYo2iLTR4/cGxOmOaGpjZzl4nKBa8EZw4rV6WYGtitIfOUHvytIhOUH0wiZu2YG1khMZAbux5C4=")(), fG(function(il) {
             il = ii;
             fv._cf_chl_opt.uPNm2 = performance.now();
             setTimeout(fO, 100, g, {
@@ -2198,7 +2162,7 @@ window._cf_chl_opt.uaSR = false;
                 'CFmlr4': fv._cf_chl_opt.CFmlr4,
                 'XuDQb2': 0
             });
-        }), !![]);
+        }), true);
     }
     function gE(c, d1, iZ, e, f, g, h1, i1, j1) {
         (iZ = i9, e = {}, f = decodeURIComponent(JSON.parse('"' + '"' + d1.replace(/\\'/g, "'").replace(/"/g, '\\"'))), c === "browser_not_supported_aux") && (f = (g = gI("c_brow", gD), f.replace("challenge.supported_browsers", g)));
@@ -2221,22 +2185,18 @@ window._cf_chl_opt.uaSR = false;
             "r_t_over"
         ];
         if (c === "footer_text") {
-            if ("oqdxO" === "VHHBY") g._cf_chl_opt.cZone && (k = l.replace("%{placeholder.com}", m._cf_chl_opt.cZone));
-            else {
-                j1 = 'j';
-                if (fv._cf_chl_opt.cType === "interactive") "jNsoQ" !== "xUpxH" ? j1 = 'l' : d1.style.margin = '0';
-                else if (fv._cf_chl_opt.cType === "managed") {
-                    if ("ICGtw" === "SpORe") return void (e("spinner-allow-5-secs", "block"), f("spinner-please-wait", "block"));
-                    else j1 = 'm';
-                }
-                f = f.replace("Cloudflare", '" target="_blank">Cloudflare</a>' + '<a rel="noopener noreferrer" href="https://www.cloudflare.com?utm_source=challenge&utm_campaign=' + j1);
+            j1 = 'j';
+            if (fv._cf_chl_opt.cType === "interactive") j1 = 'l';
+            else if (fv._cf_chl_opt.cType === "managed") {
+                j1 = 'm';
             }
+            f = f.replace("Cloudflare", '" target="_blank">Cloudflare</a>' + '<a rel="noopener noreferrer" href="https://www.cloudflare.com?utm_source=challenge&utm_campaign=' + j1);
         } else i1.indexOf(c) !== -1 && fv._cf_chl_opt.cZone && (f = f.replace("%{placeholder.com}", fv._cf_chl_opt.cZone));
         return f;
     }
     function gL(jc) {
         jc = i9;
-        fv.dSEMW3.xTUQ7 = !![];
+        fv.dSEMW3.xTUQ7 = true;
     }
     function hB(h1, i1, j1, k1, m1, o1, s1, v1, x1, k9, B1, C1, D1) {
         k9 = i9;
@@ -2266,48 +2226,41 @@ window._cf_chl_opt.uaSR = false;
             ka = k9;
             E1 = {};
             F1 = E1;
-            if ("OiOXL" !== "TTMsC") {
-                for(G1 = {}; !isNaN(C1.h[134 ^ C1.g][0]); G1 = {
-                    'j': G1.j
-                }, G1.j = C1.h[134 ^ C1.g][3] ^ 255 & 256 + C1.h[134 ^ C1.g][1].charCodeAt(C1.h[134 ^ C1.g][0]++) - 195, (function(H1, ke, I1) {
-                    ke = ka;
-                    I1 = {
-                        'qhGjy': function(J1, K1, kb) {
-                            kb = b;
-                            return K1 ^ J1;
-                        },
-                        'SCMKy': function(J1, K1, kc) {
-                            kc = b;
-                            return K1 + J1;
-                        },
-                        'HevsE': function(J1, K1, kd) {
-                            kd = b;
-                            return K1 + J1;
-                        }
-                    };
-                    return function(kf, J1, K1, L1, M1) {
-                        J1 = (kf = ke, J1 = C1.h[I1.qhGjy(134, C1.g)], K1 = I1.SCMKy(J1[3], H1.j), J1[3] = 255 & I1.HevsE(K1 * K1 * 31251, 59314 * K1) + 61178, C1.h[I1.qhGjy(H1.j, C1.g)]);
-                        try {
-                            J1.bind(C1)(H1.j);
-                        } catch (N1) {
-                            J1 = C1.h[146 ^ C1.g];
-                            if (0 < J1.length) {
-                                C1.h[226 ^ C1.g] = N1;
-                                K1 = J1.pop();
-                                if (K1 === -1) throw N1;
-                                C1.h[134 ^ C1.g] = J1.pop();
-                                C1.h[120 ^ C1.g].splice(K1);
-                            } else throw N1;
-                        }
-                    };
-                })(G1)());
-                return C1.h[193 ^ C1.g];
-            } else {
-                T = 1;
-                for(U = 0; V < W; Y = 1 << Z | a0, a1 == a2 - 1 ? (a3 = 0, a4.push(a5(a6)), a7 = 0) : a8++, a9 = 0, X++);
-                aa = ab.charCodeAt(0);
-                for(ac = 0; 16 > ad; af = 1 & ah | 1 << ag, aj - 1 == ai ? (ak = 0, al.push(am(an)), ao = 0) : ap++, aq >>= 1, ae++);
-            }
+            for(G1 = {}; !isNaN(C1.h[134 ^ C1.g][0]); G1 = {
+                'j': G1.j
+            }, G1.j = C1.h[134 ^ C1.g][3] ^ 255 & 256 + C1.h[134 ^ C1.g][1].charCodeAt(C1.h[134 ^ C1.g][0]++) - 195, (function(H1, ke, I1) {
+                ke = ka;
+                I1 = {
+                    'qhGjy': function(J1, K1, kb) {
+                        kb = b;
+                        return K1 ^ J1;
+                    },
+                    'SCMKy': function(J1, K1, kc) {
+                        kc = b;
+                        return K1 + J1;
+                    },
+                    'HevsE': function(J1, K1, kd) {
+                        kd = b;
+                        return K1 + J1;
+                    }
+                };
+                return function(kf, J1, K1, L1, M1) {
+                    J1 = (kf = ke, J1 = C1.h[I1.qhGjy(134, C1.g)], K1 = I1.SCMKy(J1[3], H1.j), J1[3] = 255 & I1.HevsE(K1 * K1 * 31251, 59314 * K1) + 61178, C1.h[I1.qhGjy(H1.j, C1.g)]);
+                    try {
+                        J1.bind(C1)(H1.j);
+                    } catch (N1) {
+                        J1 = C1.h[146 ^ C1.g];
+                        if (0 < J1.length) {
+                            C1.h[226 ^ C1.g] = N1;
+                            K1 = J1.pop();
+                            if (K1 === -1) throw N1;
+                            C1.h[134 ^ C1.g] = J1.pop();
+                            C1.h[120 ^ C1.g].splice(K1);
+                        } else throw N1;
+                    }
+                };
+            })(G1)());
+            return C1.h[193 ^ C1.g];
         }();
         this.h[134 ^ this.g] = D1;
         return this.h[37 ^ this.g];
@@ -2318,7 +2271,7 @@ window._cf_chl_opt.uaSR = false;
         f = e;
         he(d1, function(g, jU) {
             jU = jT;
-            "aCyLm" === "SXicy" ? (f.style.display = g, h.style.visibility = "visible") : (g.style.display = "none", g.style.visibility = "hidden");
+            (g.style.display = "none", g.style.visibility = "hidden");
         });
     }
     function hI(km, g, h1, i1, j1, k1, l1, m1) {
@@ -2366,8 +2319,7 @@ window._cf_chl_opt.uaSR = false;
         else if (110200 === g) return "i_doma";
         else if (g === 110600) return "t_c_c_warn";
         else if (110620 === g) {
-            if ("YbEqK" === "ORgPq") k.prototype.hasOwnProperty.call(l, m) || (n[o] = []), s[v].push(x);
-            else return "t_expi";
+            return "t_expi";
         }
         return undefined;
     }
@@ -2386,7 +2338,7 @@ window._cf_chl_opt.uaSR = false;
             f.id = "challenge-stage";
             f.style.display = "none";
             fw.getElementById("challenge-form").appendChild(f);
-            return !![];
+            return true;
         }
         hf("fr-helper-loop-link", function(I1, jq, J1, L1, M1, N1, O1, P1) {
             jq = jm;
@@ -2404,18 +2356,7 @@ window._cf_chl_opt.uaSR = false;
                     return L1 >> K1;
                 }
             };
-            if ("XDmqv" === "TEjfV") {
-                D1 = J1.OlKyj(this.h[J1.OlKyj(134, this.g)][3], 255 & J1.pUJjw(this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++), 195) + 256);
-                L1 = this.h[134 ^ this.g][3] ^ 255 & 61 + this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++);
-                j1 = k1.pow(2, (4 << 255 & P1 | L1 >> 4.78) - 1023);
-                M1 = 1;
-                N1 = 1 + 1 & J1.SfCHz(L1, 3) * M1 /= 2;
-                N1 += 1 & L1 >> 2 * M1 /= 2;
-                N1 += M1 /= 2 * 1 & L1 >> 1;
-                N1 += (M1 /= 2) * (1 & J1.SfCHz(L1, 0));
-                for(L1 = 0; 6 > L1; L1++)for(O1 = this.h[134 ^ this.g][3] ^ 255 & 61 + this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++), P1 = 7; 0 <= P1; P1--)N1 += (M1 /= 2) * (1 & P1 >> O1);
-                m1 *= -2 * (O1 >> 7) + 1 * N1;
-            } else I1.addEventListener("click", function(jr) {
+            I1.addEventListener("click", function(jr) {
                 jr = jq;
                 fv.parent && fv.parent.postMessage({
                     'source': "cloudflare-challenge",
@@ -2451,7 +2392,7 @@ window._cf_chl_opt.uaSR = false;
         H1 = fw.createElement("div");
         H1.id = "challenge-stage";
         gO(fw.getElementById("challenge-running"), H1);
-        return !![];
+        return true;
     }
     function hR(kv, e, f, g, h1, i1) {
         kv = i9;
@@ -2469,8 +2410,7 @@ window._cf_chl_opt.uaSR = false;
         e = d1;
         hf("challenge-overlay", function(f, jk) {
             jk = jj;
-            if ("xOPqu" === "xOPqu") f.parentNode.removeChild(f);
-            else return;
+            f.parentNode.removeChild(f);
         });
         hf("challenge-transient-error", function(f, jl) {
             jl = jj;
@@ -2486,7 +2426,7 @@ window._cf_chl_opt.uaSR = false;
         if (93 === g) g = 142 ^ this.h[134 ^ this.g][3] ^ 255 & 256 + this.h[134 ^ this.g][1].charCodeAt(this.h[134 ^ this.g][0]++) - 195, i1[h1].l = this.h[g ^ this.g];
         else if (g !== 18) {
             if (19 === g) {
-                for(g = 0; h1 < g; g++)if ("pYSDo" !== "pYSDo") {
+                for(g = 0; h1 < g; g++)if (false) {
                     this.h = "Matagumpay%20ang%20pagberipika";
                     this.g = 3e4 * N.random() + 1;
                     for(o1 = 0; o1 > 256; this.h[o1 ^ this.g] = O.random() * this.g * 3e4 | 0, o1++);
@@ -2537,7 +2477,7 @@ window._cf_chl_opt.uaSR = false;
         ju = i9;
         c = {};
         if (fR("overrun-warning")) return;
-        gS && (gS = ![], gQ());
+        gS && (gS = false, gQ());
     }
     function fR(c, iY) {
         iY = i9;
@@ -2557,25 +2497,22 @@ window._cf_chl_opt.uaSR = false;
         ie = i9;
         e = {};
         f = e;
-        if (fR("outdated-browser")) return ![];
+        if (fR("outdated-browser")) return false;
         g = fv._cf_chl_opt.uaO;
         if (!fv._cf_chl_opt.uaOAd) {
-            if ("kDgFy" === "sEEFE") return !![];
-            else {
-                try {
-                    h1 = {};
-                    h1.type = "text/javascript";
-                    i1 = URL.createObjectURL(new Blob([
-                        '"you"==="bot"'
-                    ], h1));
-                    j1 = new Worker(i1);
-                    URL.revokeObjectURL(i1);
-                    j1.terminate();
-                } catch (l1) {
-                    return !![];
-                }
-                if (!fv.performance) return !![];
+            try {
+                h1 = {};
+                h1.type = "text/javascript";
+                i1 = URL.createObjectURL(new Blob([
+                    '"you"==="bot"'
+                ], h1));
+                j1 = new Worker(i1);
+                URL.revokeObjectURL(i1);
+                j1.terminate();
+            } catch (l1) {
+                return true;
             }
+            if (!fv.performance) return true;
         }
         return g;
     }
@@ -2622,19 +2559,18 @@ window._cf_chl_opt.uaSR = false;
         if (h6() === 'jc') return "zh-cn";
         g = gG();
         m1 = Object.keys(f);
-        for(k1 = 0; k1 < g.length; k1++)if ("GwrTZ" !== "UpzZR") {
+        for(k1 = 0; k1 < g.length; k1++)if (true) {
             l1 = g[k1];
             if (fR(l1 + "language:")) continue;
             if (f[l1] && f[l1][c]) return l1;
             n1 = l1.split('-')[0];
             if (fR(n1 + "language:")) {
-                if ("FjxLV" === "LtEQY") return "zh-cn";
-                else continue;
+                continue;
             }
             if (f[n1] && f[n1][c]) return n1;
             for(h1 = 0; h1 < m1.length; h1++)if (-1 !== m1[h1].indexOf(n1 + '-') && f[m1[h1]] && f[m1[h1]][c]) return m1[h1];
         } else d1().style.display = "none";
-        return f[hn()][c] ? hn() : ![];
+        return f[hn()][c] ? hn() : false;
     }
     function hj(d1, e, jV, f, g) {
         jV = i9;
@@ -2675,7 +2611,7 @@ window._cf_chl_opt.uaSR = false;
         j4 = i9;
         c = {};
         if (h7() === 1) {
-            if ("fimeu" === "fimeu") return void (he("spinner-allow-5-secs", function(f, j5) {
+            return void (he("spinner-allow-5-secs", function(f, j5) {
                 j5 = j4;
                 f.innerText = gI("c_runn");
             }), he("spinner-please-wait", function(f, j6) {
@@ -2685,23 +2621,16 @@ window._cf_chl_opt.uaSR = false;
                 j7 = j4;
                 f.innerText = gI("r_text");
             }));
-            else if (D = E.h[146 ^ F.g], 0 < G.length) {
-                V.h[226 ^ W.g] = X;
-                Y = Z.pop();
-                if (a0 === -1) throw a1;
-                a2.h[134 ^ a3.g] = a4.pop();
-                a5.h[120 ^ a6.g].splice(a7);
-            } else throw U;
         }
         d1 = gH("p_titl");
         fv._cf_chl_opt.VaohD5 = undefined === fv._cf_chl_opt.chlApiLanguage || "auto" === fv._cf_chl_opt.chlApiLanguage ? d1 : "set:" + fv._cf_chl_opt.chlApiLanguage;
         e = fw.getElementsByTagName("html")[0];
         e.classList.add("lang-" + d1);
         fw.title = gI("p_titl");
-        gH("p_titl") !== hn() && (fw.lang = d1, gz[d1] ? (fw.dir = "rtl", e.classList.add("rtl")) : "esTdp" === "BUHMK" ? (!i.readyState || j.readyState === "loaded" || k.readyState === "interactive" || l.readyState === "complete") && (o(), s()) : fw.dir = "ltr");
+        gH("p_titl") !== hn() && (fw.lang = d1, gz[d1] ? (fw.dir = "rtl", e.classList.add("rtl")) : fw.dir = "ltr");
         hf("challenge-running", function(h1, j8) {
             j8 = j4;
-            "aXjtu" === "EPLmn" ? d1.classList.add("pow-button") : h1.innerHTML = gI("c_runn");
+            h1.innerHTML = gI("c_runn");
         });
         hf("footer-text", function(h1, j9) {
             j9 = j4;
@@ -2769,12 +2698,10 @@ window._cf_chl_opt.uaSR = false;
         e = {};
         c = function(j1, kF, k1, l1, m1) {
             kF = kB;
-            if ("EWJQM" !== "ORNqY") {
-                j1 = j1.replace(/\r\n/g, '\n');
-                k1 = '';
-                for(l1 = 0; j1.length < l1; m1 = j1.charCodeAt(l1), 128 > m1 ? k1 += String.fromCharCode(m1) : (127 < m1 && 2048 > m1 ? k1 += String.fromCharCode(192 | m1 >> 6) : (k1 += String.fromCharCode(12 >> m1 | 224), k1 += String.fromCharCode(63 & 6 >> m1 | 128)), k1 += String.fromCharCode(128 | 63 & m1)), l1++);
-                return k1;
-            } else h1 += "; Secure; SameSite=None; Partitioned";
+            j1 = j1.replace(/\r\n/g, '\n');
+            k1 = '';
+            for(l1 = 0; j1.length < l1; m1 = j1.charCodeAt(l1), 128 > m1 ? k1 += String.fromCharCode(m1) : (127 < m1 && 2048 > m1 ? k1 += String.fromCharCode(192 | m1 >> 6) : (k1 += String.fromCharCode(12 >> m1 | 224), k1 += String.fromCharCode(63 & 6 >> m1 | 128)), k1 += String.fromCharCode(128 | 63 & m1)), l1++);
+            return k1;
         }(c);
         return function(j1, kG, k1, l1) {
             kG = kB;
@@ -2887,24 +2814,15 @@ window._cf_chl_opt.uaSR = false;
             return B1;
         }(function(j1, kI, k1, l1) {
             kI = kB;
-            if ("kDaET" === "kDaET") {
-                k1 = [];
-                for(l1 = 0; 8 * j1.length < l1; k1[5 >> l1] |= 32 % l1 - 24 << 255 & j1.charCodeAt(l1 / 8), l1 += 8);
-                return k1;
-            } else return this.darkmode = !![], this.darkmode;
+            k1 = [];
+            for(l1 = 0; 8 * j1.length < l1; k1[5 >> l1] |= 32 % l1 - 24 << 255 & j1.charCodeAt(l1 / 8), l1 += 8);
+            return k1;
         }(c), 8 * c.length));
         function h1(j1, k1, kC, l1, m1, n1) {
             kC = kB;
             l1 = {};
             m1 = l1;
-            if ("nwvgV" === "nwvgV") return n1 = 65535 & k1 + 65535 & j1, 16 >> j1 + (k1 >> 16.96) + (n1 >> 16.99) << 16 | 65535 & n1;
-            else i1.addEventListener("click", function(kD) {
-                kD = kC;
-                k1.parent && n1.parent.postMessage({
-                    'source': "cloudflare-challenge",
-                    'widgetId': o._cf_chl_opt.chlApiWidgetId
-                }, '*');
-            });
+            return n1 = 65535 & k1 + 65535 & j1, 16 >> j1 + (k1 >> 16.96) + (n1 >> 16.99) << 16 | 65535 & n1;
         }
         function i1(j1, k1, kE) {
             kE = kB;
@@ -2970,13 +2888,13 @@ window._cf_chl_opt.uaSR = false;
     function fx(c, d1, e, f, ia, g, h1, i1, j1) {
         ia = i9;
         g = {};
-        if (fR(d1)) return "TPzPx" === "ZiZXK" ? d1() : !![];
+        if (fR(d1)) return true;
         if ((h1 = fv._cf_chl_opt, h1.cRq && h1.cRq.t) && (i1 = Math.floor(+atob(h1.cRq.t)), j1 = Math.floor(Date.now() / 1e3), Math.abs(j1 - i1) > c)) return hf(e, function(ib) {
             ib = ia;
             hg(e, "block");
             gM(f);
-        }), ![];
-        return !![];
+        }), false;
+        return true;
     }
     function hD(kh, f, g, h1, i1, j1, k1) {
         kh = i9;
@@ -3001,36 +2919,30 @@ window._cf_chl_opt.uaSR = false;
     function fy(ic, c, d1, e, f, g) {
         ic = i9;
         c = {};
-        if (fR("url-prefix-check")) return !![];
+        if (fR("url-prefix-check")) return true;
         if ((d1 = fv._cf_chl_opt, d1.cRq && d1.cRq.ru) && (e = fw.createElement('a'), e.href = atob(d1.cRq.ru), f = e, g = '//' + f.protocol + f.hostname, fw.location.href.indexOf(g) !== 0)) return hg("location-mismatch-warning", "block"), hf("location-mismatch-warning", function(id) {
             id = ic;
             gM("i_embe");
-        }), ![];
-        return !![];
+        }), false;
+        return true;
     }
     function fG(c, it, d1, e, f, g, h1, i1, j1) {
         it = i9;
         d1 = {};
         e = fv.parseInt(fL(fJ()));
-        f = ![];
+        f = false;
         if (isNaN(e) || e < 50 || fv.dSEMW3.LnJh7() === 1) return void c();
         g = fv.dSEMW3.ldnRG4("h_b_text");
         h1 = fw.createElement("div");
         h1.id = "ie-container";
         h1.height = "10 em";
         h1.style.display = "flex";
-        fv.dSEMW3.LnJh7() === 1 && ("KiFYl" === "sTWJl" ? (e("challenge-overlay", function(m1, iu) {
-            iu = it;
-            m1.parentNode.removeChild(m1);
-        }), f("challenge-transient-error", function(m1, iv) {
-            iv = it;
-            m1.parentNode.removeChild(m1);
-        })) : (h1.style.alignItems = "center", h1.style.justifyContent = "center"));
+        fv.dSEMW3.LnJh7() === 1 && ((h1.style.alignItems = "center", h1.style.justifyContent = "center"));
         i1 = fw.createElement("input");
         i1.type = "button";
         i1.value = g;
         if (fv.dSEMW3.LnJh7() === 1) i1.style.margin = '0';
-        else if ("ysQXj" !== "wjMLF") i1.classList.add("pow-button");
+        else if (true) i1.classList.add("pow-button");
         else {
             s.h[226 ^ v.g] = x;
             B = C.pop();
@@ -3044,17 +2956,9 @@ window._cf_chl_opt.uaSR = false;
         }, 150));
         function k1(iw, n1, o1, s1) {
             iw = it;
-            if ("kuUBP" === "riBRv") {
-                l();
-                if (m() === 1) return void (D(), E("spinner-redirecting", "block"));
-                s1();
-                v("challenge-running");
-                x("challenge-body-text");
-                B();
-                C("challenge-success");
-            } else for(CFF_REPLACE_ME;;){
+            for(CFF_REPLACE_ME;;){
                 if (f) return;
-                f = !![];
+                f = true;
                 s1 = fw.getElementById("ie-container");
                 s1 && s1.parentNode.removeChild(s1);
                 fv.dSEMW3.QVIgU3();
@@ -3115,7 +3019,7 @@ window._cf_chl_opt.uaSR = false;
         jO = i9;
         e = {};
         f = fw.getElementById(c);
-        f && ("baxwE" !== "baxwE" ? d1("c_dela") : d1(f));
+        f && (d1(f));
     }
     function h1(jB, c) {
         jB = i9;
