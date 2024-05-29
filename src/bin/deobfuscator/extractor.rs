@@ -2,7 +2,7 @@ use std::{any::Any, fs};
 
 use crate::config_builder::{self, Opcode};
 use swc_core::ecma::visit::VisitMut;
-use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program};
+use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
 
 struct ExtractStrings<'a> {
@@ -139,6 +139,37 @@ impl Visit for IdentifyOpcode {
             self.opcode = config_builder::Opcode::BinaryExp
         }
     }
+    fn visit_expr(&mut self, n: &swc_ecma_ast::Expr) {
+        if self.found() {
+            return;
+        }
+        n.visit_children_with(self);
+        if !n.is_assign() {
+            return;
+        }
+        let ass = n.as_assign().unwrap();
+        if ass.op != AssignOp::Assign
+            || !ass.left.is_simple()
+            || !ass.left.as_simple().unwrap().is_member()
+            || !ass.right.is_unary()
+        {
+            return;
+        }
+        let right_un = ass.right.as_unary().unwrap();
+        if right_un.op != UnaryOp::Void || !right_un.arg.is_lit() {
+            return;
+        }
+        self.opcode = config_builder::Opcode::WeirdNew
+    }
+    fn visit_unary_expr(&mut self, n: &swc_ecma_ast::UnaryExpr) {
+        if self.found() {
+            return;
+        }
+        n.visit_children_with(self);
+        if n.op == UnaryOp::TypeOf {
+            self.opcode = config_builder::Opcode::UnaryExp
+        }
+    }
     fn visit_stmts(&mut self, n: &[swc_ecma_ast::Stmt]) {
         if self.found() {
             return;
@@ -147,32 +178,118 @@ impl Visit for IdentifyOpcode {
 
         if n.first().is_some() && n.first().unwrap().is_throw() {
             // throw ...
-            self.opcode = config_builder::Opcode::ThrowError
+            self.opcode = config_builder::Opcode::ThrowError;
+            return;
         } else if n.last().is_some() && n.last().unwrap().is_expr() {
             let expr = &n.last().unwrap().as_expr().unwrap().expr;
 
-            // f1.push(this.h[g1 ^ this.g]);
             if expr.is_call() {
                 let callee = &expr.as_call().unwrap().callee;
                 if expr.as_call().unwrap().args.len() == 1 && callee.as_expr().unwrap().is_member()
                 {
                     let callee2 = callee.as_expr().unwrap().as_member().unwrap();
+                    // f1.push(this.h[g1 ^ this.g]);
                     if callee2.prop.is_ident() && callee2.prop.as_ident().unwrap().sym == "push" {
-                        self.opcode = config_builder::Opcode::ArrPush
+                        self.opcode = config_builder::Opcode::ArrPush;
+                        return;
+                    }
+                    // this.h[61 ^ this.g].splice(g1.pop());
+                    if callee2.prop.is_ident() && callee2.prop.as_ident().unwrap().sym == "splice" {
+                        self.opcode = config_builder::Opcode::SplicePop;
+                        return;
                     }
                 }
             }
 
-            // f[g] = this.h[this...
+            if expr.is_bin() {
+                self.opcode = config_builder::Opcode::JumpIf;
+                return;
+            }
+
             if expr.is_assign() && expr.as_assign().unwrap().op == AssignOp::Assign {
                 let ass = expr.as_assign().unwrap();
+                // this.h[this.g ^ g1] = h1.bind(this, i1);
+                if ass.right.is_call() && ass.right.as_call().unwrap().callee.is_expr() {
+                    let fun = ass.right.as_call().unwrap().callee.as_expr().unwrap();
+                    if fun.is_member()
+                        && fun.as_member().unwrap().prop.as_ident().unwrap().sym == "bind"
+                    {
+                        if n.len() == 7 {
+                            self.opcode = config_builder::Opcode::BindFunc;
+                            return;
+                        } else if n.len() == 8 {
+                            self.opcode = config_builder::Opcode::BindFunc2;
+                            return;
+                        }
+                    }
+                }
+
+                // this.h[206 ^ this.h[...] = [];
+                if ass.right.is_array() && ass.right.as_array().unwrap().elems.is_empty() {
+                    self.opcode = config_builder::Opcode::NewArr;
+                    return;
+                }
+
+                if ass.right.is_object() && ass.right.as_object().unwrap().props.is_empty() {
+                    self.opcode = config_builder::Opcode::NewObj;
+                    return;
+                }
+
+                // f[0] = g;
+                if ass.right.is_ident() && ass.left.as_simple().unwrap().is_member() {
+                    let left_mem = ass.left.as_simple().unwrap().as_member().unwrap();
+                    if left_mem.obj.is_ident()
+                        && left_mem.prop.is_computed()
+                        && left_mem.prop.as_computed().unwrap().expr.is_lit()
+                    {
+                        self.opcode = config_builder::Opcode::Jump;
+                        return;
+                    }
+                }
+                //  this.h[this.g ^ f1] = g1;
+                if ass.right.is_ident() && ass.left.as_simple().unwrap().is_member() {
+                    let left_mem = ass.left.as_simple().unwrap().as_member().unwrap();
+                    let left_left_mem = left_mem.obj.as_member();
+                    if n.len() == 6
+                        && left_left_mem.is_some()
+                        && left_left_mem.unwrap().obj.is_this()
+                    {
+                        self.opcode = config_builder::Opcode::SetMem;
+                        return;
+                    } else if n.len() == 8
+                        && left_left_mem.is_some()
+                        && left_left_mem.unwrap().obj.is_this()
+                    {
+                        self.opcode = config_builder::Opcode::ShuffleReg;
+                        return;
+                    }
+                }
                 if ass.left.is_simple()
                     && ass.left.as_simple().unwrap().is_member()
                     && ass.right.is_member()
                 {
                     let left_mem = ass.left.as_simple().unwrap().as_member().unwrap();
+
+                    // f[g] = this.h[this...
                     if left_mem.obj.is_ident() && left_mem.prop.is_computed() {
                         self.opcode = config_builder::Opcode::SetObj
+                    }
+                }
+
+                //  this.h[this.g ^ j1] = void 0 === k ? l1.apply(null, n1) : k[l1].apply(k, n1);
+                if ass.right.is_cond() {
+                    self.opcode = config_builder::Opcode::Apply;
+                    return;
+                }
+
+                //  this.h[this.g ^ g1] = h1[i1];
+                if ass.right.is_member() {
+                    let right_mem = ass.right.as_member().unwrap();
+                    if right_mem.obj.is_ident()
+                        && right_mem.prop.is_computed()
+                        && right_mem.prop.as_computed().unwrap().expr.is_ident()
+                    {
+                        self.opcode = config_builder::Opcode::GetObj
                     }
                 }
             }
@@ -223,12 +340,18 @@ impl Visit for IdentifyOpcodes<'_> {
         };
         n.function.body.visit_children_with(&mut identifier);
 
+        let mut alr_exists: Vec<&Opcode> = vec![];
+
         match identifier.opcode {
             config_builder::Opcode::Invalid => {
                 println!("FnDecl: {:?} could not identify opcode", name)
             }
             op => {
-                println!("Identified {:?} as {:?}", name, op);
+                if alr_exists.contains(&&op) {
+                    println!("Error: {} was already identified", op)
+                }
+                alr_exists.push(&op);
+                println!("Identified {:?} as {:?}", name, &op);
                 let val = &self.vm_config.registers.remove(&name);
                 self.vm_config
                     .registers

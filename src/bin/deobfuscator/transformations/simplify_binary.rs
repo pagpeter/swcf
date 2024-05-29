@@ -13,7 +13,7 @@ impl VisitMut for Visitor {
 
         if n.is_bin() {
             let bin = n.as_bin().unwrap();
-            if bin.op != BinaryOp::BitXor {
+            if bin.op != BinaryOp::BitXor && bin.op != BinaryOp::BitAnd {
                 return;
             }
 
@@ -40,7 +40,7 @@ impl VisitMut for Visitor {
 
             let mut bin_expr = BinExpr {
                 span: n.span(),
-                op: BinaryOp::BitXor,
+                op: bin.op,
                 left: left,
                 right: right,
             };

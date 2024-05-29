@@ -453,7 +453,7 @@ pub struct VMConfig {
     pub chl_data: ChlData,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Opcode {
     ArrPop,
     ArrPush,
@@ -465,6 +465,7 @@ pub enum Opcode {
     SetObj,
     SplicePop,
     BindFunc,
+    BindFunc2,
     Jump,
     NewClass,
     NewObj,
@@ -473,6 +474,7 @@ pub enum Opcode {
     UnaryExp,
     BinaryExp,
     Literal,
+    WeirdNew,
     Invalid,
 }
 
