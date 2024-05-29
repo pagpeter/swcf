@@ -64,22 +64,6 @@ impl VisitMut for Visitor {
         });
     }
 
-    // fn visit_mut_object_pat_props(&mut self, n: &mut std::vec::Vec<swc_ecma_ast::ObjectPatProp>) {
-    //     n.retain(|s| {
-    //         let as_kv = s.as_key_value();
-    //         if as_kv.is_some() {
-    //             let kv = as_kv.unwrap();
-    //             if kv.value.is_invalid() {
-    //                 return false;
-    //             }
-    //         }
-    //         false
-    //     });
-    // }
-
-    // fn visit_mut_object_pat(&mut self, n: &mut swc_ecma_ast::ObjectPat) {
-    //     n.visit_mut_children_with(self);
-
     fn visit_mut_seq_expr(&mut self, n: &mut swc_ecma_ast::SeqExpr) {
         n.visit_mut_children_with(self);
         n.exprs.retain(|s| {

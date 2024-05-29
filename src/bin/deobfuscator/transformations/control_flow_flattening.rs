@@ -129,8 +129,7 @@ impl VisitMut for Visitor {
         n.visit_mut_children_with(self);
         println!("[*] Cleaning up for loops");
 
-        let mut obf_strings = Cleanup::default();
-        n.visit_mut_children_with(&mut obf_strings);
+        n.visit_mut_children_with(&mut Cleanup::default());
     }
     fn visit_mut_for_stmt(&mut self, n: &mut swc_ecma_ast::ForStmt) {
         n.visit_mut_children_with(self);

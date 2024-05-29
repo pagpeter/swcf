@@ -73,10 +73,9 @@ impl VisitMut for Visitor {
 
         // Rename functions that were marked for renaming due to collisions
         if !self.function_replacements.is_empty() {
-            let mut renamer = RenameFunctionVisitor {
+            program.visit_mut_children_with(&mut RenameFunctionVisitor {
                 replacements: self.function_replacements.clone(),
-            };
-            program.visit_mut_children_with(&mut renamer);
+            });
         }
     }
 

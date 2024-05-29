@@ -3,7 +3,6 @@ use swc_core::ecma::atoms::JsWord;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
 use swc_ecma_ast::{Expr, Lit, Program, Str};
 use swc_ecma_visit::{Visit, VisitWith};
-// use swc_ecma_visit::{VisitAllWith, VisitWith};
 
 #[derive(Default)]
 struct FindInteger {
@@ -146,8 +145,7 @@ impl VisitMut for Visitor {
             self.subtract = caps["subtract"].parse::<i32>().unwrap();
         }
 
-        let mut remover = RemoveBigString::default();
-        program.visit_mut_children_with(&mut remover);
+        program.visit_mut_children_with(&mut RemoveBigString::default());
 
         // println!("stringify: {}, subtract: {}", self.stringify, self.subtract);
         loop {
@@ -158,8 +156,10 @@ impl VisitMut for Visitor {
                 break;
             }
         }
-        println!("[*] Replacing string proxies");
-        let mut replacer = ReplaceProxyCalls::new(self.subtract, obf_strings.strings);
-        program.visit_mut_children_with(&mut replacer);
+
+        program.visit_mut_children_with(&mut ReplaceProxyCalls::new(
+            self.subtract,
+            obf_strings.strings,
+        ));
     }
 }

@@ -1,3 +1,6 @@
+mod config_builder;
+mod extractor;
+mod transformations;
 mod utils;
 
 use std::{env, fs, time};
@@ -6,8 +9,6 @@ use swc_common::{comments::SingleThreadedComments, GLOBALS};
 use swc_core::ecma::visit::as_folder;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::noop;
-
-mod transformations;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -44,6 +45,7 @@ fn main() {
                         expr_simplifier(Mark::new(), Default::default()),
                         as_folder(transformations::useless_if::Visitor),
                         as_folder(transformations::simplify_binary::Visitor),
+                        as_folder(extractor::Visitor),
                     )
                 },
             )

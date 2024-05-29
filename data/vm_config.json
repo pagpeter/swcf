@@ -1,0 +1,35 @@
+{
+  "registers": {
+    "g8": 167.0,
+    "fV": 136.0,
+    "fZ": 201.0,
+    "fR": 44.0,
+    "g4": 160.0,
+    "g3": 67.0,
+    "g7": 152.0,
+    "fT": 108.0,
+    "g2": 85.0,
+    "g0": 91.0,
+    "ga": 170.0,
+    "VMDATA": 223.0,
+    "g5": 156.0,
+    "fX": 53.0,
+    "fW": 195.0,
+    "fY": 128.0,
+    "g9": 75.0,
+    "g6": 200.0,
+    "g1": 98.0,
+    "fL": 163.0,
+    "fU": 192.0,
+    "fS": 212.0
+  },
+  "magicBits": {
+    "startEnc": 0,
+    "opcodeEnc": []
+  },
+  "bytecodes": {
+    "init": "wfhpbp5E2boOlbkLbsj5Pi4ieZyuOnnErt15Y64XeZGuGHmOrrZ5MK5Zec+uPXnDrkR5uq7geWauDXmTrjx5wq54ee6u93lxrthiTq53YvGuw2I9rg9ima7kYlquqNX2JjlZFudm9jkJNrT0trU7tr12tteMttNott5qtt0HttsetuPYtu6rtvTgthCGtg4XtgzXthhfthQVthO9tigctinptiRAtjCKtjZStj6ltj86tkdGtkMNtlDvtk8WtlgbtlkdtlbJtlLPtlwFtnTLtnNXtsjUts82tudktkEQR/AL/pND/Zpfajh5X4Uq79z+X5MWgAnP9QqklciZv6Vqr8HoWX8byZwB10W4Pvkr3A==",
+    "main": ""
+  },
+  "chlData": {}
+}

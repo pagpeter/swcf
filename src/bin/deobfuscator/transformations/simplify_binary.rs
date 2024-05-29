@@ -19,10 +19,14 @@ impl VisitMut for Visitor {
 
             let mut right = bin.right.to_owned();
             let mut left = bin.left.to_owned();
+            let mut reversed = false;
 
             if bin.right.is_number() {
                 match bin.right.as_lit().unwrap() {
-                    swc_ecma_ast::Lit::Num(num) => right = num.value.floor().into(),
+                    swc_ecma_ast::Lit::Num(num) => {
+                        right = num.value.floor().into();
+                        reversed = true
+                    }
                     _ => {}
                 }
             }
@@ -34,14 +38,19 @@ impl VisitMut for Visitor {
                 }
             }
 
+            let mut bin_expr = BinExpr {
+                span: n.span(),
+                op: BinaryOp::BitXor,
+                left: left,
+                right: right,
+            };
+            if reversed {
+                let tmp = bin_expr.left;
+                bin_expr.left = bin_expr.right;
+                bin_expr.right = tmp;
+            }
             *n = swc_ecma_ast::Expr::Bin(
-                swc_ecma_ast::Expr::bin(swc_ecma_ast::Expr::Bin(BinExpr {
-                    span: n.span(),
-                    op: BinaryOp::BitXor,
-                    left,
-                    right,
-                }))
-                .unwrap(),
+                swc_ecma_ast::Expr::bin(swc_ecma_ast::Expr::Bin(bin_expr)).unwrap(),
             )
         }
     }
