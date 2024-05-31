@@ -12,7 +12,7 @@ At the moment, it only deobfuscates some parts of cloudflares obfuscation: the s
 
 ```sh
 # Developement
-$ cargo run data/input.js
+$ cargo run --bin deobfuscator data/input.js
 
 # Production
 $ cargo build --release

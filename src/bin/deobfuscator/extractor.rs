@@ -1,6 +1,9 @@
 use std::{any::Any, fs};
 
-use crate::config_builder::{self, Opcode};
+use crate::{
+    config_builder::{self, Opcode, PayloadKey},
+    utils,
+};
 use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
@@ -341,12 +344,105 @@ impl Visit for IdentifyOpcode {
     }
 }
 
+#[derive(Default, Debug)]
+struct FindInitPayloadSensorData {
+    name: String,
+    found: bool,
+    result: Vec<String>,
+}
+
+impl Visit for FindInitPayloadSensorData {
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
+        if self.found {
+            return;
+        }
+        n.visit_children_with(self);
+
+        let mut asses = vec![];
+
+        let stmts = n.function.body.to_owned().unwrap().stmts;
+        for stmt in stmts {
+            if stmt.is_expr() && stmt.as_expr().unwrap().expr.is_assign() {
+                let ass = stmt.as_expr().unwrap().expr.as_assign().unwrap();
+                asses.push(ass.to_owned());
+                if ass.right.is_ident() && ass.left.is_simple() {
+                    let left_mem = ass.left.as_simple().unwrap().as_member();
+                    if left_mem.is_some()
+                        && left_mem.unwrap().obj.is_ident()
+                        && left_mem.unwrap().prop.is_ident()
+                    {
+                        let name = &left_mem.unwrap().prop.as_ident().unwrap().sym;
+                        if self.name == name.as_str() {
+                            self.found = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if self.found {
+            for ass in asses {
+                if ass.right.is_lit() {
+                    self.result.push(
+                        ass.left
+                            .as_simple()
+                            .unwrap()
+                            .as_member()
+                            .unwrap()
+                            .prop
+                            .as_ident()
+                            .unwrap()
+                            .sym
+                            .to_string(),
+                    )
+                }
+            }
+        }
+    }
+}
+
 struct IdentifyOpcodes<'a> {
     vm_config: &'a mut config_builder::VMConfig,
     found: &'a mut usize,
+    init_keys: Vec<PayloadKey>,
 }
 
 impl Visit for IdentifyOpcodes<'_> {
+    fn visit_object_lit(&mut self, n: &swc_ecma_ast::ObjectLit) {
+        if n.props.len() == 13 {
+            // println!("ObjectLit: {:?}", n.props);
+            for p in &n.props {
+                let kv = p.as_prop().unwrap().as_key_value().unwrap();
+
+                let mut val = PayloadKey::default();
+                val.key = kv.key.as_str().unwrap().value.to_string();
+                if kv.value.is_lit() {
+                    val.value_type = "NUMBER".to_owned();
+                    let lit = kv.value.as_lit().unwrap();
+                    match lit {
+                        swc_ecma_ast::Lit::Num(n) => {
+                            val.num_value = n.raw.to_owned().unwrap().as_str().parse().unwrap()
+                        }
+                        _ => {}
+                    }
+                } else if kv.value.is_bin() {
+                    val.value_type = "RANDOM".to_owned();
+                } else if kv.value.is_member() {
+                    let mem = kv.value.as_member().unwrap();
+                    let key = mem.prop.as_ident().unwrap().sym.to_string();
+                    if mem.obj.is_member() {
+                        val.value_type = "DATA".to_owned();
+                        val.data_key = key
+                    } else {
+                        val.value_type = "SENSOR".to_owned();
+                        val.data_key = key
+                    }
+                }
+
+                self.init_keys.push(val)
+            }
+        }
+    }
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         n.visit_children_with(self);
         let name = n.ident.sym.to_string();
@@ -402,9 +498,27 @@ impl VisitMut for Visitor {
         let identifier = &mut IdentifyOpcodes {
             vm_config: &mut vm_config,
             found: &mut 0,
+            init_keys: vec![],
         };
         n.visit_children_with(identifier);
         println!("[*] Found {}/20 opcodes", identifier.found);
+
+        let mut i: usize = 0;
+        for s in identifier.init_keys.to_vec() {
+            if s.value_type == "SENSOR" {
+                let mut find_sensor_vars = FindInitPayloadSensorData {
+                    name: s.data_key.to_owned(),
+                    found: false,
+                    result: vec![],
+                };
+                n.visit_children_with(&mut find_sensor_vars);
+                identifier.init_keys[i].sub_keys = find_sensor_vars.result;
+            }
+            i += 1;
+        }
+
+        // println!("Result: {:?}", identifier.init_keys);
+        utils::get_init_data(&identifier.init_keys, &vm_config);
 
         println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
         let json = serde_json::to_string_pretty(&vm_config);
