@@ -1,4 +1,4 @@
-use crate::config_builder::{PayloadKey, VMConfig};
+use crate::traversals::config_builder::{PayloadKey, VMConfig};
 use rand::Rng;
 use std::io;
 use swc::config::{Config, IsModule, JscConfig, ModuleConfig, Options};

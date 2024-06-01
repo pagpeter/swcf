@@ -1,6 +1,6 @@
-mod extract_required;
-mod logger;
-mod requests;
+use swccf::extract_required;
+use swccf::logger;
+use swccf::requests;
 
 fn main() {
     let log: logger::Logger = logger::get_logger("main".to_string());

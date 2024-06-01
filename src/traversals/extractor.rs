@@ -1,12 +1,15 @@
 use std::{any::Any, fs};
 
-use crate::{
-    config_builder::{self, Opcode, PayloadKey},
-    utils,
-};
 use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
+
+use crate::traversals::{config_builder, utils};
+
+// use swccf::{
+//     config_builder::{self, Opcode, PayloadKey},
+//     utils,
+// };
 
 struct FindVM<'a> {
     vm_config: &'a mut config_builder::VMConfig,
@@ -404,7 +407,7 @@ impl Visit for FindInitPayloadSensorData {
 struct IdentifyOpcodes<'a> {
     vm_config: &'a mut config_builder::VMConfig,
     found: &'a mut usize,
-    init_keys: Vec<PayloadKey>,
+    init_keys: Vec<config_builder::PayloadKey>,
 }
 
 impl Visit for IdentifyOpcodes<'_> {
@@ -414,7 +417,7 @@ impl Visit for IdentifyOpcodes<'_> {
             for p in &n.props {
                 let kv = p.as_prop().unwrap().as_key_value().unwrap();
 
-                let mut val = PayloadKey::default();
+                let mut val = config_builder::PayloadKey::default();
                 val.key = kv.key.as_str().unwrap().value.to_string();
                 if kv.value.is_lit() {
                     val.value_type = "NUMBER".to_owned();
@@ -456,7 +459,7 @@ impl Visit for IdentifyOpcodes<'_> {
         };
         n.function.body.visit_children_with(&mut identifier);
 
-        let mut alr_exists: Vec<&Opcode> = vec![];
+        let mut alr_exists: Vec<&config_builder::Opcode> = vec![];
 
         match identifier.opcode {
             config_builder::Opcode::Invalid => {

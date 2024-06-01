@@ -1245,29 +1245,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8835116a5c179084a830efb3adc117ab007512b535bc1a21c991d3b32a6b44dd"
 
 [[package]]
-name = "peet-deob"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "lz-str",
- "rand",
- "regex",
- "reqwest",
- "serde",
- "serde_derive",
- "serde_json",
- "swc",
- "swc_common",
- "swc_core",
- "swc_ecma_ast",
- "swc_ecma_minifier",
- "swc_ecma_parser",
- "swc_ecma_transforms",
- "swc_ecma_transforms_typescript",
- "swc_ecma_visit",
-]
-
-[[package]]
 name = "percent-encoding"
 version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3080,6 +3057,29 @@ dependencies = [
  "quote",
  "swc_macros_common",
  "syn 2.0.66",
+]
+
+[[package]]
+name = "swccf"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "lz-str",
+ "rand",
+ "regex",
+ "reqwest",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "swc",
+ "swc_common",
+ "swc_core",
+ "swc_ecma_ast",
+ "swc_ecma_minifier",
+ "swc_ecma_parser",
+ "swc_ecma_transforms",
+ "swc_ecma_transforms_typescript",
+ "swc_ecma_visit",
 ]
 
 [[package]]
