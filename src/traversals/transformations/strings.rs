@@ -49,8 +49,10 @@ impl VisitMut for ReplaceProxyCalls {
 
                 let works = usize::try_from(i - self.subtract);
                 if let Ok(res) = works {
-                    let str = self.strings[res].to_owned();
-                    *expr = Expr::Lit(Lit::Str(Str::from(str)));
+                    if self.strings.len() > res {
+                        let str = self.strings[res].to_owned();
+                        *expr = Expr::Lit(Lit::Str(Str::from(str)));
+                    }
                 }
             }
         }

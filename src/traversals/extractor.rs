@@ -83,7 +83,11 @@ impl Visit for FindVM<'_> {
                 if mem2.is_none() {
                     continue;
                 }
-                let mem_addr = mem2.unwrap().expr.as_bin().unwrap().left.as_lit().unwrap();
+                let bin = mem2.unwrap().expr.as_bin();
+                if bin.is_none() {
+                    continue;
+                }
+                let mem_addr = bin.unwrap().left.as_lit().unwrap();
 
                 let target: String;
 
@@ -335,11 +339,15 @@ impl Visit for IdentifyOpcode {
                 .as_expr()
                 .unwrap()
                 .as_member();
-            if right_mem.is_some() && right_mem.unwrap().prop.as_ident().unwrap().sym == "pop" {
-                let left_mem = n.left.as_simple().unwrap().as_member();
-                if left_mem.is_some() {
-                    self.report_find(config_builder::Opcode::ArrPop);
-                    return;
+
+            if right_mem.is_some() {
+                let prop = &right_mem.unwrap().prop;
+                if prop.is_ident() && prop.as_ident().unwrap().sym == "pop" {
+                    let left_mem = n.left.as_simple().unwrap().as_member();
+                    if left_mem.is_some() {
+                        self.report_find(config_builder::Opcode::ArrPop);
+                        return;
+                    }
                 }
             }
         }
@@ -416,27 +424,30 @@ impl Visit for IdentifyOpcodes<'_> {
                 let kv = p.as_prop().unwrap().as_key_value().unwrap();
 
                 let mut val = config_builder::PayloadKey::default();
-                val.key = kv.key.as_str().unwrap().value.to_string();
-                if kv.value.is_lit() {
-                    val.value_type = "NUMBER".to_owned();
-                    let lit = kv.value.as_lit().unwrap();
-                    match lit {
-                        swc_ecma_ast::Lit::Num(n) => {
-                            val.num_value = n.raw.to_owned().unwrap().as_str().parse().unwrap()
+                let kv_key = kv.key.as_str();
+                if kv_key.is_some() {
+                    val.key = kv_key.unwrap().value.to_string();
+                    if kv.value.is_lit() {
+                        val.value_type = "NUMBER".to_owned();
+                        let lit = kv.value.as_lit().unwrap();
+                        match lit {
+                            swc_ecma_ast::Lit::Num(n) => {
+                                val.num_value = n.raw.to_owned().unwrap().as_str().parse().unwrap()
+                            }
+                            _ => {}
                         }
-                        _ => {}
-                    }
-                } else if kv.value.is_bin() {
-                    val.value_type = "RANDOM".to_owned();
-                } else if kv.value.is_member() {
-                    let mem = kv.value.as_member().unwrap();
-                    let key = mem.prop.as_ident().unwrap().sym.to_string();
-                    if mem.obj.is_member() {
-                        val.value_type = "DATA".to_owned();
-                        val.data_key = key
-                    } else {
-                        val.value_type = "SENSOR".to_owned();
-                        val.data_key = key
+                    } else if kv.value.is_bin() {
+                        val.value_type = "RANDOM".to_owned();
+                    } else if kv.value.is_member() {
+                        let mem = kv.value.as_member().unwrap();
+                        let key = mem.prop.as_ident().unwrap().sym.to_string();
+                        if mem.obj.is_member() {
+                            val.value_type = "DATA".to_owned();
+                            val.data_key = key
+                        } else {
+                            val.value_type = "SENSOR".to_owned();
+                            val.data_key = key
+                        }
                     }
                 }
 

@@ -68,7 +68,7 @@ pub fn get_init_data(init_keys: &Vec<PayloadKey>, cnfg: &VMConfig) -> String {
         if k.value_type == "NUMBER" {
             j += &format!("\"{}\":{},", k.key, k.num_value.round())
         } else if k.value_type == "RANDOM" {
-            j += &format!("\"{}\":{},", k.key, rand::thread_rng().gen_range(500..1000))
+            j += &format!("\"{}\":{},", k.key, rand::thread_rng().gen_range(1..20))
         } else if k.value_type == "SENSOR" {
             j += &format!("\"{}\":{{", k.key);
             for sub in &k.sub_keys {

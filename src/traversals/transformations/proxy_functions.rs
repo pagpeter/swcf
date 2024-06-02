@@ -63,7 +63,11 @@ impl VisitMut for FindProxyAssignments {
     // "abcdef": function() {}
     fn visit_mut_key_value_prop(&mut self, n: &mut swc_ecma_ast::KeyValueProp) {
         n.visit_mut_children_with(self);
-        let key = &n.key.as_str().unwrap().value;
+        let key_opt = &n.key.as_str();
+        if key_opt.to_owned().is_none() {
+            return;
+        }
+        let key = &key_opt.unwrap().value;
         if key.len() != 5 {
             return;
         }

@@ -13,25 +13,29 @@
   </head>
   <body>
     <h1>Cloudflare payload decryptor (lz-encrypt)</h1>
-    <label for="key">Encryption key (from script)</label>
-    <input
-      placeholder="QzO1wRPW-7oyv6fELrg8MKxXtSskjn3lNCqmVJuDpGcHYAFZ42hae+IibUd$9T05B"
-      id="key"
-    /><br />
+    <label for="key">Encryption key or script</label>
+    <textarea id="key" />
+    <br />
 
     <label for="payload">Payload</label>
-    <input
-      placeholder="v_88d8b411d9030f9f=fwgRFR0R8RDRHRp8Ay8ASVRzVR2qjFA9gAfGA1v8wTjQAyGCApqU4GXAEGxlzgTGAtRAw1enRA2A497wvsVAAVcpAxlAjAuSFO1Hl50DcAj4MAZAf8lTSTgrgTrGl1ngsw2RGQOAfgT-AQo2AThVMTAA%2bRWlATpnYRU1nDp9AUgAeMqAuRT59ATV1uU2Azv82iqA5RA6TAUG7ZWWBFgAm-ElUgh6H1hliRAxPRG5HMyZVDcARH8xAjyZRFQg7S$$kgqA37AAgewwHe5SY776D0CiFTcAcHzQ8OiRzURa8+qAh4K7+o9OAfFwIRAf38-1AuAbbATaVaRApYh-V8Rcob1$Rl7WBRSaHHAuADfuzMQB$GVH7wnSzZlRQ-JKqlRuaQAlocBV3SQraZDBXGjwq9Flcfuw8c1iCVR0C5TJYQDVgVBy55AF43jsCwD-lFRgSrxAbMp+cAp5TavclyQQpwPCdh0Vbqal5TusdAUnxAcRCjGAl3HA$qlxTBEbwFuaPnZuAgAIjDlTBH$n3j3ec1unfSnmAT5kjxUHEOUE4Z$d4x+lQVVGA8$HAmTQnnq70REGjXGRTUC+ERhec9NCE+AfaMzM8EXwPc4n$2GGVz+CHAgHd$sWQGT9FGjnb2Sl8zO9FHqvn4V3whcBHc4Q$1F8RI7VYCYz1r2-V-bcxUq2TBIdZo7VVaCi8raM2$ZyhyA8i8UGCQWr$Q1Mg1aGFhbFARoCRzTjcZ2MFbjyh5TJ3p6bwbApcBGFjHsulpRgG-y1GaOvT92OceFilQ9wGDea6j8xbjawdTBbqq9igMK1iiFYAVDqEU4N85GYgMC9wxDZG6fA0AVjGE1w0Tv$lhdpT9yWuTJiF49m1Ok-aS8cHYpfn9iIqhCjQlq$FTTrRnVvUA8iqm1aS82enP8QTRzqX893RYq9bWV9whldGYDqhRgSRilVhRPUsPRW1wzWcen1Mqc4QpyH$bjpeFp-9$2S8c+AxDrAThr5UYQTTAf1FV-xupkGChdUSn1FqenbAqRfhpyCC20kUsA-ccQQ8vAibnp1aaMh8qQRp9Fuwp8rQgP$4bv11aD4JcGiFV1i1AhRTiDT7wG$An2iFJH43R5CRaMi0Q3dpUqIWu1n0TnRf1T2ed+iTE$aqgAgjpy9wQg589IqEbFAg2TaqD5U$h8yGgBTycFyWEmF$Wr7waAXRR2Mgb2GTJ-a2MK1ahRwHCPRZTQT8eHCIO2eSGDv-VyhrUshl544hlXR9gMp-7rOaUClqnb2h8rPFS85$4iWNblTRQRHxtyHsaqoR8SlwCjbuKQ4zq2AlQWQUlA$B-MiFBAVzTrGCSwU3X4RwTRbA7hAArkGuQ8bR9xDA8YhRP8RhRM8rTApb2QRUDBA$C95QzUaluTQKRqhje2Qqm1F1Vw7VzqETZKRYTQGhYswihARFbTvbwhpuUlIRM9nhDtDqj8A8rxlNpRIqd$GyW3SayqKGj0TZ-xyp6UgyqXq8FVqoG0mn$ccqYbnQTrUgN8rUQlFpA8iD41iypUUlIAPRTihQXVG$VGjQAi02TrbAGd7W288URGdyRRlHvQ$2AGGjSD9Uxqlfqlq7lP8CU4zMjR2TnV6HCbA1w3RPCYU$zniqxTrRr$q1Af6YRMGU-5AA3rg-lhlTAdT51ljAa47lUlAecGRDlgAgDC$GgFgZgCKG3Gj-8fqgCgGF9aUQTDOAM8DURM$azG8aU21wIfzlgC5Cv-nTggWOT0sja6$g8l+GlGT1wAGhl-8cGmGJewIAOApRaQGpqfWbCm$RU4bwPRg2ibV1FnAA===="
-      id="payload"
-    />
+    <textarea id="payload" />
 
     <br /><br />
     <button onmousedown="decrypt()">Decrypt</button>
     <hr />
-    <textarea id="result" disabled cols="50"></textarea>
+    <textarea id="result" disabled style="width: 99.5%" rows="20"></textarea>
   </body>
 
   <script>
+    function extractKey(script) {
+      const split = script.match(/en-us(.)/)[1];
+      const regex = new RegExp(
+        `\\${split}([a-zA-Z0-9\\+\\-\\$]{65})\\${split}`,
+        "i"
+      );
+      return script.match(regex)[1];
+    }
+
     function getBaseValue(alphabet, character) {
       var baseReverseDic = {};
       if (!baseReverseDic[alphabet]) {
@@ -56,13 +60,26 @@
     };
 
     const decrypt = () => {
-      const key = document.getElementById("key").value;
-      const payload = document.getElementById("payload").value;
+      const rawKey = document.getElementById("key").value;
+      const rawPayload = document.getElementById("payload").value;
+
+      let key = rawKey.length === 65 ? rawKey : extractKey(rawKey);
+      document.getElementById("key").value = key;
+
+      let payload = rawPayload
+        .split("=")[1]
+        .replaceAll("%2b", "+")
+        .replaceAll(" ", "+");
       console.log("key:", key);
       console.log("Payload:", payload);
       const res = utils.decompress(payload, key);
       console.log("Result:", res);
-      document.getElementById("result").value = res;
+      if (!res) return alert("Invalid key for payload");
+      document.getElementById("result").value = JSON.stringify(
+        JSON.parse(res),
+        null,
+        "\t"
+      );
     };
   </script>
 </html>
