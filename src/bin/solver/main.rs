@@ -3,14 +3,16 @@ use std::fs;
 use swccf::extract_required;
 use swccf::logger;
 use swccf::requests;
-use swccf::traversals::config_builder;
 use swccf::traversals::deobfuscate_script::deobfuscate;
 
 fn main() {
     let log: logger::Logger = logger::get_logger("main".to_string());
 
     log.debug("Getting initial HTML".to_owned());
-    let text = requests::get_page();
+
+    let mut session = requests::SolvingSession::new("cfschl.peet.ws", true);
+
+    let text = session.get_page();
 
     if text.is_err() {
         log.error("Could not get initial HTML".to_owned())
@@ -21,16 +23,15 @@ fn main() {
 
     let challenge_data = extract_required::parse_challenge_data(&html_result).unwrap();
 
-    let mut vm_config = config_builder::VMConfig::default();
-    vm_config.chl_data = challenge_data;
+    session.cnfg.chl_data = challenge_data;
 
     log.success(format!(
         "Parsed ChallengeData: {}",
-        &vm_config.chl_data.c_ray
+        &session.cnfg.chl_data.c_ray
     ));
     log.debug("Getting init script".to_owned());
 
-    let script = requests::get_script(&vm_config.chl_data);
+    let script = session.get_script();
     if script.is_err() {
         log.error("Could not get init script".to_owned())
     }
@@ -39,16 +40,16 @@ fn main() {
     log.debug(format!("Parsing script"));
     let script_data = extract_required::parse_script(&script_result);
 
-    let deobbed_script = deobfuscate(&mut vm_config, &script_result);
+    let deobbed_script = deobfuscate(&mut session.cnfg, &script_result);
 
     println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
-    let json = serde_json::to_string_pretty(&vm_config);
+    let json = serde_json::to_string_pretty(&session.cnfg);
     fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file");
     println!("[*] Writing deobfuscated script to file (./data/input_out.js)");
     fs::write("./data/input_out.js", deobbed_script).expect("Could not write file");
 
     log.debug("Submitting init challenge".to_owned());
-    let bytecode = requests::submit_init(&vm_config.chl_data, &script_data);
+    let bytecode = session.submit_init(&script_data);
 
     if bytecode.is_err() {
         log.error("Could not submit init challenge".to_owned())

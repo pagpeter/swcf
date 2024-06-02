@@ -411,8 +411,7 @@ struct IdentifyOpcodes<'a> {
 
 impl Visit for IdentifyOpcodes<'_> {
     fn visit_object_lit(&mut self, n: &swc_ecma_ast::ObjectLit) {
-        if n.props.len() == 13 {
-            // println!("ObjectLit: {:?}", n.props);
+        if n.props.len() == 13 || n.props.len() == 12 {
             for p in &n.props {
                 let kv = p.as_prop().unwrap().as_key_value().unwrap();
 
@@ -504,7 +503,6 @@ impl VisitMut for Visitor<'_> {
         };
         n.visit_children_with(identifier);
         println!("[*] Found {}/20 opcodes", identifier.found);
-        println!("init_keys: {:?}", identifier.init_keys);
 
         let mut i: usize = 0;
         for s in identifier.init_keys.to_vec() {
@@ -520,7 +518,6 @@ impl VisitMut for Visitor<'_> {
             i += 1;
         }
 
-        // println!("Result: {:?}", identifier.init_keys);
-        utils::get_init_data(&identifier.init_keys, &self.cnfg);
+        self.cnfg.payloads.init = utils::get_init_data(&identifier.init_keys, &self.cnfg);
     }
 }

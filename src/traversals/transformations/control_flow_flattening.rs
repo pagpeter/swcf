@@ -60,20 +60,26 @@ struct CaseData {
 
 #[derive(Default)]
 struct FindSwitchCases {
+    invalid: bool,
     cases: Vec<CaseData>,
 }
 
 impl Visit for FindSwitchCases {
     fn visit_switch_case(&mut self, n: &swc_ecma_ast::SwitchCase) {
+        if self.invalid {
+            return;
+        }
         let mut str = FindString::default();
-        <Option<Box<swc_ecma_ast::Expr>> as Clone>::clone(&n.test)
-            .unwrap()
-            .visit_children_with(&mut str);
+        n.test.to_owned().unwrap().visit_children_with(&mut str);
 
-        self.cases.push(CaseData {
-            key: str.str.parse().unwrap(),
-            stmt: n.cons.first().unwrap().to_owned(),
-        })
+        if str.str.parse::<usize>().is_err() || n.cons.first().is_none() {
+            self.invalid = true
+        } else {
+            self.cases.push(CaseData {
+                key: str.str.parse().unwrap(),
+                stmt: n.cons.first().unwrap().to_owned(),
+            })
+        }
     }
 }
 
@@ -92,7 +98,9 @@ impl VisitMut for Cleanup {
                 if for_stmt.test.is_none()
                     && for_stmt.update.is_none()
                     && for_stmt.init.is_some()
-                    && <Option<swc_ecma_ast::VarDeclOrExpr> as Clone>::clone(&for_stmt.init)
+                    && for_stmt
+                        .init
+                        .to_owned()
                         .unwrap()
                         .as_expr()
                         .unwrap()
@@ -142,6 +150,9 @@ impl VisitMut for Visitor {
         let order = order_str.str.split("|");
 
         let mut cases = FindSwitchCases::default();
+        if cases.invalid {
+            return;
+        }
         n.visit_children_with(&mut cases);
         // println!("CFF: {}", order_str.str);
 

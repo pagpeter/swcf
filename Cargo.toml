@@ -31,7 +31,12 @@ swc_ecma_parser = "0.144.1"
 swc_ecma_transforms = "0.230.1"
 swc_ecma_transforms_typescript = "0.189.1"
 swc_ecma_visit = "0.99.1"
-reqwest = { version = "0.12.4", features = ["blocking"] }
+reqwest = { version = "0.12.4", features = [
+    "blocking",
+    "gzip",
+    "brotli",
+    "http2",
+] }
 rand = "0.8.5"
 chrono = "0.4.38"
 serde_derive = "1.0.203"

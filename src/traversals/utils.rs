@@ -62,7 +62,7 @@ pub fn get_structs(data: &str) -> Data {
 }
 
 // Marshals the init payload - dynamic keys from the script
-pub fn get_init_data(init_keys: &Vec<PayloadKey>, cnfg: &VMConfig) {
+pub fn get_init_data(init_keys: &Vec<PayloadKey>, cnfg: &VMConfig) -> String {
     let mut j: String = "{".to_owned();
     for k in init_keys {
         if k.value_type == "NUMBER" {
@@ -86,20 +86,14 @@ pub fn get_init_data(init_keys: &Vec<PayloadKey>, cnfg: &VMConfig) {
                 val = format!("\"{}\"", cnfg.chl_data.cv_id.to_string());
             } else if k.data_key == "cRq" {
                 val = serde_json::to_string(&cnfg.chl_data.c_rq).unwrap();
-            } else if k.data_key == "CcYd8" {
-                // TODO: remove hardcoded keys
-                val = "false".to_string();
-            } else if k.data_key == "CFmlr4" {
-                // TODO: remove hardcoded keys
-                val = "false".to_string();
             } else {
-                println!("Not implemented: {}", k.data_key);
-                val = "".to_owned();
+                // println!("Not implemented: {}", k.data_key);
+                val = "false".to_owned();
             }
             j += &format!("\"{}\":{},", k.key, val);
         }
     }
     j += "}";
     j = j.replace(",}", "}");
-    println!("init data: {}", j)
+    return j;
 }
