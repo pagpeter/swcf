@@ -1,58 +1,44 @@
 use crate::extract_required::{lz_compress, ParsedScript};
 use crate::traversals;
 use reqwest::blocking::Client;
-use reqwest::header::{HeaderMap, HeaderValue};
+use reqwest::header::HeaderValue;
 
 static DOMAIN: &str = "cfschl.peet.ws";
 
-fn get_headers(c_ray: &str, c_len: usize) -> HeaderMap {
-    let mut h = HeaderMap::new();
-
-    fn sh(s: &str) -> HeaderValue {
-        return HeaderValue::from_str(s).unwrap();
-    }
-
-    if c_len != 0 {
-        h.insert("content-length", sh(&format!("{}", c_len)));
-    }
-
-    h.insert(
-        "sec-ch-ua",
-        sh("\"Chromium\";v=\"124\", \"Brave\";v=\"124\", \"Not-A.Brand\";v=\"99\""),
-    );
-    h.insert("sec-ch-ua-mobile", sh("?0"));
-    h.insert("user-agent", sh("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"));
-    h.insert("content-type", sh("application/x-www-form-urlencoded"));
-    h.insert("sec-ch-ua-platform-version", sh("\"14.3.0\""));
-    h.insert("sec-ch-ua-model", sh("\"\""));
-
-    if c_ray.len() > 0 {
-        h.insert("cf-challenge", HeaderValue::from_str(c_ray).unwrap());
-    }
-
-    h.insert("sec-ch-ua-platform", sh("\"macOS\""));
-    h.insert("accept", sh("*/*"));
-    h.insert("sec-gpc", sh("1"));
-    h.insert("accept-language", sh("de-DE,de;q=0.7"));
-    h.insert("origin", sh("https://cfschl.peet.ws"));
-    h.insert("sec-fetch-site", sh("same-origin"));
-    h.insert("sec-fetch-mode", sh("cors"));
-    h.insert("sec-fetch-dest", sh("empty"));
-    h.insert("referer", sh("https://cfschl.peet.ws/"));
-    h.insert("accept-encoding", sh("gzip, deflate, br, zstd"));
-    h.insert("priority", sh("u=1, i"));
-
-    return h;
+struct Device<'a> {
+    sec_ch_ua: &'a str,
+    sec_ch_ua_mobile: &'a str,
+    user_agent: &'a str,
+    sec_ch_ua_platform: &'a str,
+    language: &'a str,
 }
 
-pub struct SolvingSession {
+impl Device<'_> {
+    pub fn brave() -> Device<'static> {
+        return Device {
+            sec_ch_ua: "\"Chromium\";v=\"124\", \"Brave\";v=\"124\", \"Not-A.Brand\";v=\"99\"",
+            sec_ch_ua_mobile: "?0",
+            user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            sec_ch_ua_platform: "\"macOS\"",
+            language: "de-DE,de;q=0.7",
+        };
+    }
+}
+
+fn sh(s: &str) -> HeaderValue {
+    return HeaderValue::from_str(s).unwrap();
+}
+
+pub struct SolvingSession<'a> {
     pub cnfg: traversals::config_builder::VMConfig,
     pub domain: String,
-    client: Client,
     pub debug: bool,
+
+    client: Client,
+    device: Device<'a>,
 }
 
-impl SolvingSession {
+impl SolvingSession<'_> {
     pub fn new(domain: &str, debug: bool) -> SolvingSession {
         let tmp = Client::builder()
             .http1_title_case_headers()
@@ -74,12 +60,32 @@ impl SolvingSession {
             cnfg: traversals::config_builder::VMConfig::default(),
             client: c,
             debug,
+            device: Device::brave(),
         };
     }
     pub fn get_page(&self) -> Result<String, reqwest::Error> {
         let url = format!("https://{}/", DOMAIN);
         println!("GET {}", url);
-        let resp = self.client.get(url).headers(get_headers("", 0)).send();
+        let resp = self
+            .client
+            .get(url)
+            .header("upgrade-insecure-requests", "1")
+            .header("user-agent", sh(self.device.user_agent))
+            .header("accept", sh("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"))
+            .header("sec-ch-ua", sh(self.device.sec_ch_ua))
+            .header("sec-ch-ua-mobile", sh(self.device.sec_ch_ua_mobile))
+            .header("sec-ch-ua-platform", sh(self.device.sec_ch_ua_platform))
+            .header("sec-ch-ua-platform-version", sh("\"14.3.0\""))
+            .header("sec-ch-ua-model", sh("\"\""))
+            .header("sec-gpc", sh("1"))
+            .header("accept-language", sh(self.device.language))
+            .header("sec-fetch-site", sh("none"))
+            .header("sec-fetch-mode", sh("navigate"))
+            .header("sec-fetch-user", sh("?1"))
+            .header("sec-fetch-dest", sh("document"))
+            .header("accept-encoding", sh("gzip, deflate, br, zstd"))
+            .header("priority", sh("u=0, i"))
+            .send();
         resp?.text()
     }
 
@@ -89,7 +95,25 @@ impl SolvingSession {
             self.domain, self.cnfg.chl_data.c_fpwv, self.cnfg.chl_data.c_ray
         );
         println!("GET {}", url);
-        let resp = self.client.get(url).headers(get_headers("", 0)).send();
+        let referer = &format!("https://cfschl.peet.ws{}", self.cnfg.chl_data.fa);
+        let resp = self
+            .client
+            .get(url)
+            .header("sec-ch-ua", sh(self.device.sec_ch_ua))
+            .header("sec-ch-ua-platform-version", sh("\"14.3.0\""))
+            .header("sec-ch-ua-mobile", sh(self.device.sec_ch_ua_mobile))
+            .header("sec-ch-ua-model", sh("\"\""))
+            .header("user-agent", sh(self.device.user_agent))
+            .header("sec-ch-ua-platform", sh(self.device.sec_ch_ua_platform))
+            .header("accept", sh("*/*"))
+            .header("sec-gpc", sh("1"))
+            .header("accept-language", sh(self.device.language))
+            .header("sec-fetch-site", sh("same-origin"))
+            .header("sec-fetch-mode", sh("no-cors"))
+            .header("sec-fetch-dest", sh("script"))
+            .header("referer", sh(referer))
+            .header("accept-encoding", sh("gzip, deflate, br, zstd"))
+            .send();
         resp?.text()
     }
 
@@ -117,7 +141,25 @@ impl SolvingSession {
         let resp = self
             .client
             .post(url)
-            .headers(get_headers(&self.cnfg.chl_data.c_hash, body.len()))
+            .header("content-length", sh(&format!("{}", body.len())))
+            .header("sec-ch-ua", sh(self.device.sec_ch_ua))
+            .header("sec-ch-ua-mobile", sh(self.device.sec_ch_ua_mobile))
+            .header("user-agent", sh(self.device.user_agent))
+            .header("content-type", sh("application/x-www-form-urlencoded"))
+            .header("sec-ch-ua-platform-version", sh("\"14.3.0\""))
+            .header("sec-ch-ua-model", sh("\"\""))
+            .header("cf-challenge", sh(&self.cnfg.chl_data.c_hash))
+            .header("sec-ch-ua-platform", sh(self.device.sec_ch_ua_platform))
+            .header("accept", sh("*/*"))
+            .header("sec-gpc", sh("1"))
+            .header("accept-language", sh(self.device.language))
+            .header("origin", sh("https://cfschl.peet.ws"))
+            .header("sec-fetch-site", sh("same-origin"))
+            .header("sec-fetch-mode", sh("cors"))
+            .header("sec-fetch-dest", sh("empty"))
+            .header("referer", sh("https://cfschl.peet.ws/"))
+            .header("accept-encoding", sh("gzip, deflate, br, zstd"))
+            .header("priority", sh("u=1, i"))
             .body(body)
             .send();
         resp?.text()
