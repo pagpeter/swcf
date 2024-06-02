@@ -1,6 +1,7 @@
 use core::fmt::Error;
 use regex::Regex;
 use serde_json;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::traversals::config_builder::ChlData;
 pub struct ParsedScript {
@@ -52,9 +53,16 @@ pub fn parse_challenge_data(result: &str) -> Result<ChlData, Error> {
     if parsed.is_err() {
         println!("Error marshalling _cf_chl_opt as json");
         return Err(Error {});
+    } else {
+        let mut parsed_res = parsed.unwrap();
+        parsed_res.c_tpl_v = 5; // TODO: dont hardcode this perhaps
+        let start = SystemTime::now();
+        parsed_res.c_rq.c_t = start
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_secs();
+        return Ok(parsed_res);
     }
-
-    return Ok(parsed.unwrap());
 }
 
 pub fn lz_compress(data: impl lz_str::IntoWideIter, key: &[u8]) -> String {
