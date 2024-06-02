@@ -67,7 +67,7 @@ pub fn parse_challenge_data(result: &str) -> Result<ChlData, Error> {
 
 pub fn lz_compress(data: impl lz_str::IntoWideIter, key: &[u8]) -> String {
     let data: Vec<u16> = data.into_wide_iter().collect();
-    let mut compressed = lz_str::compress_internal(&data, 6, |n| u16::from(key[usize::from(n)]));
+    let compressed = lz_str::compress_internal(&data, 6, |n| u16::from(key[usize::from(n)]));
 
     // TODO: check if this is required
     // let mod_4 = compressed.len() % 4;

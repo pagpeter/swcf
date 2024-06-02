@@ -5,11 +5,15 @@ use reqwest::header::{HeaderMap, HeaderValue};
 
 static DOMAIN: &str = "cfschl.peet.ws";
 
-fn get_headers(c_ray: &str) -> HeaderMap {
+fn get_headers(c_ray: &str, c_len: usize) -> HeaderMap {
     let mut h = HeaderMap::new();
 
     fn sh(s: &str) -> HeaderValue {
         return HeaderValue::from_str(s).unwrap();
+    }
+
+    if c_len != 0 {
+        h.insert("content-length", sh(&format!("{}", c_len)));
     }
 
     h.insert(
@@ -27,7 +31,7 @@ fn get_headers(c_ray: &str) -> HeaderMap {
     }
 
     h.insert("sec-ch-ua-platform", sh("\"macOS\""));
-    h.insert("accept", sh("\"*/*\""));
+    h.insert("accept", sh("*/*"));
     h.insert("sec-gpc", sh("1"));
     h.insert("accept-language", sh("de-DE,de;q=0.7"));
     h.insert("origin", sh("https://cfschl.peet.ws"));
@@ -50,16 +54,19 @@ pub struct SolvingSession {
 
 impl SolvingSession {
     pub fn new(domain: &str, debug: bool) -> SolvingSession {
+        let tmp = Client::builder()
+            .http1_title_case_headers()
+            .brotli(true)
+            .danger_accept_invalid_certs(true);
         let c: Client;
         if debug {
             println!("[DEBUG] Using debug proxy");
-            c = Client::builder()
-                .http1_title_case_headers()
+            c = tmp
                 .proxy(reqwest::Proxy::all("http://localhost:8888").unwrap())
                 .build()
                 .unwrap();
         } else {
-            c = Client::new();
+            c = tmp.build().unwrap()
         }
 
         return SolvingSession {
@@ -72,7 +79,7 @@ impl SolvingSession {
     pub fn get_page(&self) -> Result<String, reqwest::Error> {
         let url = format!("https://{}/", DOMAIN);
         println!("GET {}", url);
-        let resp = self.client.get(url).headers(get_headers("")).send();
+        let resp = self.client.get(url).headers(get_headers("", 0)).send();
         resp?.text()
     }
 
@@ -82,7 +89,7 @@ impl SolvingSession {
             self.domain, self.cnfg.chl_data.c_fpwv, self.cnfg.chl_data.c_ray
         );
         println!("GET {}", url);
-        let resp = self.client.get(url).headers(get_headers("")).send();
+        let resp = self.client.get(url).headers(get_headers("", 0)).send();
         resp?.text()
     }
 
@@ -103,15 +110,15 @@ impl SolvingSession {
 
         let body = format!("v_{}={}", c_ray, payload.replacen("+", "%2b", 1));
 
-        println!("POST {}", url);
-        println!("KEY: {}", script_data.key);
-        println!("{}", body);
+        // println!("POST {}", url);
+        // println!("KEY: {}", script_data.key);
+        // println!("{}", body);
 
         let resp = self
             .client
             .post(url)
+            .headers(get_headers(&self.cnfg.chl_data.c_hash, body.len()))
             .body(body)
-            .headers(get_headers(&self.cnfg.chl_data.c_hash))
             .send();
         resp?.text()
     }

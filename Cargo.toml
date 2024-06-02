@@ -36,7 +36,8 @@ reqwest = { version = "0.12.4", features = [
     "gzip",
     "brotli",
     "http2",
-] }
+    "rustls-tls",
+], default-features = false }
 rand = "0.8.5"
 chrono = "0.4.38"
 serde_derive = "1.0.203"

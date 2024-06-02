@@ -47,7 +47,10 @@ fn main() {
     fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file");
     println!("[*] Writing deobfuscated script to file (./data/input_out.js)");
     fs::write("./data/input_out.js", deobbed_script).expect("Could not write file");
-
+    if session.cnfg.payloads.init.len() < 30 {
+        println!("[error] Could not find init keys");
+        return;
+    }
     log.debug("Submitting init challenge".to_owned());
     let bytecode = session.submit_init(&script_data);
 
