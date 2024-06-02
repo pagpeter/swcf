@@ -1,10 +1,9 @@
-use std::{any::Any, fs};
-
+use super::config_builder::VMConfig;
+use crate::traversals::{config_builder, utils};
+use std::any::Any;
 use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
-
-use crate::traversals::{config_builder, utils};
 
 // use swccf::{
 //     config_builder::{self, Opcode, PayloadKey},
@@ -481,30 +480,31 @@ impl Visit for IdentifyOpcodes<'_> {
     }
 }
 
-pub struct Visitor;
+pub struct Visitor<'a> {
+    pub cnfg: &'a mut VMConfig,
+}
 
-impl VisitMut for Visitor {
+impl VisitMut for Visitor<'_> {
     fn visit_mut_program(&mut self, n: &mut Program) {
         println!("\n[*] Extracting VM Config");
 
-        let mut vm_config = config_builder::VMConfig::default();
-
         n.visit_children_with(&mut FindVM {
-            vm_config: &mut vm_config,
+            vm_config: &mut self.cnfg,
         });
 
-        if vm_config.registers.is_empty() {
+        if self.cnfg.registers.is_empty() {
             println!("[ERROR] Could not find main VM func and get registers");
             return;
         }
 
         let identifier = &mut IdentifyOpcodes {
-            vm_config: &mut vm_config,
+            vm_config: &mut self.cnfg,
             found: &mut 0,
             init_keys: vec![],
         };
         n.visit_children_with(identifier);
         println!("[*] Found {}/20 opcodes", identifier.found);
+        println!("init_keys: {:?}", identifier.init_keys);
 
         let mut i: usize = 0;
         for s in identifier.init_keys.to_vec() {
@@ -521,10 +521,6 @@ impl VisitMut for Visitor {
         }
 
         // println!("Result: {:?}", identifier.init_keys);
-        utils::get_init_data(&identifier.init_keys, &vm_config);
-
-        println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
-        let json = serde_json::to_string_pretty(&vm_config);
-        fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file")
+        utils::get_init_data(&identifier.init_keys, &self.cnfg);
     }
 }

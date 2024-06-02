@@ -1,4 +1,5 @@
-use crate::extract_required::{lz_compress, ChallengeData, ParsedScript};
+use crate::extract_required::{lz_compress, ParsedScript};
+use crate::traversals::config_builder::ChlData;
 use reqwest::blocking::Client;
 use reqwest::header::{HeaderMap, HeaderValue};
 
@@ -11,7 +12,7 @@ pub fn get_page() -> Result<String, reqwest::Error> {
     resp?.text()
 }
 
-pub fn get_script(chl_data: &ChallengeData) -> Result<String, reqwest::Error> {
+pub fn get_script(chl_data: &ChlData) -> Result<String, reqwest::Error> {
     let url = format!(
         "https://{}/cdn-cgi/challenge-platform/h/{}/orchestrate/chl_page/v1?ray={}",
         DOMAIN, chl_data.c_fpwv, chl_data.c_ray
@@ -22,7 +23,7 @@ pub fn get_script(chl_data: &ChallengeData) -> Result<String, reqwest::Error> {
 }
 
 pub fn submit_init(
-    chl_data: &ChallengeData,
+    chl_data: &ChlData,
     script_data: &ParsedScript,
 ) -> Result<String, reqwest::Error> {
     let client = Client::new();
@@ -38,7 +39,7 @@ pub fn submit_init(
         key,
     );
 
-    println!("{}", payload);
+    // println!("{}", payload);
 
     let body = format!("v_{}={}", chl_data.c_ray, payload);
 

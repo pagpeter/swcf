@@ -1,7 +1,8 @@
 use core::fmt::Error;
 use regex::Regex;
-use serde::{Deserialize, Serialize};
 use serde_json;
+
+use crate::traversals::config_builder::ChlData;
 pub struct ParsedScript {
     pub seperator: String,
     pub key: String,
@@ -29,52 +30,10 @@ pub fn parse_script(script: &str) -> ParsedScript {
     }
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct ChallengeData {
-    pub cv_id: String,
-    pub c_zone: String,
-    pub c_type: String,
-    pub c_nounce: String,
-    pub c_ray: String,
-    pub c_hash: String,
-    #[serde(rename = "cUPMDTk")]
-    pub c_upmdtk: String,
-    #[serde(rename = "cFPWv")]
-    pub c_fpwv: String,
-    #[serde(rename = "cTTimeMs")]
-    pub c_ttime_ms: String,
-    #[serde(rename = "cMTimeMs")]
-    pub c_mtime_ms: String,
-    pub c_tpl_v: String,
-    pub c_tpl_b: String,
-    pub c_k: String,
-    pub fa: String,
-    pub md: String,
-    pub mdrd: String,
-    pub c_rq: CRq,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CRq {
-    pub ru: String,
-    pub ra: String,
-    pub rm: String,
-    pub d: String,
-    pub t: String,
-    pub c_t: String,
-    pub m: String,
-    pub i1: String,
-    pub i2: String,
-    pub zh: String,
-    pub uh: String,
-    pub hh: String,
-}
-
-pub fn parse_challenge_data(result: &str) -> Result<ChallengeData, Error> {
+pub fn parse_challenge_data(result: &str) -> Result<ChlData, Error> {
     let re = Regex::new(r"window._cf_chl_opt=(.+?);var").unwrap();
     let Some(caps) = re.captures(&result) else {
+        println!("Error regexing _cf_chl_opt");
         return Err(Error {});
     };
 
@@ -88,9 +47,10 @@ pub fn parse_challenge_data(result: &str) -> Result<ChallengeData, Error> {
         .replace("\"{", "{")
         .replace("\"{\"", "{\"");
 
-    let parsed: Result<ChallengeData, serde_json::Error> = serde_json::from_str(&res2);
+    let parsed: Result<ChlData, serde_json::Error> = serde_json::from_str(&res2);
 
     if parsed.is_err() {
+        println!("Error marshalling _cf_chl_opt as json");
         return Err(Error {});
     }
 

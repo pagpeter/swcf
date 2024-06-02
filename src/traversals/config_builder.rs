@@ -441,7 +441,7 @@ pub struct CRq {
     pub rm: String,
     pub d: String,
     pub t: String,
-    pub c_t: i64,
+    pub c_t: String,
     pub m: String,
     pub i1: String,
     pub i2: String,
@@ -467,7 +467,7 @@ pub struct ChlData {
     pub c_ttime_ms: String,
     #[serde(rename = "cMTimeMs")]
     pub c_mtime_ms: String,
-    pub c_tpl_v: i64,
+    pub c_tpl_v: String,
     pub c_tpl_b: String,
     pub c_k: String,
     pub fa: String,

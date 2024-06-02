@@ -13,8 +13,12 @@ fn main() {
 
     println!("[!] Elapsed time (Parsing): {:.2?}", before.elapsed());
 
-    let (out, _filled_config) =
-        traversals::deobfuscate_script::deobfuscate(VMConfig::default(), &src);
+    let mut cnfg = VMConfig::default();
+    let out = traversals::deobfuscate_script::deobfuscate(&mut cnfg, &src);
+
+    println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
+    let json = serde_json::to_string_pretty(&cnfg);
+    fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file");
 
     fs::write(format!("{}_out.js", filename.unwrap()), out).expect("Could not write to file");
     println!(
