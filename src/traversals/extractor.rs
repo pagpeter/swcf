@@ -1,5 +1,8 @@
 use super::config_builder::VMConfig;
-use crate::traversals::{config_builder, utils};
+use crate::traversals::{
+    config_builder::{self, PayloadKey},
+    utils,
+};
 use std::any::Any;
 use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
@@ -528,6 +531,22 @@ impl VisitMut for Visitor<'_> {
             }
             i += 1;
         }
+
+        // TODO: not require this
+        // its only required because for some reason, LLRA7: 0
+        // is not in the scripts we get as a response, but the browser consistently gets it
+        // I have no idea why this happens
+        utils::insert_in_place(
+            &mut identifier.init_keys,
+            PayloadKey {
+                key: "LLRA7".to_string(),
+                value_type: "NUMBER".to_string(),
+                num_value: 0.0,
+                data_key: "".to_string(),
+                sub_keys: vec![],
+            },
+            2,
+        );
 
         self.cnfg.payloads.init = utils::get_init_data(&identifier.init_keys, &self.cnfg);
     }

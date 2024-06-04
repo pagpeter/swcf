@@ -48,7 +48,7 @@ fn main() {
     println!("[*] Writing deobfuscated script to file (./data/input_out.js)");
     fs::write("./data/input_out.js", deobbed_script).expect("Could not write file");
     if session.cnfg.payloads.init.len() < 30 {
-        println!("[error] Could not find init keys");
+        log.error("[error] Could not find init keys".to_string());
         return;
     }
     log.debug("Submitting init challenge".to_owned());
@@ -57,6 +57,13 @@ fn main() {
     if bytecode.is_err() {
         log.error("Could not submit init challenge".to_owned())
     }
-    log.success(format!("Got main challenge!"));
-    println!("{}", bytecode.unwrap());
+    let main = bytecode.unwrap();
+    if main.len() < 20 {
+        log.error("Error getting main bytecode:".to_string());
+        log.error(main.to_string())
+    }
+    log.success(format!("Got main challenge bytecode!"));
+    session.cnfg.bytecodes.main = main;
+
+    // println!("{}", bytecode.unwrap());
 }

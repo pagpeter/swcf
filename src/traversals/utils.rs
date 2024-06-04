@@ -61,6 +61,11 @@ pub fn get_structs(data: &str) -> Data {
     };
 }
 
+pub fn insert_in_place<T>(array: &mut [T], value: T, index: usize) {
+    array[index..].rotate_right(1);
+    array[index] = value;
+}
+
 // Marshals the init payload - dynamic keys from the script
 pub fn get_init_data(init_keys: &Vec<PayloadKey>, cnfg: &VMConfig) -> String {
     let mut j: String = "{".to_owned();

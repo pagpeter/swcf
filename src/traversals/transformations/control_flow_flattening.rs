@@ -156,6 +156,10 @@ impl VisitMut for Visitor {
         n.visit_children_with(&mut cases);
         // println!("CFF: {}", order_str.str);
 
+        if cases.cases.first().is_none() {
+            return;
+        }
+
         let mut stmts = vec![cases.cases.first().unwrap().stmt.to_owned(); cases.cases.len()];
         stmts.clear();
         for o in order {
