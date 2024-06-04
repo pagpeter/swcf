@@ -1,4 +1,5 @@
 use core::fmt;
+use rand::Rng;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use std::collections::HashMap;
@@ -112,11 +113,61 @@ impl fmt::Display for Opcode {
     }
 }
 
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PayloadKey {
     pub key: String,
     pub value_type: String,
     pub num_value: f64,
     pub data_key: String,
     pub sub_keys: Vec<String>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+
+pub struct InitKeys {
+    pub keys: Vec<PayloadKey>,
+}
+
+impl InitKeys {
+    pub fn insert_in_place(&mut self, value: PayloadKey, index: usize) {
+        self.keys[index..].rotate_right(1);
+        self.keys[index] = value;
+    }
+
+    // Marshals the init payload - dynamic keys from the script
+    pub fn marshal(&self, cnfg: &VMConfig) -> String {
+        let mut j: String = "{".to_owned();
+        for k in &self.keys {
+            if k.value_type == "NUMBER" {
+                j += &format!("\"{}\":{},", k.key, k.num_value.round())
+            } else if k.value_type == "RANDOM" {
+                j += &format!("\"{}\":{},", k.key, rand::thread_rng().gen_range(1..20))
+            } else if k.value_type == "SENSOR" {
+                j += &format!("\"{}\":{{", k.key);
+                for sub in &k.sub_keys {
+                    j += &format!("\"{}\":0,", sub)
+                }
+                j += &format!("}},");
+            } else if k.value_type == "DATA" {
+                let val: String;
+
+                if k.data_key == "cType" {
+                    val = format!("\"{}\"", cnfg.chl_data.c_type.to_string());
+                } else if k.data_key == "cNounce" {
+                    val = format!("\"{}\"", cnfg.chl_data.c_nounce.to_string());
+                } else if k.data_key == "cvId" {
+                    val = format!("\"{}\"", cnfg.chl_data.cv_id.to_string());
+                } else if k.data_key == "cRq" {
+                    val = serde_json::to_string(&cnfg.chl_data.c_rq).unwrap();
+                } else {
+                    // println!("Not implemented: {}", k.data_key);
+                    val = "false".to_owned();
+                }
+                j += &format!("\"{}\":{},", k.key, val);
+            }
+        }
+        j += "}";
+        j = j.replace(",}", "}");
+        return j;
+    }
 }

@@ -100,7 +100,6 @@ impl SolvingSession<'_> {
 
     pub fn get_page(&self) -> Result<String, reqwest::Error> {
         let url = format!("https://{}/", DOMAIN);
-        println!("GET {}", url);
         let req = self
         .client
         .get(url)
@@ -137,7 +136,6 @@ impl SolvingSession<'_> {
             "https://{}/cdn-cgi/challenge-platform/h/{}/orchestrate/chl_page/v1?ray={}",
             self.domain, self.cnfg.chl_data.c_fpwv, self.cnfg.chl_data.c_ray
         );
-        println!("GET {}", url);
         let referer = &format!("https://cfschl.peet.ws{}", self.cnfg.chl_data.fa);
         let req = self
             .client

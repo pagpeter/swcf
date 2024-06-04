@@ -1,5 +1,3 @@
-use crate::traversals::config_builder::{PayloadKey, VMConfig};
-use rand::Rng;
 use std::io;
 use swc::config::{Config, IsModule, JscConfig, ModuleConfig, Options};
 use swc::Compiler;
@@ -59,46 +57,4 @@ pub fn get_structs(data: &str) -> Data {
         handler,
         source,
     };
-}
-
-pub fn insert_in_place<T>(array: &mut [T], value: T, index: usize) {
-    array[index..].rotate_right(1);
-    array[index] = value;
-}
-
-// Marshals the init payload - dynamic keys from the script
-pub fn get_init_data(init_keys: &Vec<PayloadKey>, cnfg: &VMConfig) -> String {
-    let mut j: String = "{".to_owned();
-    for k in init_keys {
-        if k.value_type == "NUMBER" {
-            j += &format!("\"{}\":{},", k.key, k.num_value.round())
-        } else if k.value_type == "RANDOM" {
-            j += &format!("\"{}\":{},", k.key, rand::thread_rng().gen_range(1..20))
-        } else if k.value_type == "SENSOR" {
-            j += &format!("\"{}\":{{", k.key);
-            for sub in &k.sub_keys {
-                j += &format!("\"{}\":0,", sub)
-            }
-            j += &format!("}},");
-        } else if k.value_type == "DATA" {
-            let val: String;
-
-            if k.data_key == "cType" {
-                val = format!("\"{}\"", cnfg.chl_data.c_type.to_string());
-            } else if k.data_key == "cNounce" {
-                val = format!("\"{}\"", cnfg.chl_data.c_nounce.to_string());
-            } else if k.data_key == "cvId" {
-                val = format!("\"{}\"", cnfg.chl_data.cv_id.to_string());
-            } else if k.data_key == "cRq" {
-                val = serde_json::to_string(&cnfg.chl_data.c_rq).unwrap();
-            } else {
-                // println!("Not implemented: {}", k.data_key);
-                val = "false".to_owned();
-            }
-            j += &format!("\"{}\":{},", k.key, val);
-        }
-    }
-    j += "}";
-    j = j.replace(",}", "}");
-    return j;
 }

@@ -42,9 +42,6 @@ fn main() {
 
     let deobbed_script = deobfuscate(&mut session.cnfg, &script_result);
 
-    println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
-    let json = serde_json::to_string_pretty(&session.cnfg);
-    fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file");
     println!("[*] Writing deobfuscated script to file (./data/input_out.js)");
     fs::write("./data/input_out.js", deobbed_script).expect("Could not write file");
     if session.cnfg.payloads.init.len() < 30 {
@@ -65,5 +62,8 @@ fn main() {
     log.success(format!("Got main challenge bytecode!"));
     session.cnfg.bytecodes.main = main;
 
+    println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
+    let json = serde_json::to_string_pretty(&session.cnfg);
+    fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file");
     // println!("{}", bytecode.unwrap());
 }

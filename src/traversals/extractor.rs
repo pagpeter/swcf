@@ -1,9 +1,6 @@
 use super::config_builder::VMConfig;
-use crate::traversals::{
-    config_builder::{self, PayloadKey},
-    utils,
-};
-use std::any::Any;
+use crate::traversals::config_builder::{self, InitKeys, PayloadKey};
+use std::{any::Any, fs};
 use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
@@ -417,12 +414,12 @@ impl Visit for FindInitPayloadSensorData {
 struct IdentifyOpcodes<'a> {
     vm_config: &'a mut config_builder::VMConfig,
     found: &'a mut usize,
-    init_keys: Vec<config_builder::PayloadKey>,
+    init_keys: config_builder::InitKeys,
 }
 
 impl Visit for IdentifyOpcodes<'_> {
     fn visit_object_lit(&mut self, n: &swc_ecma_ast::ObjectLit) {
-        if n.props.len() == 13 || n.props.len() == 12 {
+        if self.init_keys.keys.len() == 0 && n.props.len() == 13 || n.props.len() == 12 {
             for p in &n.props {
                 let kv = p.as_prop().unwrap().as_key_value().unwrap();
 
@@ -454,8 +451,23 @@ impl Visit for IdentifyOpcodes<'_> {
                     }
                 }
 
-                self.init_keys.push(val)
+                self.init_keys.keys.push(val)
             }
+
+            // TODO: not require this
+            // its only required because for some reason, LLRA7: 0
+            // is not in the scripts we get as a response, but the browser consistently gets it
+            // I have no idea why this happens
+            self.init_keys.insert_in_place(
+                PayloadKey {
+                    key: "LLRA7".to_string(),
+                    value_type: "NUMBER".to_string(),
+                    num_value: 0.0,
+                    data_key: "".to_string(),
+                    sub_keys: vec![],
+                },
+                2,
+            );
         }
     }
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -510,16 +522,30 @@ impl VisitMut for Visitor<'_> {
             return;
         }
 
+        let mut init_keys: InitKeys = InitKeys::default();
+        let cached_init = fs::read("./data/init_keys.json");
+        if cached_init.is_ok() {
+            let cached = cached_init.unwrap();
+            let str = std::str::from_utf8(&cached).unwrap();
+            let res = serde_json::from_str(str.into());
+            if res.is_ok() {
+                init_keys = res.unwrap();
+                println!("[+] Loaded init keys from cache")
+            } else {
+                println!("Error loading cached init keys: {:#?}", res.err())
+            }
+        }
+
         let identifier = &mut IdentifyOpcodes {
             vm_config: &mut self.cnfg,
             found: &mut 0,
-            init_keys: vec![],
+            init_keys: init_keys,
         };
         n.visit_children_with(identifier);
         println!("[*] Found {}/20 opcodes", identifier.found);
 
         let mut i: usize = 0;
-        for s in identifier.init_keys.to_vec() {
+        for s in identifier.init_keys.keys.to_vec() {
             if s.value_type == "SENSOR" {
                 let mut find_sensor_vars = FindInitPayloadSensorData {
                     name: s.data_key.to_owned(),
@@ -527,27 +553,20 @@ impl VisitMut for Visitor<'_> {
                     result: vec![],
                 };
                 n.visit_children_with(&mut find_sensor_vars);
-                identifier.init_keys[i].sub_keys = find_sensor_vars.result;
+                identifier.init_keys.keys[i].sub_keys = find_sensor_vars.result;
             }
             i += 1;
         }
 
-        // TODO: not require this
-        // its only required because for some reason, LLRA7: 0
-        // is not in the scripts we get as a response, but the browser consistently gets it
-        // I have no idea why this happens
-        utils::insert_in_place(
-            &mut identifier.init_keys,
-            PayloadKey {
-                key: "LLRA7".to_string(),
-                value_type: "NUMBER".to_string(),
-                num_value: 0.0,
-                data_key: "".to_string(),
-                sub_keys: vec![],
-            },
-            2,
-        );
+        if identifier.init_keys.keys.len() == 0 {
+            println!("Could not get init keys dynamically");
+            return;
+        }
 
-        self.cnfg.payloads.init = utils::get_init_data(&identifier.init_keys, &self.cnfg);
+        println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
+        let json = serde_json::to_string_pretty(&identifier.init_keys).unwrap();
+        let _ = fs::write("./data/init_keys.json", json);
+
+        self.cnfg.payloads.init = identifier.init_keys.marshal(&self.cnfg);
     }
 }
