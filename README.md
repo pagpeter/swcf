@@ -27,3 +27,8 @@ I wanted to learn rust and swc, and wanted to see the benefits of using it over 
 
 The performance is worse than I thought, but that probably has to do with my very bad, completely unoptimized code. However, it's still 20-30x faster than similar code written in NodeJS/babel.
 When compiled with the release flag, it takes ~55ms for reading, parsing, deobfuscating, marshalling the AST back to valid JavaScript and writing everything to file.
+
+## TLS-Client-API
+
+- https://github.com/bogdanfinn/tls-client-api/releases
+- https://bogdanfinn.gitbook.io/open-source-oasis/standalone-api-application/download

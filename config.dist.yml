@@ -1,0 +1,37 @@
+env: dev
+
+app_project: tls-client
+app_family: tls-client
+app_name: api
+
+log:
+  handlers:
+    main:
+      formatter: console
+      level: info
+      timestamp_format: "15:04:05:000"
+      type: iowriter
+      writer: stdout
+
+sentry:
+  dsn: ""
+  release: ""
+  tags:
+    project: tls-client
+    component: tls-client-api
+
+api:
+  port: 9999
+  mode: release
+  health:
+    port: 9990
+  timeout:
+    read: 120s
+    write: 120s
+    idle: 120s
+
+api_auth_keys: ["swccf"]
+
+api_cors_allowed_origin_pattern: ""
+api_cors_allowed_headers: ["X-API-KEY", "X-API-VIEW", "Content-Type"]
+api_cors_allowed_methods: ["POST", "GET", "PUT", "DELETE"]

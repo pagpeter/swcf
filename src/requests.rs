@@ -1,4 +1,5 @@
 use crate::extract_required::{lz_compress, ParsedScript};
+use crate::tls_api;
 use crate::traversals;
 use reqwest::blocking::Client;
 use reqwest::header::HeaderValue;
@@ -36,6 +37,7 @@ pub struct SolvingSession<'a> {
 
     client: Client,
     device: Device<'a>,
+    tls_api: bool,
 }
 
 impl SolvingSession<'_> {
@@ -61,12 +63,38 @@ impl SolvingSession<'_> {
             client: c,
             debug,
             device: Device::brave(),
+            tls_api: true,
         };
     }
+
+    fn use_tls_client_api(&self, r: reqwest::blocking::RequestBuilder) -> String {
+        let b = r.build().unwrap();
+
+        let mut pl = tls_api::Payload::from_reqwest(b);
+
+        if self.debug {
+            pl.proxy_url = "http://localhost:8888".to_string();
+        }
+
+        let j = serde_json::to_string_pretty(&pl).unwrap();
+
+        let res = self
+            .client
+            .post("http://localhost:9999/api/forward")
+            .header("x-api-key", "swccf")
+            .header("Content-Type", "application/json")
+            .body(j)
+            .send();
+
+        let parsed = tls_api::Response::from_str(res.unwrap().text().unwrap().as_str());
+
+        return parsed.body;
+    }
+
     pub fn get_page(&self) -> Result<String, reqwest::Error> {
         let url = format!("https://{}/", DOMAIN);
         println!("GET {}", url);
-        let resp = self
+        let req = self
             .client
             .get(url)
             .header("upgrade-insecure-requests", "1")
@@ -84,9 +112,13 @@ impl SolvingSession<'_> {
             .header("sec-fetch-user", sh("?1"))
             .header("sec-fetch-dest", sh("document"))
             .header("accept-encoding", sh("gzip, deflate, br, zstd"))
-            .header("priority", sh("u=0, i"))
-            .send();
-        resp?.text()
+            .header("priority", sh("u=0, i"));
+
+        if self.tls_api {
+            return Ok(self.use_tls_client_api(req));
+        } else {
+            return req.send()?.text();
+        }
     }
 
     pub fn get_script(&self) -> Result<String, reqwest::Error> {
@@ -96,7 +128,7 @@ impl SolvingSession<'_> {
         );
         println!("GET {}", url);
         let referer = &format!("https://cfschl.peet.ws{}", self.cnfg.chl_data.fa);
-        let resp = self
+        let req = self
             .client
             .get(url)
             .header("sec-ch-ua", sh(self.device.sec_ch_ua))
@@ -112,9 +144,13 @@ impl SolvingSession<'_> {
             .header("sec-fetch-mode", sh("no-cors"))
             .header("sec-fetch-dest", sh("script"))
             .header("referer", sh(referer))
-            .header("accept-encoding", sh("gzip, deflate, br, zstd"))
-            .send();
-        resp?.text()
+            .header("accept-encoding", sh("gzip, deflate, br, zstd"));
+
+        if self.tls_api {
+            return Ok(self.use_tls_client_api(req));
+        } else {
+            return req.send()?.text();
+        }
     }
 
     pub fn submit_init(&self, script_data: &ParsedScript) -> Result<String, reqwest::Error> {
@@ -138,7 +174,7 @@ impl SolvingSession<'_> {
         // println!("KEY: {}", script_data.key);
         // println!("{}", body);
 
-        let resp = self
+        let req = self
             .client
             .post(url)
             .header("content-length", sh(&format!("{}", body.len())))
@@ -160,8 +196,12 @@ impl SolvingSession<'_> {
             .header("referer", sh("https://cfschl.peet.ws/"))
             .header("accept-encoding", sh("gzip, deflate, br, zstd"))
             .header("priority", sh("u=1, i"))
-            .body(body)
-            .send();
-        resp?.text()
+            .body(body);
+
+        if self.tls_api {
+            return Ok(self.use_tls_client_api(req));
+        } else {
+            return req.send()?.text();
+        }
     }
 }
