@@ -10,7 +10,12 @@ fn get_timestamp() -> String {
 }
 
 impl Logger {
-    pub fn debug(&self, text: String) {
+    pub fn new(prefix: &str) -> Logger {
+        return Logger {
+            prefix: prefix.to_string(),
+        };
+    }
+    pub fn debug(&self, text: &str) {
         println!(
             "\u{1B}[95m{} [{}]\u{001b}[0m {}",
             get_timestamp(),
@@ -18,7 +23,7 @@ impl Logger {
             text
         )
     }
-    pub fn error(&self, text: String) {
+    pub fn error(&self, text: &str) {
         println!(
             "\u{1B}[91m{} [{}]\u{001b}[0m {}",
             get_timestamp(),
@@ -26,7 +31,7 @@ impl Logger {
             text
         )
     }
-    pub fn success(&self, text: String) {
+    pub fn success(&self, text: &str) {
         println!(
             "\u{1B}[92m{} [{}]\u{001b}[0m {}",
             get_timestamp(),
@@ -34,8 +39,4 @@ impl Logger {
             text
         )
     }
-}
-
-pub fn get_logger(prefix: String) -> Logger {
-    return Logger { prefix };
 }

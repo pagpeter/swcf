@@ -3,3 +3,4 @@ pub mod logger;
 pub mod requests;
 pub mod tls_api;
 pub mod traversals;
+pub mod vm;
