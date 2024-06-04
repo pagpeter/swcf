@@ -4,13 +4,14 @@ use swccf::extract_required;
 use swccf::logger;
 use swccf::requests;
 use swccf::traversals::deobfuscate_script::deobfuscate;
+use swccf::traversals::utils;
 
 fn main() {
     let log: logger::Logger = logger::get_logger("main".to_string());
 
     log.debug("Getting initial HTML".to_owned());
 
-    let mut session = requests::SolvingSession::new("cfschl.peet.ws", true);
+    let mut session = requests::SolvingSession::new("cfschl.peet.ws", false);
 
     let text = session.get_page();
 
@@ -60,10 +61,9 @@ fn main() {
         log.error(main.to_string())
     }
     log.success(format!("Got main challenge bytecode!"));
-    session.cnfg.bytecodes.main = main;
+    session.cnfg.bytecodes.main = utils::decrypt_response(&main, &session.cnfg.chl_data.c_ray);
 
     println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
     let json = serde_json::to_string_pretty(&session.cnfg);
     fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file");
-    // println!("{}", bytecode.unwrap());
 }

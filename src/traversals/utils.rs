@@ -58,3 +58,30 @@ pub fn get_structs(data: &str) -> Data {
         source,
     };
 }
+
+pub fn decrypt_response(input: &str, c_ray: &str) -> String {
+    let mut j: i32 = 32;
+    let l: String = format!("{}_0", c_ray);
+
+    l.chars().for_each(|s| j ^= s as i32);
+
+    let input_d: Vec<u8> =
+        base64::Engine::decode(&base64::prelude::BASE64_STANDARD, input).unwrap();
+
+    let mut out: Vec<String> = vec![];
+
+    let mut i: i32 = 0;
+    loop {
+        if input_d.len() <= i.try_into().unwrap() {
+            break;
+        }
+        let m: i32 = input_d[i as usize] as i32;
+        let m2 = ((m & 255) - j - (i % 65535) + 65535) % 255;
+        let char = std::str::from_utf8(&vec![m2 as u8]).unwrap().to_owned();
+        out.push(char);
+
+        i += 1;
+    }
+
+    return out.join("");
+}

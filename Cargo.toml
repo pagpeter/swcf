@@ -41,6 +41,7 @@ reqwest = { version = "0.12.4", features = [
 rand = "0.8.5"
 chrono = "0.4.38"
 serde_derive = "1.0.203"
+base64 = "0.22.1"
 
 # .cargo/config defines few alias to build plugin.
 # cargo build-wasi generates wasm-wasi32 binary

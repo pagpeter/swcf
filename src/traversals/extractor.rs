@@ -5,11 +5,6 @@ use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
 
-// use swccf::{
-//     config_builder::{self, Opcode, PayloadKey},
-//     utils,
-// };
-
 struct FindVM<'a> {
     vm_config: &'a mut config_builder::VMConfig,
 }
