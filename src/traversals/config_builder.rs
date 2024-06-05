@@ -7,8 +7,9 @@ use std::collections::HashMap;
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MagicBits {
-    start_enc: i32,
-    opcode_enc: Vec<i32>,
+    pub start_enc: u64,
+    pub opcode_enc: Vec<u64>,
+    pub enc: Vec<u64>,
     // NEW_ARR: Vec<i32>,
     // JUMP_IF: Vec<i32>,
 }

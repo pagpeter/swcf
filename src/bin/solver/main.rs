@@ -7,12 +7,14 @@ use swccf::traversals::deobfuscate_script::deobfuscate;
 use swccf::traversals::utils;
 use swccf::vm::vm::VM;
 
+const DEBUG: bool = false;
+
 fn main() {
     let log = Logger::new("MAIN");
 
     log.debug("Getting initial HTML");
 
-    let mut session = requests::SolvingSession::new("cfschl.peet.ws", false);
+    let mut session = requests::SolvingSession::new("cfschl.peet.ws", DEBUG);
 
     let text = session.get_page();
 

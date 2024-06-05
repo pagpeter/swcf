@@ -450,18 +450,18 @@ impl Visit for IdentifyOpcodes<'_> {
             }
 
             // TODO: not require this
-            // its only required because for some reason, LLRA7: 0
+            // its only required because for some reason
             // is not in the scripts we get as a response, but the browser consistently gets it
             // I have no idea why this happens
             self.init_keys.insert_in_place(
                 PayloadKey {
-                    key: "LLRA7".to_string(),
+                    key: "WfxD8".to_string(),
                     value_type: "NUMBER".to_string(),
                     num_value: 0.0,
                     data_key: "".to_string(),
                     sub_keys: vec![],
                 },
-                2,
+                4,
             );
         }
     }

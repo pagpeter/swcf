@@ -69,14 +69,5 @@ pub fn lz_compress(data: impl lz_str::IntoWideIter, key: &[u8]) -> String {
     let data: Vec<u16> = data.into_wide_iter().collect();
     let compressed = lz_str::compress_internal(&data, 6, |n| u16::from(key[usize::from(n)]));
 
-    // TODO: check if this is required
-    // let mod_4 = compressed.len() % 4;
-
-    // if mod_4 != 0 {
-    //     for _ in mod_4..(4 + 1) {
-    //         compressed.push(u16::from(b'='));
-    //     }
-    // }
-
     String::from_utf16(&compressed).expect("`compress_to_base64` output was not valid unicode`")
 }
