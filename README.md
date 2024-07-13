@@ -24,7 +24,7 @@ $ cargo build --release
 $ ./target/release/deobfuscator data/input.js
 ```
 
-## Usage of the "solver" (unfinished)
+## Usage of the "solver" (unfinished and outdated)
 
 ```sh
 # Developement
