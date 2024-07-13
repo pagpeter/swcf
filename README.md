@@ -6,17 +6,33 @@ Some parts are rewritten from https://github.com/wwhtrbbtt/deob-transformations
 
 ## Features
 
-At the moment, it only deobfuscates some parts of cloudflares obfuscation: the string scrambling, the proxy functions / strings, and a bit more.
+This repo aims to provide some tooling for analysing the cloudflare "I am under attack mode" (IUAM) browser fingerprinting challenge.
 
-## Usage
+The challenge consists of an obfuscated JavaScript file (init script), obfuscated with a custom version of the open-source obfuscator.io framework, which loads and executes a custom Virtual Machine (VM). The virtualized program then executes a bunch of "sub-challenges" to fingerprint your browser environment. The results gets send back to cloudflare, and either you get a cf_clearance cookie or not. (This is simplified - the actual request flow is a bit more complex.)
+
+This makes analysis very hard. However, to start, you need to deobfuscate the init script and load the bytecode for the VM. This is what this repo aims to automate.
+
+## Usage of the init script deobfuscator
 
 ```sh
 # Developement
+$ ./data/getinput.sh # Getting challenge script
 $ cargo run --bin deobfuscator data/input.js
 
 # Production
 $ cargo build --release
 $ ./target/release/deobfuscator data/input.js
+```
+
+## Usage of the "solver" (unfinished)
+
+```sh
+# Developement
+$ cargo run --bin solver
+
+# Production
+$ cargo build --release
+$ ./target/release/solver
 ```
 
 ## Why

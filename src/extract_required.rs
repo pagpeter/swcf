@@ -11,7 +11,7 @@ pub struct ParsedScript {
 }
 
 pub fn parse_script(script: &str) -> ParsedScript {
-    let seperator_regex = Regex::new(r"en-us(.)").unwrap();
+    let seperator_regex = Regex::new(r"spinner-please-wait(.)").unwrap();
     let seperator: String = seperator_regex.captures(&script).unwrap()[1].to_string();
 
     let key_regex = Regex::new(&format!(
