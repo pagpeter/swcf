@@ -51,7 +51,7 @@ impl VM<'_> {
     }
 
     fn read(&mut self) -> u64 {
-        let sub: u64 = (self.cnfg.magic_bits.opcode_enc.first().unwrap()
+        let sub: i64 = (self.cnfg.magic_bits.opcode_enc.first().unwrap()
             + self.cnfg.magic_bits.opcode_enc.last().unwrap())
         .try_into()
         .unwrap();
@@ -63,8 +63,15 @@ impl VM<'_> {
             self.logger.error("Could not read() next");
             return 0;
         }
-
-        return self.enc ^ ((next.unwrap() as u64 - sub) & 255) as u64;
+        // println!(
+        //     "{:?}, {:?}, {:?}, {:?}, {:?}",
+        //     next,
+        //     self.pointer,
+        //     next.unwrap(),
+        //     next.unwrap() as i64,
+        //     sub
+        // );
+        return self.enc ^ ((next.unwrap() as i64 - sub) & 255) as u64;
     }
 
     fn calc_enc(&mut self, op: usize) {

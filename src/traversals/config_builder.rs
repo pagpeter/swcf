@@ -73,7 +73,7 @@ pub struct Payloads {
     pub main: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct VMConfig {
     pub payloads: Payloads,
@@ -120,6 +120,7 @@ pub struct PayloadKey {
     pub value_type: String,
     pub num_value: f64,
     pub data_key: String,
+    pub str_value: String,
     pub sub_keys: Vec<String>,
 }
 
@@ -141,6 +142,8 @@ impl InitKeys {
         for k in &self.keys {
             if k.value_type == "NUMBER" {
                 j += &format!("\"{}\":{},", k.key, k.num_value.round())
+            } else if k.value_type == "STRING" {
+                j += &format!("\"{}\":\"{}\",", k.key, k.str_value)
             } else if k.value_type == "RANDOM" {
                 j += &format!("\"{}\":{},", k.key, rand::thread_rng().gen_range(1..20))
             } else if k.value_type == "SENSOR" {

@@ -1,4 +1,4 @@
-use crate::extract_required::{lz_compress, ParsedScript};
+use crate::extract_required::ParsedScript;
 use crate::tls_api;
 use crate::traversals;
 use reqwest::blocking::Client;
@@ -172,7 +172,14 @@ impl SolvingSession<'_> {
         }
     }
 
-    pub fn submit_init(&self, script_data: &ParsedScript) -> Result<String, reqwest::Error> {
+    pub fn submit_init(
+        &self,
+        script_data: &ParsedScript,
+        body: String,
+    ) -> Result<String, reqwest::Error> {
+        // println!("POST {}", url);
+        // println!("KEY: {}", script_data.key);
+        // println!("{}", body);
         let url = format!(
             "https://{}/cdn-cgi/challenge-platform/h/{}/flow/ov1/{}/{}/{}",
             self.domain,
@@ -181,17 +188,6 @@ impl SolvingSession<'_> {
             self.cnfg.chl_data.c_ray,
             self.cnfg.chl_data.c_hash
         );
-
-        let key: &[u8] = script_data.key.as_bytes();
-        let payload = lz_compress(&self.cnfg.payloads.init, key);
-
-        let c_ray = &self.cnfg.chl_data.c_ray;
-
-        let body = format!("v_{}={}", c_ray, payload.replacen("+", "%2b", 1));
-
-        // println!("POST {}", url);
-        // println!("KEY: {}", script_data.key);
-        // println!("{}", body);
 
         let req = self
             .client

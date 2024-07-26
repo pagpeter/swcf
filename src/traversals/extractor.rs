@@ -1,6 +1,6 @@
 use super::config_builder::VMConfig;
-use crate::traversals::config_builder::{self, InitKeys, PayloadKey};
-use std::{any::Any, fs};
+use crate::traversals::config_builder::{self, InitKeys};
+use std::{any::Any, collections::HashMap, fs};
 use swc_core::ecma::visit::VisitMut;
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
@@ -410,11 +410,16 @@ struct IdentifyOpcodes<'a> {
     vm_config: &'a mut config_builder::VMConfig,
     found: &'a mut usize,
     init_keys: config_builder::InitKeys,
+    handler_mapping: HashMap<String, String>,
 }
 
 impl Visit for IdentifyOpcodes<'_> {
     fn visit_object_lit(&mut self, n: &swc_ecma_ast::ObjectLit) {
-        if self.init_keys.keys.len() == 0 && n.props.len() == 13 || n.props.len() == 12 {
+        if self.init_keys.keys.len() == 0 && n.props.len() == 13
+            || n.props.len() == 12
+            || n.props.len() == 10
+            || n.props.len() == 9
+        {
             for p in &n.props {
                 let kv = p.as_prop().unwrap().as_key_value().unwrap();
 
@@ -427,8 +432,12 @@ impl Visit for IdentifyOpcodes<'_> {
                         let lit = kv.value.as_lit().unwrap();
                         match lit {
                             swc_ecma_ast::Lit::Num(n) => {
-                                val.num_value = n.raw.to_owned().unwrap().as_str().parse().unwrap()
+                                if n.raw.is_some() {
+                                    val.num_value =
+                                        n.raw.to_owned().unwrap().as_str().parse().unwrap()
+                                }
                             }
+                            // TODO: handle negative values
                             _ => {}
                         }
                     } else if kv.value.is_bin() {
@@ -448,21 +457,6 @@ impl Visit for IdentifyOpcodes<'_> {
 
                 self.init_keys.keys.push(val)
             }
-
-            // TODO: not require this
-            // its only required because for some reason
-            // is not in the scripts we get as a response, but the browser consistently gets it
-            // I have no idea why this happens
-            self.init_keys.insert_in_place(
-                PayloadKey {
-                    key: "WfxD8".to_string(),
-                    value_type: "NUMBER".to_string(),
-                    num_value: 0.0,
-                    data_key: "".to_string(),
-                    sub_keys: vec![],
-                },
-                4,
-            );
         }
     }
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -490,6 +484,7 @@ impl Visit for IdentifyOpcodes<'_> {
                 }
                 alr_exists.push(&op);
                 // println!("Identified {:?} as {:?}", name, &op);
+                self.handler_mapping.insert(name.clone(), op.to_string());
                 let val = &self.vm_config.registers.remove(&name);
                 self.vm_config
                     .registers
@@ -535,6 +530,7 @@ impl VisitMut for Visitor<'_> {
             vm_config: &mut self.cnfg,
             found: &mut 0,
             init_keys: init_keys,
+            handler_mapping: HashMap::new(),
         };
         n.visit_children_with(identifier);
         println!("[*] Found {}/20 opcodes", identifier.found);

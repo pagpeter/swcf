@@ -1,6 +1,6 @@
 use std::fs;
 
-use swccf::extract_required;
+use swccf::extract_required::{self, lz_compress};
 use swccf::logger::Logger;
 use swccf::requests;
 use swccf::traversals::deobfuscate_script::deobfuscate;
@@ -52,8 +52,14 @@ fn main() {
         log.error("[error] Could not find init keys");
         return;
     }
+
+    let key: &[u8] = script_data.key.as_bytes();
+    let payload = lz_compress(&session.cnfg.payloads.init, key);
+    let c_ray = &session.cnfg.chl_data.c_ray;
+    let body = format!("v_{}={}", c_ray, payload.replacen("+", "%2b", 1));
+
     log.debug("Submitting init challenge");
-    let bytecode = session.submit_init(&script_data);
+    let bytecode = session.submit_init(&script_data, body.clone());
 
     if bytecode.is_err() {
         log.error("Could not submit init challenge")
@@ -61,7 +67,9 @@ fn main() {
     let main = bytecode.unwrap();
     if main.len() < 20 {
         log.error("Error getting main bytecode:");
-        log.error(&main)
+        log.error(&main);
+        log.error(&format!("Init payload: {}", session.cnfg.payloads.init));
+        return;
     }
     log.success("Got main challenge bytecode!");
     session.cnfg.bytecodes.main = utils::decrypt_response(&main, &session.cnfg.chl_data.c_ray);

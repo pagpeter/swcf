@@ -1,0 +1,238 @@
+{
+  "keys": [
+    {
+      "key": "IBwe6",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cType",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "etKF6",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cNounce",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "fVbw6",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cvId",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "AcGh2",
+      "value_type": "NUMBER",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "Dptue6",
+      "value_type": "NUMBER",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "oqjt6",
+      "value_type": "RANDOM",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "Asds8",
+      "value_type": "RANDOM",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "mQty3",
+      "value_type": "NUMBER",
+      "num_value": 1.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "cgXAb5",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cRq",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "cptU2",
+      "value_type": "SENSOR",
+      "num_value": 0.0,
+      "data_key": "cptU2",
+      "str_value": "",
+      "sub_keys": [
+        "JvVxT6",
+        "lxuV7",
+        "FIlZ4",
+        "dgjq1",
+        "BpiE7",
+        "bUKZ7",
+        "IULNt3",
+        "OVnvh4"
+      ]
+    },
+    {
+      "key": "agEcs0",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "agEcs0",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "VAPD4",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "VAPD4",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "QKnf5",
+      "value_type": "STRING",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "HBLL5",
+      "sub_keys": []
+    },
+    {
+      "key": "uFTtK6",
+      "value_type": "NUMBER",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "ejSZh8",
+      "value_type": "NUMBER",
+      "num_value": -3.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "IBwe6",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cType",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "etKF6",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cNounce",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "fVbw6",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cvId",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "Dptue6",
+      "value_type": "NUMBER",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "oqjt6",
+      "value_type": "RANDOM",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "Asds8",
+      "value_type": "RANDOM",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "cgXAb5",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "cRq",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "cptU2",
+      "value_type": "SENSOR",
+      "num_value": 0.0,
+      "data_key": "cptU2",
+      "str_value": "",
+      "sub_keys": [
+        "JvVxT6",
+        "lxuV7",
+        "FIlZ4",
+        "dgjq1",
+        "BpiE7",
+        "bUKZ7",
+        "IULNt3",
+        "OVnvh4"
+      ]
+    },
+    {
+      "key": "agEcs0",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "agEcs0",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "VAPD4",
+      "value_type": "DATA",
+      "num_value": 0.0,
+      "data_key": "VAPD4",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "uFTtK6",
+      "value_type": "NUMBER",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    },
+    {
+      "key": "ejSZh8",
+      "value_type": "NUMBER",
+      "num_value": 0.0,
+      "data_key": "",
+      "str_value": "",
+      "sub_keys": []
+    }
+  ]
+}
