@@ -431,13 +431,7 @@ impl Visit for IdentifyOpcodes<'_> {
                         val.value_type = "NUMBER".to_owned();
                         let lit = kv.value.as_lit().unwrap();
                         match lit {
-                            swc_ecma_ast::Lit::Num(n) => {
-                                if n.raw.is_some() {
-                                    val.num_value =
-                                        n.raw.to_owned().unwrap().as_str().parse().unwrap()
-                                }
-                            }
-                            // TODO: handle negative values
+                            swc_ecma_ast::Lit::Num(n) => val.num_value = n.value,
                             _ => {}
                         }
                     } else if kv.value.is_bin() {
