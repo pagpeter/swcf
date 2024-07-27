@@ -51,7 +51,7 @@ impl VM<'_> {
     }
 
     fn read(&mut self) -> u64 {
-        let sub: i64 = (self.cnfg.magic_bits.opcode_enc & 256).try_into().unwrap();
+        let sub: i64 = (self.cnfg.magic_bits.opcode_enc + 256).try_into().unwrap();
 
         self.pointer += 1;
         let next = self.bytecode.chars().nth(self.pointer);
@@ -61,7 +61,7 @@ impl VM<'_> {
             return 0;
         }
         // println!(
-        //     "{:?}, {:?}, {:?}, {:?}, {:?}",
+        //     "[debug] {:?}, {:?}, {:?}, {:?}, {:?}",
         //     next,
         //     self.pointer,
         //     next.unwrap(),

@@ -98,7 +98,7 @@ impl VMConfig {
         }
     }
     fn find_opcode_enc(&mut self, script: &str) {
-        let caps = utils::find_from_multiple_regexes(script, vec![r"\+\+\)-(\d.+?),256"]);
+        let caps = utils::find_from_multiple_regexes(script, vec![r"\+\+\)-(\d{1,}),256"]);
         if caps.is_none() {
             println!("[!] Could not opcode enc")
         } else {
