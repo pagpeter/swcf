@@ -1,10 +1,10 @@
 use std::fs;
 
-use swccf::extract_required::{self, lz_compress};
-use swccf::logger::Logger;
-use swccf::requests;
-use swccf::traversals::deobfuscate_script::deobfuscate;
-use swccf::traversals::utils;
+use swccf::extractors::extract_required;
+use swccf::networking::requests;
+use swccf::utils::deobfuscate_script::deobfuscate;
+use swccf::utils::logger::Logger;
+use swccf::utils::utils;
 use swccf::vm::vm::VM;
 
 const DEBUG: bool = false;
@@ -55,7 +55,7 @@ fn main() {
     }
 
     let key: &[u8] = script_data.key.as_bytes();
-    let payload = lz_compress(&session.cnfg.payloads.init, key);
+    let payload = extract_required::lz_compress(&session.cnfg.payloads.init, key);
     let c_ray = &session.cnfg.chl_data.c_ray;
     let body = format!("v_{}={}", c_ray, payload.replacen("+", "%2b", 1));
 

@@ -1,6 +1,7 @@
-use crate::extract_required::ParsedScript;
-use crate::tls_api;
-use crate::traversals;
+use crate::extractors;
+use crate::extractors::config_builder::VMConfig;
+use crate::extractors::extract_required::ParsedScript;
+use crate::networking::tls_api;
 use reqwest::blocking::Client;
 use reqwest::header::HeaderValue;
 
@@ -37,7 +38,7 @@ fn sh(s: &str) -> HeaderValue {
 }
 
 pub struct SolvingSession<'a> {
-    pub cnfg: traversals::config_builder::VMConfig,
+    pub cnfg: extractors::config_builder::VMConfig,
     pub domain: String,
     pub debug: bool,
 
@@ -66,7 +67,7 @@ impl SolvingSession<'_> {
 
         return SolvingSession {
             domain: domain.to_owned(),
-            cnfg: traversals::config_builder::VMConfig::default(),
+            cnfg: VMConfig::default(),
             device: Device::brave(),
             client: c,
             debug,

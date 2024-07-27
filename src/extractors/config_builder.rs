@@ -1,10 +1,9 @@
+use crate::utils::utils;
 use core::fmt;
 use rand::Rng;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use std::collections::HashMap;
-
-use super::utils;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

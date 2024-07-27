@@ -3,7 +3,7 @@ use regex::Regex;
 use serde_json;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use crate::traversals::config_builder::ChlData;
+use crate::extractors::config_builder::ChlData;
 pub struct ParsedScript {
     pub seperator: String,
     pub key: String,

@@ -1,5 +1,5 @@
 use super::config_builder::VMConfig;
-use crate::traversals::config_builder::{self, InitKeys};
+use crate::extractors::config_builder;
 use std::{any::Any, collections::HashMap, fs};
 use swc_core::ecma::{utils::ExprExt, visit::VisitMut};
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
@@ -512,7 +512,7 @@ impl VisitMut for Visitor<'_> {
             return;
         }
 
-        let mut init_keys: InitKeys = InitKeys::default();
+        let mut init_keys: config_builder::InitKeys = config_builder::InitKeys::default();
         let cached_init = fs::read("./data/init_keys.json");
         if cached_init.is_ok() {
             let cached = cached_init.unwrap();

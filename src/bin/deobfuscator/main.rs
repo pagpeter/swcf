@@ -1,5 +1,6 @@
 use std::{env, fs, time};
-use swccf::traversals::{self, config_builder::VMConfig};
+
+use swccf::{extractors::config_builder::VMConfig, utils};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -14,7 +15,7 @@ fn main() {
     println!("[!] Elapsed time (Parsing): {:.2?}", before.elapsed());
 
     let mut cnfg = VMConfig::default();
-    let out = traversals::deobfuscate_script::deobfuscate(&mut cnfg, &src);
+    let out = utils::deobfuscate_script::deobfuscate(&mut cnfg, &src);
 
     cnfg.find_all_enc(&src);
 

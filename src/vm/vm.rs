@@ -1,6 +1,5 @@
 use super::opcodes::get_mapping;
-use crate::{logger::Logger, traversals::config_builder::VMConfig};
-
+use crate::{extractors::config_builder::VMConfig, utils::logger::Logger};
 pub struct VM<'a> {
     pub logger: Logger,
     pub mem: Vec<MemoryPoint<'a>>,

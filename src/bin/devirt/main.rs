@@ -1,6 +1,6 @@
 use std::fs;
 
-use swccf::{traversals::config_builder::VMConfig, vm::vm::VM};
+use swccf::{extractors::config_builder::VMConfig, vm::vm::VM};
 
 fn main() {
     let cnfg: VMConfig;
