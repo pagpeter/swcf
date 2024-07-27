@@ -96,7 +96,7 @@ impl Visit for FindVM<'_> {
 
                 match mem_addr {
                     swc_ecma_ast::Lit::Num(num) => {
-                        self.vm_config.registers.insert(target, num.value);
+                        self.vm_config.registers.insert(target, num.value as u64);
                     }
                     _ => {}
                 }

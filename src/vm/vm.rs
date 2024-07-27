@@ -8,7 +8,7 @@ pub struct VM<'a> {
     pub pointer: usize,
     pub bytecode: Vec<u8>,
     pub cnfg: &'a VMConfig,
-    enc: u64,
+    pub enc: u64,
 }
 
 #[derive(Debug, Clone, PartialEq, Copy)]
@@ -55,7 +55,11 @@ impl VM<'_> {
         }
     }
 
-    fn read(&mut self) -> u64 {
+    pub fn push_instruction(&mut self, code: &str, debug: &str) {
+        println!("{} // {}", code, debug);
+    }
+
+    pub fn read(&mut self) -> u64 {
         let sub: i64 = (self.cnfg.magic_bits.opcode_enc + 256).try_into().unwrap();
 
         let next = self.bytecode[self.pointer];
@@ -90,6 +94,17 @@ impl VM<'_> {
         self.enc = v & 255;
     }
 
+    pub fn get_opcode_name(&self, next_index: usize) -> String {
+        let mut opcode_name = "Unknown".to_string();
+
+        for (k, v) in self.cnfg.registers.iter() {
+            if *v == next_index as u64 {
+                opcode_name = k.clone();
+            }
+        }
+        return opcode_name;
+    }
+
     fn run(&mut self) {
         loop {
             let next_index = self.read() as usize;
@@ -97,14 +112,8 @@ impl VM<'_> {
             self.calc_enc(next_index);
 
             let opcode = self.mem[next_index].clone();
-            let mut opcode_name = "Unknown".to_string();
 
-            for (k, v) in self.cnfg.registers.iter() {
-                if *v == next_index as f64 {
-                    opcode_name = k.clone();
-                }
-            }
-
+            let opcode_name = self.get_opcode_name(next_index);
             self.logger.debug(&format!(
                 "Stepping in VM (opcode={}, index={}, enc={})",
                 opcode_name, next_index, self.enc

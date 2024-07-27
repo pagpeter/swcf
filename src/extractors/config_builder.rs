@@ -11,6 +11,8 @@ pub struct MagicBits {
     pub start_enc: u64,
     pub opcode_enc: u64,
     pub enc: Vec<u64>,
+
+    pub bind_func: Vec<u64>,
     // NEW_ARR: Vec<i32>,
     // JUMP_IF: Vec<i32>,
 }
@@ -78,7 +80,7 @@ pub struct Payloads {
 #[serde(rename_all = "camelCase")]
 pub struct VMConfig {
     pub payloads: Payloads,
-    pub registers: HashMap<String, f64>,
+    pub registers: HashMap<String, u64>,
     pub magic_bits: MagicBits,
     pub bytecodes: Bytecodes,
     pub chl_data: ChlData,

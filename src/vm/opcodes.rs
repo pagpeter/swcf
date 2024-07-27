@@ -51,7 +51,19 @@ pub fn binary_exp(vm: &mut VM) {
     vm.logger.error("Opcode not implemented")
 }
 pub fn bind_func(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    let new_pos = vm.read() ^ vm.cnfg.magic_bits.bind_func[0] ^ 1;
+    let func_pointer = vm.read() ^ 1;
+    let _i = vm.read() ^ vm.cnfg.magic_bits.bind_func[1];
+
+    let opcode_name = vm.get_opcode_name(func_pointer.try_into().unwrap());
+    // vm.cnfg.registers.insert(opcode_name, new_pos);
+    vm.push_instruction(
+        "null",
+        &format!(
+            "bind_func(to={}, what={}) [{}]",
+            new_pos, opcode_name, vm.pointer
+        ),
+    );
 }
 pub fn splice_pop(vm: &mut VM) {
     vm.logger.error("Opcode not implemented")
