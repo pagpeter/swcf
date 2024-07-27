@@ -1,10 +1,12 @@
-use super::opcodes::get_mapping;
+use core::str;
+
+use super::opcodes;
 use crate::{extractors::config_builder::VMConfig, utils::logger::Logger};
 pub struct VM<'a> {
     pub logger: Logger,
     pub mem: Vec<MemoryPoint<'a>>,
     pub pointer: usize,
-    pub bytecode: &'a str,
+    pub bytecode: Vec<u8>,
     pub cnfg: &'a VMConfig,
     enc: u64,
 }
@@ -16,6 +18,10 @@ pub enum MemoryPoint<'a> {
     Opcode(fn(&mut VM<'a>)),
 }
 
+fn base64decode(s: &str) -> Vec<u8> {
+    return base64::Engine::decode(&base64::prelude::BASE64_STANDARD, s).unwrap();
+}
+
 impl VM<'_> {
     pub fn from(cnfg: &VMConfig) -> VM<'_> {
         let mem: Vec<MemoryPoint> = (0..255).map(|_| MemoryPoint::Undefined).collect();
@@ -24,7 +30,7 @@ impl VM<'_> {
             logger: Logger::new("VM"),
             pointer: 0,
             mem: mem,
-            bytecode: &cnfg.bytecodes.init,
+            bytecode: vec![],
             cnfg,
             enc: cnfg.magic_bits.start_enc,
         };
@@ -33,7 +39,7 @@ impl VM<'_> {
     }
 
     fn setup(&mut self) {
-        let opcodes = get_mapping();
+        let opcodes = opcodes::get_mapping();
         for key in self.cnfg.registers.keys() {
             let val = self.cnfg.registers.get(key).unwrap();
 
@@ -52,22 +58,19 @@ impl VM<'_> {
     fn read(&mut self) -> u64 {
         let sub: i64 = (self.cnfg.magic_bits.opcode_enc + 256).try_into().unwrap();
 
+        let next = self.bytecode[self.pointer];
         self.pointer += 1;
-        let next = self.bytecode.chars().nth(self.pointer);
 
-        if next.is_none() {
-            self.logger.error("Could not read() next");
-            return 0;
-        }
-        // println!(
-        //     "[debug] {:?}, {:?}, {:?}, {:?}, {:?}",
-        //     next,
-        //     self.pointer,
-        //     next.unwrap(),
-        //     next.unwrap() as i64,
-        //     sub
-        // );
-        return self.enc ^ ((next.unwrap() as i64 - sub) & 255) as u64;
+        // if next.is_none() {
+        //     self.logger.error("Could not read() next");
+        //     return 0;
+        // }
+        let after_enc = self.enc ^ ((next as i64 - sub) & 255) as u64;
+        println!(
+            "[debug] next={:?}, pointer={:?}, sub={:?}, after_enc={:?}",
+            next, self.pointer, sub, after_enc
+        );
+        return after_enc;
     }
 
     fn calc_enc(&mut self, op: usize) {
@@ -94,9 +97,17 @@ impl VM<'_> {
             self.calc_enc(next_index);
 
             let opcode = self.mem[next_index].clone();
+            let mut opcode_name = "Unknown".to_string();
+
+            for (k, v) in self.cnfg.registers.iter() {
+                if *v == next_index as f64 {
+                    opcode_name = k.clone();
+                }
+            }
+
             self.logger.debug(&format!(
-                "Stepping in VM (opcode={:?}, index={}, enc={})",
-                opcode, next_index, self.enc
+                "Stepping in VM (opcode={}, index={}, enc={})",
+                opcode_name, next_index, self.enc
             ));
             match opcode {
                 MemoryPoint::Opcode(handler) => {
@@ -113,13 +124,13 @@ impl VM<'_> {
 
     pub fn run_init(&mut self) {
         self.logger.debug("Running VM (init)");
-        self.bytecode = &self.cnfg.bytecodes.init.as_str();
+        self.bytecode = base64decode(&self.cnfg.bytecodes.init);
         self.pointer = 0;
         self.run();
     }
     pub fn run_main(&mut self) {
         self.logger.debug("Running VM (main)");
-        self.bytecode = &self.cnfg.bytecodes.main.as_str();
+        self.bytecode = self.cnfg.bytecodes.main.as_bytes().to_vec();
         self.pointer = 0;
         self.run();
     }
