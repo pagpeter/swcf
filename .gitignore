@@ -1,4 +1,4 @@
 target
 data/*.js
-# data/vm_config.json
+data/*.json
 tls-client-api-*

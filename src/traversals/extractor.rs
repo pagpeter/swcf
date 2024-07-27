@@ -1,7 +1,7 @@
 use super::config_builder::VMConfig;
 use crate::traversals::config_builder::{self, InitKeys};
 use std::{any::Any, collections::HashMap, fs};
-use swc_core::ecma::visit::VisitMut;
+use swc_core::ecma::{utils::ExprExt, visit::VisitMut};
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -416,6 +416,7 @@ struct IdentifyOpcodes<'a> {
 impl Visit for IdentifyOpcodes<'_> {
     fn visit_object_lit(&mut self, n: &swc_ecma_ast::ObjectLit) {
         if self.init_keys.keys.len() == 0 && n.props.len() == 13
+            || n.props.len() == 15
             || n.props.len() == 12
             || n.props.len() == 10
             || n.props.len() == 9
@@ -446,6 +447,11 @@ impl Visit for IdentifyOpcodes<'_> {
                             val.value_type = "SENSOR".to_owned();
                             val.data_key = key
                         }
+                    } else if kv.value.is_str() {
+                        // TODO: handle this properly
+                        val.value_type = "STRING".to_owned();
+                    } else {
+                        println!("Unhandled type in init keys: {:?}", kv);
                     }
                 }
 

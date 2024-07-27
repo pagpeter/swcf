@@ -1,5 +1,6 @@
 use core::fmt;
 use rand::Rng;
+use regex::Regex;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use std::collections::HashMap;
@@ -81,6 +82,21 @@ pub struct VMConfig {
     pub magic_bits: MagicBits,
     pub bytecodes: Bytecodes,
     pub chl_data: ChlData,
+}
+
+impl VMConfig {
+    pub fn find_start_enc(&mut self, script: &str) {
+        let start_enc_re = Regex::new(r"atob\(.\),(\d+)").unwrap();
+        let start_enc_re2 = Regex::new(r"atob,.\),(\d+?),").unwrap();
+
+        if let Some(caps) = start_enc_re.captures(script) {
+            self.magic_bits.start_enc = caps[1].parse().unwrap();
+        } else if let Some(caps) = start_enc_re2.captures(script) {
+            self.magic_bits.start_enc = caps[1].parse().unwrap();
+        } else {
+            println!("[!] Could not get start enc")
+        }
+    }
 }
 
 #[derive(Debug, PartialEq)]

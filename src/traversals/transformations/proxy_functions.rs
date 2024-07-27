@@ -81,8 +81,8 @@ impl VisitMut for FindProxyAssignments {
             self.assignments
                 .push(Proxy::string(key.to_string(), str.str));
 
-            n.value.take();
-            n.key.take();
+            // n.value.take();
+            // n.key.take();
         } else if as_fn.is_some() {
             let func = &as_fn.unwrap().function;
             let stmts = <Option<swc_ecma_ast::BlockStmt> as Clone>::clone(&func.body)

@@ -41,6 +41,7 @@ fn main() {
     }
     let script_result = script.unwrap();
     log.success(&format!("Got script!"));
+    let _ = fs::write("./data/solver_init_raw.js", &script_result);
     log.debug(&format!("Parsing script"));
     let script_data = extract_required::parse_script(&script_result);
 
@@ -72,7 +73,9 @@ fn main() {
         return;
     }
     log.success("Got main challenge bytecode!");
+
     session.cnfg.bytecodes.main = utils::decrypt_response(&main, &session.cnfg.chl_data.c_ray);
+    session.cnfg.find_start_enc(&script_result);
 
     println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
     let json = serde_json::to_string_pretty(&session.cnfg);
