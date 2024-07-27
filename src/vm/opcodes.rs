@@ -30,7 +30,18 @@ pub fn unary_exp(vm: &mut VM) {
     vm.logger.error("Opcode not implemented")
 }
 pub fn shuffle_reg(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    let g = vm.read() ^ vm.cnfg.magic_bits.shuffle_reg[0];
+    let h = vm.read() ^ vm.cnfg.magic_bits.shuffle_reg[1];
+    let i = vm.mem[g as usize];
+    vm.mem[g as usize] = vm.mem[h as usize];
+    vm.mem[h as usize] = i;
+    vm.push_instruction(
+        "null",
+        &format!(
+            "shuffle_reg: reg_{}, reg_{} = reg_{}, reg_{} [{}]",
+            g, h, h, g, vm.pointer
+        ),
+    );
 }
 pub fn weird_new(vm: &mut VM) {
     vm.logger.error("Opcode not implemented")
@@ -51,17 +62,18 @@ pub fn binary_exp(vm: &mut VM) {
     vm.logger.error("Opcode not implemented")
 }
 pub fn bind_func(vm: &mut VM) {
-    let new_pos = vm.read() ^ vm.cnfg.magic_bits.bind_func[0] ^ 1;
-    let func_pointer = vm.read() ^ 1;
+    let new_pos = vm.read() ^ vm.cnfg.magic_bits.bind_func[0];
+    let func_pointer = vm.read();
+
+    // TODO: this is being added as another arg using .bind in the JS
     let _i = vm.read() ^ vm.cnfg.magic_bits.bind_func[1];
 
-    let opcode_name = vm.get_opcode_name(func_pointer.try_into().unwrap());
-    // vm.cnfg.registers.insert(opcode_name, new_pos);
+    vm.mem[new_pos as usize] = vm.mem[func_pointer as usize];
     vm.push_instruction(
         "null",
         &format!(
-            "bind_func(to={}, what={}) [{}]",
-            new_pos, opcode_name, vm.pointer
+            "bind_func: reg_{} = reg_{} [{}]",
+            new_pos, func_pointer, vm.pointer
         ),
     );
 }

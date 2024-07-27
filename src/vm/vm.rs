@@ -1,4 +1,5 @@
 use core::str;
+use std::fs;
 
 use super::opcodes;
 use crate::{extractors::config_builder::VMConfig, utils::logger::Logger};
@@ -9,6 +10,7 @@ pub struct VM<'a> {
     pub bytecode: Vec<u8>,
     pub cnfg: &'a VMConfig,
     pub enc: u64,
+    pub logs: Vec<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Copy)]
@@ -33,6 +35,7 @@ impl VM<'_> {
             bytecode: vec![],
             cnfg,
             enc: cnfg.magic_bits.start_enc,
+            logs: vec![],
         };
         v.setup();
         return v;
@@ -45,7 +48,8 @@ impl VM<'_> {
 
             let op = opcodes.get(key.as_str());
             if op.is_some() {
-                self.logger.debug(&format!("handler: {} -> {}", val, key));
+                self.logger.debug(&format!("reg_{} = {}", val, key));
+                self.logs.push(format!("reg_{} = {}", val, key));
                 self.mem[*val as usize] = MemoryPoint::Opcode(*op.unwrap())
             } else if key == "VMDATA" {
                 self.logger.debug(&format!("VMData: {} -> {}", val, key));
@@ -57,6 +61,7 @@ impl VM<'_> {
 
     pub fn push_instruction(&mut self, code: &str, debug: &str) {
         println!("{} // {}", code, debug);
+        self.logs.push(format!("{}; // {}", code, debug));
     }
 
     pub fn read(&mut self) -> u64 {
@@ -70,10 +75,10 @@ impl VM<'_> {
         //     return 0;
         // }
         let after_enc = self.enc ^ ((next as i64 - sub) & 255) as u64;
-        println!(
-            "[debug] next={:?}, pointer={:?}, sub={:?}, after_enc={:?}",
-            next, self.pointer, sub, after_enc
-        );
+        // println!(
+        //     "[read debug] next={:?}, pointer={:?}, sub={:?}, after_enc={:?}",
+        //     next, self.pointer, sub, after_enc
+        // );
         return after_enc;
     }
 
@@ -94,17 +99,6 @@ impl VM<'_> {
         self.enc = v & 255;
     }
 
-    pub fn get_opcode_name(&self, next_index: usize) -> String {
-        let mut opcode_name = "Unknown".to_string();
-
-        for (k, v) in self.cnfg.registers.iter() {
-            if *v == next_index as u64 {
-                opcode_name = k.clone();
-            }
-        }
-        return opcode_name;
-    }
-
     fn run(&mut self) {
         loop {
             let next_index = self.read() as usize;
@@ -113,21 +107,23 @@ impl VM<'_> {
 
             let opcode = self.mem[next_index].clone();
 
-            let opcode_name = self.get_opcode_name(next_index);
             self.logger.debug(&format!(
-                "Stepping in VM (opcode={}, index={}, enc={})",
-                opcode_name, next_index, self.enc
+                "Stepping in VM (opcode={:?}, index={}, enc={})",
+                opcode, next_index, self.enc
             ));
             match opcode {
                 MemoryPoint::Opcode(handler) => {
                     let _ = handler(self);
                 }
                 _ => {
-                    self.logger.error("Expected opcode, but not an opcode");
+                    self.logger.error(&format!(
+                        "Expected opcode, but not an opcode ({})",
+                        next_index
+                    ));
+                    println!("{} {:?}", next_index, self.mem[next_index]);
                     break;
                 }
             }
-            break;
         }
     }
 
@@ -136,11 +132,15 @@ impl VM<'_> {
         self.bytecode = base64decode(&self.cnfg.bytecodes.init);
         self.pointer = 0;
         self.run();
+        fs::write("./data/traces.txt", format!("{}", self.logs.join("\n")))
+            .expect("Could not write traces");
     }
     pub fn run_main(&mut self) {
         self.logger.debug("Running VM (main)");
         self.bytecode = self.cnfg.bytecodes.main.as_bytes().to_vec();
         self.pointer = 0;
         self.run();
+        fs::write("./data/traces.txt", format!("{}", self.logs.join("\n")))
+            .expect("Could not write traces");
     }
 }

@@ -13,8 +13,13 @@ pub struct MagicBits {
     pub enc: Vec<u64>,
 
     pub bind_func: Vec<u64>,
-    // NEW_ARR: Vec<i32>,
-    // JUMP_IF: Vec<i32>,
+    pub shuffle_reg: Vec<u64>,
+    pub binary_exp: Vec<u64>,
+    pub unary_exp: Vec<u64>,
+    pub new_arr: Vec<u64>,
+    pub jump: Vec<u64>,
+    pub jump_if: Vec<u64>,
+    pub get_obj: Vec<u64>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
