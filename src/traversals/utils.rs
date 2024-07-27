@@ -1,3 +1,4 @@
+use regex::Regex;
 use std::io;
 use swc::config::{Config, IsModule, JscConfig, ModuleConfig, Options};
 use swc::Compiler;
@@ -84,4 +85,17 @@ pub fn decrypt_response(input: &str, c_ray: &str) -> String {
     }
 
     return out.join("");
+}
+
+pub fn find_from_multiple_regexes<'a>(
+    input: &'a str,
+    regexes: Vec<&'a str>,
+) -> Option<regex::Captures<'a>> {
+    for reg in regexes {
+        let re = Regex::new(reg).unwrap();
+        if let Some(caps) = re.captures(input) {
+            return Some(caps);
+        }
+    }
+    return None;
 }

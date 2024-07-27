@@ -3,7 +3,7 @@ use std::fs;
 use swccf::{traversals::config_builder::VMConfig, vm::vm::VM};
 
 fn main() {
-    let mut cnfg = VMConfig::default();
+    let cnfg: VMConfig;
 
     let cached = fs::read("./data/vm_config.json");
     if cached.is_ok() {

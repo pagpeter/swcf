@@ -51,10 +51,7 @@ impl VM<'_> {
     }
 
     fn read(&mut self) -> u64 {
-        let sub: i64 = (self.cnfg.magic_bits.opcode_enc.first().unwrap()
-            + self.cnfg.magic_bits.opcode_enc.last().unwrap())
-        .try_into()
-        .unwrap();
+        let sub: i64 = (self.cnfg.magic_bits.opcode_enc & 256).try_into().unwrap();
 
         self.pointer += 1;
         let next = self.bytecode.chars().nth(self.pointer);
@@ -80,7 +77,7 @@ impl VM<'_> {
         let v: u64;
         let encs = &self.cnfg.magic_bits.enc;
         if encs.len() == 3 {
-            v = j * j * encs[0] + encs[1] * j + encs[3]
+            v = j * j * encs[0] + encs[1] * j + encs[2]
         } else if encs.len() == 2 {
             v = encs[0] * j + encs[1]
         } else {

@@ -75,7 +75,7 @@ fn main() {
     log.success("Got main challenge bytecode!");
 
     session.cnfg.bytecodes.main = utils::decrypt_response(&main, &session.cnfg.chl_data.c_ray);
-    session.cnfg.find_start_enc(&script_result);
+    session.cnfg.find_all_enc(&script_result);
 
     println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
     let json = serde_json::to_string_pretty(&session.cnfg);

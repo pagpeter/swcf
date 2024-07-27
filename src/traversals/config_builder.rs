@@ -1,15 +1,16 @@
 use core::fmt;
 use rand::Rng;
-use regex::Regex;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use std::collections::HashMap;
+
+use super::utils;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MagicBits {
     pub start_enc: u64,
-    pub opcode_enc: Vec<u64>,
+    pub opcode_enc: u64,
     pub enc: Vec<u64>,
     // NEW_ARR: Vec<i32>,
     // JUMP_IF: Vec<i32>,
@@ -85,17 +86,28 @@ pub struct VMConfig {
 }
 
 impl VMConfig {
-    pub fn find_start_enc(&mut self, script: &str) {
-        let start_enc_re = Regex::new(r"atob\(.\),(\d+)").unwrap();
-        let start_enc_re2 = Regex::new(r"atob,.\),(\d+?),").unwrap();
-
-        if let Some(caps) = start_enc_re.captures(script) {
-            self.magic_bits.start_enc = caps[1].parse().unwrap();
-        } else if let Some(caps) = start_enc_re2.captures(script) {
-            self.magic_bits.start_enc = caps[1].parse().unwrap();
-        } else {
+    fn find_start_enc(&mut self, script: &str) {
+        let caps = utils::find_from_multiple_regexes(
+            script,
+            vec![r"atob\(.\),(\d+)", r"atob,.\),(\d+?),"],
+        );
+        if caps.is_none() {
             println!("[!] Could not get start enc")
+        } else {
+            self.magic_bits.start_enc = caps.unwrap()[1].parse().unwrap();
         }
+    }
+    fn find_opcode_enc(&mut self, script: &str) {
+        let caps = utils::find_from_multiple_regexes(script, vec![r"\+\+\)-(\d.+?),256"]);
+        if caps.is_none() {
+            println!("[!] Could not opcode enc")
+        } else {
+            self.magic_bits.opcode_enc = caps.unwrap()[1].parse().unwrap();
+        }
+    }
+    pub fn find_all_enc(&mut self, script: &str) {
+        self.find_opcode_enc(script);
+        self.find_start_enc(script)
     }
 }
 
