@@ -1,4 +1,4 @@
-use core::str;
+use core::{fmt, str};
 use std::fs;
 
 use super::opcodes;
@@ -14,10 +14,35 @@ pub struct VM<'a> {
 }
 
 #[derive(Debug, Clone, PartialEq, Copy)]
+pub struct Opcode<'a> {
+    pub f: fn(&mut VM<'a>),
+    pub bound_val: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Copy)]
 pub enum MemoryPoint<'a> {
     Undefined,
     String(&'a str),
-    Opcode(fn(&mut VM<'a>)),
+    Opcode(Opcode<'a>),
+}
+
+#[derive(Debug)]
+pub struct ConversionError;
+
+impl fmt::Display for ConversionError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Conversion failed")
+    }
+}
+
+impl<'a> TryFrom<MemoryPoint<'a>> for Opcode<'a> {
+    type Error = ConversionError;
+    fn try_from(value: MemoryPoint<'a>) -> Result<Self, ConversionError> {
+        match value {
+            MemoryPoint::Opcode(Opcode { f: o, .. }) => Ok(Opcode { f: o, bound_val: 0 }),
+            _ => Err(ConversionError {}),
+        }
+    }
 }
 
 fn base64decode(s: &str) -> Vec<u8> {
@@ -50,7 +75,10 @@ impl VM<'_> {
             if op.is_some() {
                 self.logger.debug(&format!("reg_{} = {}", val, key));
                 self.logs.push(format!("reg_{} = {}", val, key));
-                self.mem[*val as usize] = MemoryPoint::Opcode(*op.unwrap())
+                self.mem[*val as usize] = MemoryPoint::Opcode(Opcode {
+                    f: *op.unwrap(),
+                    bound_val: 0,
+                })
             } else if key == "VMDATA" {
                 self.logger.debug(&format!("VMData: {} -> {}", val, key));
             } else if key.len() == 2 {
@@ -114,7 +142,7 @@ impl VM<'_> {
             // ));
             match opcode {
                 MemoryPoint::Opcode(handler) => {
-                    let _ = handler(self);
+                    let _ = (handler.f)(self);
                 }
                 _ => {
                     self.logger.error(&format!(

@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use super::vm::VM;
+use super::vm::{self, Opcode, VM};
 
 pub fn new_obj(vm: &mut VM) {
     vm.logger.error("Opcode not implemented (new_obj)")
@@ -116,13 +116,15 @@ pub fn binary_exp(vm: &mut VM) {
     vm.logger.error("Opcode not implemented (binary_exp)")
 }
 pub fn bind_func(vm: &mut VM) {
-    let new_pos = vm.read() ^ vm.cnfg.magic_bits.bind_func[0];
-    let func_pointer = vm.read();
+    let new_pos = (vm.read() ^ vm.cnfg.magic_bits.bind_func[0]) as usize;
+    let func_pointer = (vm.read()) as usize;
 
-    // TODO: this is being added as another arg using .bind in the JS
-    let _i = vm.read() ^ vm.cnfg.magic_bits.bind_func.get(1).unwrap_or(&1);
+    let i: u64 = vm.read() ^ vm.cnfg.magic_bits.bind_func.get(1).unwrap_or(&1);
 
-    vm.mem[new_pos as usize] = vm.mem[func_pointer as usize];
+    let op: Result<Opcode, _> = vm.mem[func_pointer].try_into();
+    let mut de_op = op.unwrap();
+    de_op.bound_val = i;
+    vm.mem[new_pos] = vm::MemoryPoint::Opcode(de_op);
     vm.push_instruction(
         "null",
         &format!(
