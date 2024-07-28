@@ -2,6 +2,7 @@ use super::utils;
 use crate::extractors::{config_builder::VMConfig, extractor};
 use crate::transformers;
 use swc_common::{chain, comments::SingleThreadedComments, Mark, GLOBALS};
+use swc_core::ecma::transforms;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::as_folder;
@@ -29,6 +30,10 @@ pub fn deobfuscate(cnfg: &mut VMConfig, src: &str) -> String {
                         as_folder(transformers::cleanup_deleted::Visitor),
                         as_folder(transformers::sequence_expressions::Visitor),
                         expr_simplifier(Mark::new(), Default::default()),
+                        transforms::optimization::simplify::dce::dce(
+                            Default::default(),
+                            Mark::new(),
+                        ),
                         as_folder(transformers::useless_if::Visitor),
                         as_folder(transformers::simplify_binary::Visitor),
                         // extractor: Only required for parsing the script, not deobfuscating it
