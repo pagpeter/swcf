@@ -549,6 +549,8 @@ impl VisitMut for Visitor<'_> {
             i += 1;
         }
 
+        let mapping_clone = identifier.handler_mapping.clone();
+
         if identifier.init_keys.keys.len() == 0 {
             println!("Could not get init keys dynamically");
             return;
@@ -558,11 +560,15 @@ impl VisitMut for Visitor<'_> {
         fs::write("./data/init_keys.json", json.clone()).expect("Could not write file");
         self.cnfg.payloads.init = identifier.init_keys.marshal(&self.cnfg);
 
+        for k in mapping_clone.keys() {
+            self.cnfg
+                .raw_identifier_mapping
+                .insert(k.clone(), mapping_clone.get(k).unwrap().clone());
+        }
         let mut magic_bits_visitor = magic_bits_ast::Visitor {
             cnfg: &mut self.cnfg,
         };
         n.visit_with(&mut magic_bits_visitor);
-
         println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
         let cnfg_json = serde_json::to_string_pretty(&self.cnfg).unwrap();
         fs::write("./data/vm_config.json", cnfg_json).expect("Could not write file");

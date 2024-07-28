@@ -26,7 +26,7 @@ fn base64decode(s: &str) -> Vec<u8> {
 
 impl VM<'_> {
     pub fn from(cnfg: &VMConfig) -> VM<'_> {
-        let mem: Vec<MemoryPoint> = (0..255).map(|_| MemoryPoint::Undefined).collect();
+        let mem: Vec<MemoryPoint> = (0..256).map(|_| MemoryPoint::Undefined).collect();
 
         let mut v = VM {
             logger: Logger::new("VM"),
@@ -60,7 +60,7 @@ impl VM<'_> {
     }
 
     pub fn push_instruction(&mut self, code: &str, debug: &str) {
-        println!("{} // {}", code, debug);
+        println!("[Opcode] {}", debug);
         self.logs.push(format!("{}; // {}", code, debug));
     }
 
@@ -107,17 +107,17 @@ impl VM<'_> {
 
             let opcode = self.mem[next_index].clone();
 
-            self.logger.debug(&format!(
-                "Stepping in VM (opcode={:?}, index={}, enc={})",
-                opcode, next_index, self.enc
-            ));
+            // self.logger.debug(&format!(
+            //     "Stepping in VM (opcode={:?}, index={}, enc={})",
+            //     opcode, next_index, self.enc
+            // ));
             match opcode {
                 MemoryPoint::Opcode(handler) => {
                     let _ = handler(self);
                 }
                 _ => {
                     self.logger.error(&format!(
-                        "Expected opcode, but not an opcode ({})",
+                        "Expected opcode, but not an opcode (reg_{})",
                         next_index
                     ));
                     println!("{} {:?}", next_index, self.mem[next_index]);

@@ -31,7 +31,7 @@ pub fn unary_exp(vm: &mut VM) {
 }
 pub fn shuffle_reg(vm: &mut VM) {
     let g = vm.read() ^ vm.cnfg.magic_bits.shuffle_reg[0];
-    let h = vm.read() ^ vm.cnfg.magic_bits.shuffle_reg[1];
+    let h = vm.read() ^ vm.cnfg.magic_bits.shuffle_reg.get(1).unwrap_or(&1);
     let i = vm.mem[g as usize];
     vm.mem[g as usize] = vm.mem[h as usize];
     vm.mem[h as usize] = i;
@@ -44,22 +44,22 @@ pub fn shuffle_reg(vm: &mut VM) {
     );
 }
 pub fn weird_new(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (weird_new)")
 }
 pub fn get_obj(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (get_obj)")
 }
 pub fn new_class(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (new_class)")
 }
 pub fn throw_error(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (throw_error)")
 }
 pub fn set_obj(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (set_obj)")
 }
 pub fn binary_exp(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (binary_exp)")
 }
 pub fn bind_func(vm: &mut VM) {
     let new_pos = vm.read() ^ vm.cnfg.magic_bits.bind_func[0];
@@ -78,13 +78,13 @@ pub fn bind_func(vm: &mut VM) {
     );
 }
 pub fn splice_pop(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (splice_pop)")
 }
 pub fn jump_if(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (jump_if)")
 }
 pub fn new_arr(vm: &mut VM) {
-    vm.logger.error("Opcode not implemented")
+    vm.logger.error("Opcode not implemented (new_arr)")
 }
 
 pub fn get_mapping() -> HashMap<&'static str, fn(&mut VM)> {

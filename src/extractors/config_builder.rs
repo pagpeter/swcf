@@ -3,6 +3,7 @@ use rand::Rng;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use std::collections::HashMap;
+use std::hash::RandomState;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -88,6 +89,8 @@ pub struct VMConfig {
     pub magic_bits: MagicBits,
     pub bytecodes: Bytecodes,
     pub chl_data: ChlData,
+    #[serde(skip_deserializing)]
+    pub raw_identifier_mapping: HashMap<String, String, RandomState>,
 }
 
 #[derive(Debug, PartialEq)]
