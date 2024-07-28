@@ -16,24 +16,55 @@ pub struct LiteralMagicBitsTypeInfo {
 #[serde(rename_all = "camelCase")]
 pub struct LiteralMagicBits {
     pub all: Vec<u64>,
-    pub null: LiteralMagicBitsTypeInfo,
-    pub nan: LiteralMagicBitsTypeInfo,
-    pub infinity: LiteralMagicBitsTypeInfo,
-    pub _false: LiteralMagicBitsTypeInfo,
-    pub _true: LiteralMagicBitsTypeInfo,
-    pub number: LiteralMagicBitsTypeInfo,
-    pub bind: LiteralMagicBitsTypeInfo,
-    pub bit: LiteralMagicBitsTypeInfo,
-    pub string: LiteralMagicBitsTypeInfo,
-    pub stack: LiteralMagicBitsTypeInfo,
-    pub regex: LiteralMagicBitsTypeInfo,
-    pub array: LiteralMagicBitsTypeInfo,
+    pub null: LiteralMagicBitsTypeInfo,     // null
+    pub nan: LiteralMagicBitsTypeInfo,      // NaN
+    pub infinity: LiteralMagicBitsTypeInfo, // Infinity
+    pub _false: LiteralMagicBitsTypeInfo,   // false
+    pub _true: LiteralMagicBitsTypeInfo,    // true
+    pub number: LiteralMagicBitsTypeInfo,   // Number
+    pub bind: LiteralMagicBitsTypeInfo,     // special .bind()
+    pub bit: LiteralMagicBitsTypeInfo,      // u8
+    pub string: LiteralMagicBitsTypeInfo,   // String
+    pub stack: LiteralMagicBitsTypeInfo,    //
+    pub regex: LiteralMagicBitsTypeInfo,    // Regex()
+    pub array: LiteralMagicBitsTypeInfo,    // []
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct UnaryLogicalOperatorMagicBits {
+pub struct UnaryOperatorMagicBits {
     pub all: Vec<u64>,
+
+    pub _typeof: LiteralMagicBitsTypeInfo,     // typeof
+    pub plus: LiteralMagicBitsTypeInfo,        // +
+    pub minus: LiteralMagicBitsTypeInfo,       // -
+    pub negate: LiteralMagicBitsTypeInfo,      // !
+    pub bitwise_not: LiteralMagicBitsTypeInfo, // ~
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct LogicalOperatorMagicBits {
+    pub all: Vec<u64>,
+
+    pub plus: LiteralMagicBitsTypeInfo,           // +
+    pub minus: LiteralMagicBitsTypeInfo,          // -
+    pub star: LiteralMagicBitsTypeInfo,           // *
+    pub slash: LiteralMagicBitsTypeInfo,          // /
+    pub percent: LiteralMagicBitsTypeInfo,        // %
+    pub and: LiteralMagicBitsTypeInfo,            // &&
+    pub or: LiteralMagicBitsTypeInfo,             // ||
+    pub carrot: LiteralMagicBitsTypeInfo,         // ^
+    pub bitwise_and: LiteralMagicBitsTypeInfo,    // &
+    pub bitwise_or: LiteralMagicBitsTypeInfo,     // |
+    pub shift_left: LiteralMagicBitsTypeInfo,     // <<
+    pub bigger_than: LiteralMagicBitsTypeInfo,    // >
+    pub shift_right: LiteralMagicBitsTypeInfo,    // >>
+    pub triple_shift: LiteralMagicBitsTypeInfo,   // >>>
+    pub equal: LiteralMagicBitsTypeInfo,          // ==
+    pub strict_equal: LiteralMagicBitsTypeInfo,   // ===
+    pub bigger_or_same: LiteralMagicBitsTypeInfo, // >=
+    pub instanceof: LiteralMagicBitsTypeInfo,     // instanceof
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -64,8 +95,8 @@ pub struct MagicBits {
 
     // Special cases because there is more data
     pub literal: LiteralMagicBits,
-    pub unary_exp: UnaryLogicalOperatorMagicBits,
-    pub logical_exp: UnaryLogicalOperatorMagicBits,
+    pub unary_exp: UnaryOperatorMagicBits,
+    pub logical_exp: LogicalOperatorMagicBits,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
