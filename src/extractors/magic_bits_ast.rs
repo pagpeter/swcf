@@ -37,7 +37,9 @@ impl Visit for FindLiteralBits<'_> {
     fn visit_if_stmt(&mut self, n: &swc_ecma_ast::IfStmt) {
         n.visit_children_with(self);
 
-        // let number_id :u64;
+        if !n.test.is_bin() {
+            return;
+        }
         let test = n.test.as_bin().unwrap();
 
         let literal: &Lit;
@@ -284,7 +286,7 @@ pub struct Visitor<'a> {
 
 impl Visit for Visitor<'_> {
     fn visit_program(&mut self, n: &Program) {
-        println!("\n[*] Extractin magic bits");
+        println!("\n[*] Extracting magic bits");
 
         let mut find_vm_proxy = FindVMExecutionProxy {
             executor_name: "".to_string(),
