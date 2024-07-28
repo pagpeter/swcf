@@ -21,11 +21,14 @@ impl Visit for FindVMExecutionProxy {
     fn visit_function(&mut self, n: &swc_ecma_ast::Function) {
         n.visit_children_with(self);
         // Match function gA(c) { return gd(new gc(c)); }
-        if n.params.len() != 1 || n.body.is_none() || n.body.clone().unwrap().stmts.len() != 1 {
+        if n.params.len() > 3 || n.body.is_none() || n.body.clone().unwrap().stmts.len() > 3 {
             return;
         }
         let binding = n.body.clone().unwrap();
-        let stmt = binding.stmts.first().unwrap();
+        if binding.stmts.last().is_none() {
+            return;
+        }
+        let stmt = binding.stmts.last().unwrap();
         if !stmt.is_return_stmt() {
             return;
         }

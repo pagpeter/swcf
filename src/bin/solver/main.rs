@@ -77,10 +77,6 @@ fn main() {
     session.cnfg.bytecodes.main = utils::decrypt_response(&main, &session.cnfg.chl_data.c_ray);
     session.cnfg.find_all_enc(&script_result);
 
-    println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
-    let json = serde_json::to_string_pretty(&session.cnfg);
-    fs::write("./data/vm_config.json", json.unwrap()).expect("Could not write file");
-
     let mut vm = VM::from(&session.cnfg);
     vm.run_init();
 }
