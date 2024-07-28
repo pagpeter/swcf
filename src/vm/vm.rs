@@ -60,7 +60,7 @@ impl VM<'_> {
     }
 
     pub fn push_instruction(&mut self, code: &str, debug: &str) {
-        println!("[Opcode] {}", debug);
+        println!("[Opcode] {} // {}", code, debug);
         self.logs.push(format!("{}; // {}", code, debug));
     }
 
@@ -88,9 +88,10 @@ impl VM<'_> {
         let v: u64;
         let encs = &self.cnfg.magic_bits.enc;
         if encs.len() == 3 {
-            v = j * j * encs[0] + encs[1] * j + encs[2]
+            // v = j * j * encs[0] + encs[1] * j + encs[2];
+            v = encs[0] + encs[1] + (j * j) + j + encs[2];
         } else if encs.len() == 2 {
-            v = encs[0] * j + encs[1]
+            v = encs[0] * j + encs[1];
         } else {
             self.logger.error("Could not calc_enc()");
             return;

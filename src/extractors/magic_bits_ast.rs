@@ -120,14 +120,34 @@ impl Visit for FindOpcodeEncryptionBits<'_> {
             );
             return;
         }
-        println!("{} ({}) -> {:?}", opcode_name.unwrap(), func_name, cleaned);
+        // println!("{} ({}) -> {:?}", opcode_name.unwrap(), func_name, cleaned);
 
         let opcode = opcode_name.unwrap().as_str();
 
         match opcode {
             "BindFunc" => self.cnfg.magic_bits.bind_func = cleaned,
             "ShuffleReg" => self.cnfg.magic_bits.shuffle_reg = cleaned,
-            _ => {}
+            "NewArr" => self.cnfg.magic_bits.new_arr = cleaned,
+            "SetObj" => self.cnfg.magic_bits.set_obj = cleaned,
+            "SplicePop" => self.cnfg.magic_bits.splice_pop = cleaned,
+            "SetMem" => self.cnfg.magic_bits.set_mem = cleaned,
+            "NewObj" => self.cnfg.magic_bits.new_obj = cleaned,
+            "GetObj" => self.cnfg.magic_bits.get_obj = cleaned,
+            "ThrowError" => self.cnfg.magic_bits.throw_error = cleaned,
+            "WeirdNew" => self.cnfg.magic_bits.weird_new = cleaned,
+            "NewClass" => self.cnfg.magic_bits.new_class = cleaned,
+            "BindFunc2" => self.cnfg.magic_bits.bind_func2 = cleaned,
+            "Apply" => self.cnfg.magic_bits.apply = cleaned,
+            "ArrPush" => self.cnfg.magic_bits.arr_push = cleaned,
+            "ArrPop" => self.cnfg.magic_bits.arr_pop = cleaned,
+            "Jump" => self.cnfg.magic_bits.jump = cleaned,
+            "JumpIf" => self.cnfg.magic_bits.jump_if = cleaned,
+            "Literal" => self.cnfg.magic_bits.literal.all = cleaned,
+            "BinaryExp" => self.cnfg.magic_bits.logical_exp.all = cleaned,
+            "UnaryExp" => self.cnfg.magic_bits.unary_exp.all = cleaned,
+            op => {
+                println!("[!] {} not implemented", op)
+            }
         }
     }
 }

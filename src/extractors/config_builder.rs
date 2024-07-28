@@ -7,6 +7,37 @@ use std::hash::RandomState;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct LiteralMagicBitsTypeInfo {
+    pub all: Vec<u64>,
+    pub id: u64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct LiteralMagicBits {
+    pub all: Vec<u64>,
+    pub null: LiteralMagicBitsTypeInfo,
+    pub nan: LiteralMagicBitsTypeInfo,
+    pub infinity: LiteralMagicBitsTypeInfo,
+    pub _false: LiteralMagicBitsTypeInfo,
+    pub _true: LiteralMagicBitsTypeInfo,
+    pub number: LiteralMagicBitsTypeInfo,
+    pub bind: LiteralMagicBitsTypeInfo,
+    pub bit: LiteralMagicBitsTypeInfo,
+    pub string: LiteralMagicBitsTypeInfo,
+    pub stack: LiteralMagicBitsTypeInfo,
+    pub regex: LiteralMagicBitsTypeInfo,
+    pub array: LiteralMagicBitsTypeInfo,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UnaryLogicalOperatorMagicBits {
+    pub all: Vec<u64>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct MagicBits {
     pub start_enc: u64,
     pub opcode_enc: u64,
@@ -15,11 +46,26 @@ pub struct MagicBits {
     pub bind_func: Vec<u64>,
     pub shuffle_reg: Vec<u64>,
     pub binary_exp: Vec<u64>,
-    pub unary_exp: Vec<u64>,
     pub new_arr: Vec<u64>,
     pub jump: Vec<u64>,
     pub jump_if: Vec<u64>,
     pub get_obj: Vec<u64>,
+    pub set_obj: Vec<u64>,
+    pub splice_pop: Vec<u64>,
+    pub set_mem: Vec<u64>,
+    pub new_obj: Vec<u64>,
+    pub throw_error: Vec<u64>,
+    pub weird_new: Vec<u64>,
+    pub new_class: Vec<u64>,
+    pub bind_func2: Vec<u64>,
+    pub apply: Vec<u64>,
+    pub arr_push: Vec<u64>,
+    pub arr_pop: Vec<u64>,
+
+    // Special cases because there is more data
+    pub literal: LiteralMagicBits,
+    pub unary_exp: UnaryLogicalOperatorMagicBits,
+    pub logical_exp: UnaryLogicalOperatorMagicBits,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
