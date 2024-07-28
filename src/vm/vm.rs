@@ -95,6 +95,10 @@ impl VM<'_> {
     pub fn read(&mut self) -> u64 {
         let sub: i64 = (self.cnfg.magic_bits.opcode_enc + 256).try_into().unwrap();
 
+        if self.bytecode.len() <= self.pointer {
+            println!("[!] hard error: read out of bounds bytecode");
+            return 0;
+        }
         let next = self.bytecode[self.pointer];
         self.pointer += 1;
 

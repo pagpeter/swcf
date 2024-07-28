@@ -110,14 +110,40 @@ impl Visit for FindLiteralBits<'_> {
         let b = find_ints.ints;
         let t = utils::number_from_lit(literal) as u64;
 
-        // println!("[debug-literal] {:?} {:?}", num.raw.unwrap(), lit_type);
+        let mut src_code = "".to_owned();
+        if lit_type == "unknown" {
+            src_code = utils::node_to_string(&code);
+            if src_code.contains("RegExp") {
+                lit_type = "regex"
+            } else if src_code.contains("Math.pow") {
+                lit_type = "number"
+            } else if src_code.contains(".slice()") {
+                lit_type = "stack"
+            } else if src_code.contains(".push(") {
+                lit_type = "array"
+            } else if src_code.contains(" += ") {
+                lit_type = "string"
+            } else if src_code.contains("(this)") {
+                lit_type = "bind"
+            } else {
+                lit_type = "bit"
+            }
+        }
+
         match lit_type {
             "infinity" => self.result.infinity = LiteralMagicBitsTypeInfo { all: b, id: t },
             "null" => self.result.null = LiteralMagicBitsTypeInfo { all: b, id: t },
             "nan" => self.result.nan = LiteralMagicBitsTypeInfo { all: b, id: t },
             "true" => self.result._true = LiteralMagicBitsTypeInfo { all: b, id: t },
             "false" => self.result._false = LiteralMagicBitsTypeInfo { all: b, id: t },
-            _ => println!("Unhandled type {:?}, {:?}\n\n", t, code),
+            "regex" => self.result.regex = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "stack" => self.result.stack = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "number" => self.result.number = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "array" => self.result.array = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "string" => self.result.string = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "bind" => self.result.stack = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "bit" => self.result.bit = LiteralMagicBitsTypeInfo { all: b, id: t },
+            _ => println!("Unhandled type {:?}, {}\n\n", t, src_code),
         }
     }
 }

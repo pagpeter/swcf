@@ -1,5 +1,6 @@
 use regex::Regex;
 use std::io;
+use std::sync::Arc;
 use swc::config::{Config, IsModule, JscConfig, ModuleConfig, Options};
 use swc::Compiler;
 use swc_common::{errors::Handler, source_map::SourceMap, sync::Lrc};
@@ -109,4 +110,26 @@ pub fn number_from_lit(lit: &Lit) -> f64 {
     }
 
     return num;
+}
+
+// Thanks to @rsa2048
+pub fn node_to_string<T>(node: &T) -> String
+where
+    T: swc_core::ecma::codegen::Node,
+{
+    let source_map = Arc::<SourceMap>::default();
+
+    let mut buf = vec![];
+
+    let mut e = swc_core::ecma::codegen::Emitter {
+        cfg: swc_core::ecma::codegen::Config::default(),
+        cm: source_map.clone(),
+        comments: None,
+        wr: swc_core::ecma::codegen::text_writer::JsWriter::new(source_map, "\n", &mut buf, None),
+    };
+
+    // !! may fail, handle it if you need to
+    node.emit_with(&mut e).unwrap();
+
+    return String::from_utf8_lossy(&buf).to_string();
 }

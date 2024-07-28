@@ -508,19 +508,7 @@ impl VisitMut for Visitor<'_> {
             return;
         }
 
-        let mut init_keys: config_builder::InitKeys = config_builder::InitKeys::default();
-        let cached_init = fs::read("./data/init_keys.json");
-        if cached_init.is_ok() {
-            let cached = cached_init.unwrap();
-            let str = std::str::from_utf8(&cached).unwrap();
-            let res = serde_json::from_str(str.into());
-            if res.is_ok() {
-                init_keys = res.unwrap();
-                println!("[+] Loaded init keys from cache")
-            } else {
-                println!("Error loading cached init keys: {:#?}", res.err())
-            }
-        }
+        let init_keys: config_builder::InitKeys = config_builder::InitKeys::default();
 
         let identifier = &mut IdentifyOpcodes {
             vm_config: &mut self.cnfg,

@@ -20,28 +20,32 @@ pub fn literal(vm: &mut VM) {
     let j = vm.read() ^ vm.cnfg.magic_bits.literal.all[0];
     let t = vm.read() ^ vm.cnfg.magic_bits.literal.all[1];
 
-    let readable_type: &str;
-
+    let mut readable_type: String = "".to_string();
     if t == vm.cnfg.magic_bits.literal.null.id {
-        readable_type = "null"
+        readable_type = "null".to_string();
     } else if t == vm.cnfg.magic_bits.literal.nan.id {
-        readable_type = "NaN"
+        readable_type = "NaN".to_string();
     } else if t == vm.cnfg.magic_bits.literal.infinity.id {
-        readable_type = "Infinity"
+        readable_type = "Infinity".to_string();
     } else if t == vm.cnfg.magic_bits.literal._false.id {
-        readable_type = "false"
+        readable_type = "false".to_string();
     } else if t == vm.cnfg.magic_bits.literal._true.id {
-        readable_type = "true"
+        readable_type = "true".to_string();
+    } else if t == vm.cnfg.magic_bits.literal.bit.id {
+        let val = vm.read() ^ vm.cnfg.magic_bits.literal.bit.all[0];
+        readable_type = format!("{}", val);
+    } else if t == vm.cnfg.magic_bits.literal.string.id {
+        let length = (vm.read() << 8) | vm.read();
+        for _ in 0..length {
+            let charcode = vm.read() ^ vm.cnfg.magic_bits.literal.string.all[0];
+            readable_type += &((charcode as u8) as char).to_string();
+        }
     }
     // else if t == vm.cnfg.magic_bits.literal.number.id {
     //     readable_type = ""
     // } else if t == vm.cnfg.magic_bits.literal.bind.id {
     //     readable_type = ""
-    // } else if t == vm.cnfg.magic_bits.literal.bit.id {
-    //     readable_type = ""
-    // } else if t == vm.cnfg.magic_bits.literal.string.id {
-    //     readable_type = ""
-    // } else if t == vm.cnfg.magic_bits.literal.stack.id {
+    // }  else if t == vm.cnfg.magic_bits.literal.stack.id {
     //     readable_type = ""
     // } else if t == vm.cnfg.magic_bits.literal.regex.id {
     //     readable_type = ""
@@ -50,7 +54,7 @@ pub fn literal(vm: &mut VM) {
     // }
     else {
         println!("Unhandled type in literal! ({})", t);
-        readable_type = "ERROR /* Unknown literal type */";
+        readable_type = format!("ERROR /* Unknown literal type {} */", t);
     }
 
     vm.push_instruction(&format!("reg_{} = {}", j, readable_type), "literal")
