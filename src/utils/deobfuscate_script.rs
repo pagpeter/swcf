@@ -31,6 +31,7 @@ pub fn deobfuscate(cnfg: &mut VMConfig, src: &str) -> String {
                         expr_simplifier(Mark::new(), Default::default()),
                         as_folder(transformers::useless_if::Visitor),
                         as_folder(transformers::simplify_binary::Visitor),
+                        // extractor: Only required for parsing the script, not deobfuscating it
                         as_folder(extractor::Visitor { cnfg: cnfg }),
                     )
                 },

@@ -1,5 +1,5 @@
 use super::config_builder::VMConfig;
-use crate::extractors::config_builder;
+use crate::extractors::{config_builder, magic_bits_ast};
 use std::{any::Any, collections::HashMap, fs};
 use swc_core::ecma::{utils::ExprExt, visit::VisitMut};
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
@@ -553,11 +553,18 @@ impl VisitMut for Visitor<'_> {
             println!("Could not get init keys dynamically");
             return;
         }
+        println!("[*] Writing extracted init keys to file (./data/init_keys.json)");
+        let json = serde_json::to_string_pretty(&identifier.init_keys).unwrap();
+        fs::write("./data/init_keys.json", json.clone()).expect("Could not write file");
+        self.cnfg.payloads.init = identifier.init_keys.marshal(&self.cnfg);
+
+        let mut magic_bits_visitor = magic_bits_ast::Visitor {
+            cnfg: &mut self.cnfg,
+        };
+        n.visit_with(&mut magic_bits_visitor);
 
         println!("[*] Writing extracted vm config to file (./data/vm_config.json)");
-        let json = serde_json::to_string_pretty(&identifier.init_keys).unwrap();
-        let _ = fs::write("./data/init_keys.json", json);
-
-        self.cnfg.payloads.init = identifier.init_keys.marshal(&self.cnfg);
+        let cnfg_json = serde_json::to_string_pretty(&self.cnfg).unwrap();
+        fs::write("./data/vm_config.json", cnfg_json).expect("Could not write file");
     }
 }

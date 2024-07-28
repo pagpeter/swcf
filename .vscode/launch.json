@@ -1,0 +1,134 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'swccf'",
+      "cargo": {
+        "args": ["test", "--no-run", "--lib", "--package=swccf"],
+        "filter": {
+          "name": "swccf",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'deobfuscator'",
+      "cargo": {
+        "args": ["build", "--bin=deobfuscator", "--package=swccf"],
+        "filter": {
+          "name": "deobfuscator",
+          "kind": "bin"
+        }
+      },
+      "args": ["data/solver_init_raw.js"],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'deobfuscator'",
+      "cargo": {
+        "args": ["test", "--no-run", "--bin=deobfuscator", "--package=swccf"],
+        "filter": {
+          "name": "deobfuscator",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'devirt'",
+      "cargo": {
+        "args": ["build", "--bin=devirt", "--package=swccf"],
+        "filter": {
+          "name": "devirt",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'devirt'",
+      "cargo": {
+        "args": ["test", "--no-run", "--bin=devirt", "--package=swccf"],
+        "filter": {
+          "name": "devirt",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'solver'",
+      "cargo": {
+        "args": ["build", "--bin=solver", "--package=swccf"],
+        "filter": {
+          "name": "solver",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'solver'",
+      "cargo": {
+        "args": ["test", "--no-run", "--bin=solver", "--package=swccf"],
+        "filter": {
+          "name": "solver",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'lifter'",
+      "cargo": {
+        "args": ["build", "--bin=lifter", "--package=swccf"],
+        "filter": {
+          "name": "lifter",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'lifter'",
+      "cargo": {
+        "args": ["test", "--no-run", "--bin=lifter", "--package=swccf"],
+        "filter": {
+          "name": "lifter",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
