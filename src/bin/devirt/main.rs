@@ -23,5 +23,5 @@ fn main() {
 
     let mut vm = VM::from(&cnfg);
     vm.run_init();
-    vm.run_main()
+    // vm.run_main()
 }

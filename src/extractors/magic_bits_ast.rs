@@ -1,9 +1,11 @@
 use std::collections::HashMap;
 
-use swc_ecma_ast::Program;
+use swc_ecma_ast::{Lit, Program};
 use swc_ecma_visit::{Visit, VisitWith};
 
-use super::config_builder;
+use crate::{extractors::config_builder::LiteralMagicBitsTypeInfo, utils::utils};
+
+use super::config_builder::{self, LiteralMagicBits};
 
 fn cleanup_collected_magicbits(vec: Vec<u64>) -> Vec<u64> {
     let mut counts = HashMap::new();
@@ -26,6 +28,97 @@ struct FindInteger {
 impl Visit for FindInteger {
     fn visit_number(&mut self, n: &swc_ecma_ast::Number) {
         self.ints.push(n.value as u64)
+    }
+}
+struct FindLiteralBits<'a> {
+    result: &'a mut LiteralMagicBits,
+}
+impl Visit for FindLiteralBits<'_> {
+    fn visit_if_stmt(&mut self, n: &swc_ecma_ast::IfStmt) {
+        n.visit_children_with(self);
+
+        // let number_id :u64;
+        let test = n.test.as_bin().unwrap();
+
+        let literal: &Lit;
+        if test.left.is_lit() {
+            literal = test.left.as_lit().unwrap();
+        } else if test.right.is_lit() {
+            literal = test.right.as_lit().unwrap();
+        } else {
+            println!("Could not get number_id in FindLiteralBits");
+            return;
+        }
+
+        let code;
+        let op = test.op.as_str();
+        if op == "===" || op == "==" {
+            code = n.cons.clone()
+        } else if op == "!==" || op == "!=" {
+            code = n.alt.clone().unwrap()
+        } else {
+            println!("Could not get branch in FindLiteralBits");
+            return;
+        }
+
+        let mut lit_type: &str = "unknown";
+
+        if code.is_expr() {
+            let expr = code.as_expr().unwrap().expr.clone();
+            if expr.is_assign() {
+                let assign = expr.as_assign().unwrap();
+                if assign.right.is_lit() {
+                    let lit = assign.right.as_lit().unwrap();
+                    match lit {
+                        Lit::Bool(b) => {
+                            if b.value {
+                                lit_type = "true"
+                            } else {
+                                lit_type = "false"
+                            }
+                        }
+                        Lit::Null(_) => lit_type = "null",
+                        _ => {}
+                    }
+                } else if assign.right.is_ident() {
+                    let ident = assign.right.as_ident().unwrap();
+                    let sym = ident.sym.as_str();
+                    if sym == "Infinity" {
+                        lit_type = "infinity"
+                    } else if sym == "NaN" {
+                        lit_type = "nan"
+                    }
+                } else if assign.right.is_unary() {
+                    let unary = assign.right.as_unary().unwrap();
+                    if unary.op.as_str() == "!" {
+                        if unary.arg.clone().lit().is_some() {
+                            let num = utils::number_from_lit(&unary.arg.clone().lit().unwrap());
+                            if num == 1.0 {
+                                // !1
+                                lit_type = "false"
+                            } else if num == 0.0 {
+                                // !0
+                                lit_type = "true"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        let mut find_ints = FindInteger { ints: vec![] };
+        code.visit_children_with(&mut find_ints);
+        let b = find_ints.ints;
+        let t = utils::number_from_lit(literal) as u64;
+
+        // println!("[debug-literal] {:?} {:?}", num.raw.unwrap(), lit_type);
+        match lit_type {
+            "infinity" => self.result.infinity = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "null" => self.result.null = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "nan" => self.result.nan = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "true" => self.result._true = LiteralMagicBitsTypeInfo { all: b, id: t },
+            "false" => self.result._false = LiteralMagicBitsTypeInfo { all: b, id: t },
+            _ => println!("Unhandled type {:?}, {:?}\n\n", t, code),
+        }
     }
 }
 
@@ -142,7 +235,14 @@ impl Visit for FindOpcodeEncryptionBits<'_> {
             "ArrPop" => self.cnfg.magic_bits.arr_pop = cleaned,
             "Jump" => self.cnfg.magic_bits.jump = cleaned,
             "JumpIf" => self.cnfg.magic_bits.jump_if = cleaned,
-            "Literal" => self.cnfg.magic_bits.literal.all = cleaned,
+
+            "Literal" => {
+                self.cnfg.magic_bits.literal.all = cleaned;
+                let literal_type_finder = &mut FindLiteralBits {
+                    result: &mut self.cnfg.magic_bits.literal,
+                };
+                n.visit_children_with(literal_type_finder);
+            }
             "BinaryExp" => self.cnfg.magic_bits.logical_exp.all = cleaned,
             "UnaryExp" => self.cnfg.magic_bits.unary_exp.all = cleaned,
             op => {

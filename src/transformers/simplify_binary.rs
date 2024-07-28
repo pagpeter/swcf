@@ -5,6 +5,8 @@ use swc_core::ecma::{
 };
 use swc_ecma_ast::{BinExpr, BinaryOp, Program};
 
+use crate::utils::utils;
+
 pub struct Visitor;
 
 impl VisitMut for Visitor {
@@ -22,20 +24,14 @@ impl VisitMut for Visitor {
             let mut reversed = false;
 
             if bin.right.is_number() {
-                match bin.right.as_lit().unwrap() {
-                    swc_ecma_ast::Lit::Num(num) => {
-                        right = num.value.floor().into();
-                        reversed = true
-                    }
-                    _ => {}
-                }
+                let num_value = utils::number_from_lit(bin.right.as_lit().unwrap());
+                right = num_value.floor().into();
+                reversed = true;
             }
 
             if bin.left.is_number() {
-                match bin.left.as_lit().unwrap() {
-                    swc_ecma_ast::Lit::Num(num) => left = num.value.floor().into(),
-                    _ => {}
-                }
+                let num_value = utils::number_from_lit(bin.left.as_lit().unwrap());
+                left = num_value.floor().into();
             }
 
             let mut bin_expr = BinExpr {

@@ -1,5 +1,8 @@
 use super::config_builder::VMConfig;
-use crate::extractors::{config_builder, magic_bits_ast};
+use crate::{
+    extractors::{config_builder, magic_bits_ast},
+    utils::utils,
+};
 use std::{any::Any, collections::HashMap, fs};
 use swc_core::ecma::{utils::ExprExt, visit::VisitMut};
 use swc_ecma_ast::{AssignOp, BinaryOp, FnDecl, Program, UnaryOp};
@@ -94,12 +97,8 @@ impl Visit for FindVM<'_> {
                     target = "VMDATA".to_owned()
                 }
 
-                match mem_addr {
-                    swc_ecma_ast::Lit::Num(num) => {
-                        self.vm_config.registers.insert(target, num.value as u64);
-                    }
-                    _ => {}
-                }
+                let num_val = utils::number_from_lit(mem_addr);
+                self.vm_config.registers.insert(target, num_val as u64);
             }
         }
     }
@@ -431,10 +430,7 @@ impl Visit for IdentifyOpcodes<'_> {
                     if kv.value.is_lit() {
                         val.value_type = "NUMBER".to_owned();
                         let lit = kv.value.as_lit().unwrap();
-                        match lit {
-                            swc_ecma_ast::Lit::Num(n) => val.num_value = n.value,
-                            _ => {}
-                        }
+                        val.num_value = utils::number_from_lit(lit);
                     } else if kv.value.is_bin() {
                         val.value_type = "RANDOM".to_owned();
                     } else if kv.value.is_member() {

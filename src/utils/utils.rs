@@ -3,7 +3,7 @@ use std::io;
 use swc::config::{Config, IsModule, JscConfig, ModuleConfig, Options};
 use swc::Compiler;
 use swc_common::{errors::Handler, source_map::SourceMap, sync::Lrc};
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{EsVersion, Lit};
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::modules::EsModuleConfig;
 
@@ -98,4 +98,15 @@ pub fn find_from_multiple_regexes<'a>(
         }
     }
     return None;
+}
+
+pub fn number_from_lit(lit: &Lit) -> f64 {
+    let num: f64;
+
+    match lit {
+        Lit::Num(n) => num = n.value,
+        _ => num = 0.0,
+    }
+
+    return num;
 }

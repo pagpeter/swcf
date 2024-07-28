@@ -50,7 +50,7 @@ pub fn literal(vm: &mut VM) {
     // }
     else {
         println!("Unhandled type in literal! ({})", t);
-        readable_type = "ERROR"
+        readable_type = "ERROR /* Unknown literal type */";
     }
 
     vm.push_instruction(&format!("reg_{} = {}", j, readable_type), "literal")
@@ -122,6 +122,9 @@ pub fn bind_func(vm: &mut VM) {
     let i: u64 = vm.read() ^ vm.cnfg.magic_bits.bind_func.get(1).unwrap_or(&1);
 
     let op: Result<Opcode, _> = vm.mem[func_pointer].try_into();
+    if op.is_err() {
+        return println!("[!] bind_func: Not an opcode @ {}", func_pointer);
+    }
     let mut de_op = op.unwrap();
     de_op.bound_val = i;
     vm.mem[new_pos] = vm::MemoryPoint::Opcode(de_op);

@@ -74,7 +74,7 @@ impl VM<'_> {
             let op = opcodes.get(key.as_str());
             if op.is_some() {
                 self.logger.debug(&format!("reg_{} = {}", val, key));
-                self.logs.push(format!("reg_{} = {}", val, key));
+                self.logs.push(format!("reg_{} = {};", val, key));
                 self.mem[*val as usize] = MemoryPoint::Opcode(Opcode {
                     f: *op.unwrap(),
                     bound_val: 0,
@@ -161,7 +161,7 @@ impl VM<'_> {
         self.bytecode = base64decode(&self.cnfg.bytecodes.init);
         self.pointer = 0;
         self.run();
-        fs::write("./data/traces.txt", format!("{}", self.logs.join("\n")))
+        fs::write("./data/traces.js", format!("{}", self.logs.join("\n")))
             .expect("Could not write traces");
     }
     pub fn run_main(&mut self) {
@@ -169,7 +169,7 @@ impl VM<'_> {
         self.bytecode = self.cnfg.bytecodes.main.as_bytes().to_vec();
         self.pointer = 0;
         self.run();
-        fs::write("./data/traces.txt", format!("{}", self.logs.join("\n")))
+        fs::write("./data/traces.js", format!("{}", self.logs.join("\n")))
             .expect("Could not write traces");
     }
 }
