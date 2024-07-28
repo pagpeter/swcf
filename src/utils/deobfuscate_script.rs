@@ -6,7 +6,7 @@ use swc_core::ecma::transforms;
 use swc_ecma_transforms::optimization::simplifier;
 use swc_ecma_transforms::optimization::simplify::{expr_simplifier, Config};
 use swc_ecma_transforms::pass::noop;
-use swc_ecma_transforms::resolver;
+use swc_ecma_transforms::{fixer, resolver};
 use swc_ecma_visit::as_folder;
 
 pub fn deobfuscate(cnfg: &mut VMConfig, src: &str) -> String {
@@ -40,6 +40,7 @@ pub fn deobfuscate(cnfg: &mut VMConfig, src: &str) -> String {
                         // extractor: Only required for parsing the script, not deobfuscating it
                         as_folder(extractor::Visitor { cnfg: cnfg }),
                         simplifier(marks, Config::default()),
+                        fixer(None),
                     )
                 },
             )
