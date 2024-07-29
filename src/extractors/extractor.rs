@@ -232,6 +232,7 @@ impl Visit for IdentifyOpcode {
                 if ass.right.is_call() && ass.right.as_call().unwrap().callee.is_expr() {
                     let fun = ass.right.as_call().unwrap().callee.as_expr().unwrap();
                     if fun.is_member()
+                        && fun.as_member().unwrap().prop.is_ident()
                         && fun.as_member().unwrap().prop.as_ident().unwrap().sym == "bind"
                     {
                         if n.len() == 7 {
@@ -414,6 +415,8 @@ struct IdentifyOpcodes<'a> {
 
 impl Visit for IdentifyOpcodes<'_> {
     fn visit_object_lit(&mut self, n: &swc_ecma_ast::ObjectLit) {
+        let mut is_correct = true;
+        let mut keys: Vec<config_builder::PayloadKey> = vec![];
         if self.init_keys.keys.len() == 0 && n.props.len() == 13
             || n.props.len() == 15
             || n.props.len() == 12
@@ -435,6 +438,10 @@ impl Visit for IdentifyOpcodes<'_> {
                         val.value_type = "RANDOM".to_owned();
                     } else if kv.value.is_member() {
                         let mem = kv.value.as_member().unwrap();
+                        if !mem.prop.is_ident() {
+                            is_correct = false;
+                            return;
+                        }
                         let key = mem.prop.as_ident().unwrap().sym.to_string();
                         if mem.obj.is_member() {
                             val.value_type = "DATA".to_owned();
@@ -447,12 +454,20 @@ impl Visit for IdentifyOpcodes<'_> {
                         // TODO: handle this properly
                         val.value_type = "STRING".to_owned();
                     } else {
-                        println!("Unhandled type in init keys: {:?}", kv);
+                        // println!(
+                        //     "Unhandled type in init keys: {:?}",
+                        //     utils::node_to_string(&kv)
+                        // );
+                        is_correct = false;
                     }
                 }
 
-                self.init_keys.keys.push(val)
+                // self.init_keys.keys.push(val)
+                keys.push(val);
             }
+        }
+        if is_correct {
+            self.init_keys.keys = keys;
         }
     }
     fn visit_fn_decl(&mut self, n: &FnDecl) {
