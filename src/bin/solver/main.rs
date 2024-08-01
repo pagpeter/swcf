@@ -19,7 +19,7 @@ fn main() {
     let text = session.get_page();
 
     if text.is_err() {
-        log.error("Could not get initial HTML")
+        log.error("[!] Could not get initial HTML")
     }
 
     let html_result = text.unwrap();
@@ -37,7 +37,7 @@ fn main() {
 
     let script = session.get_script();
     if script.is_err() {
-        log.error("Could not get init script")
+        log.error("[!] Could not get init script")
     }
     let script_result = script.unwrap();
     log.success(&format!("Got script!"));

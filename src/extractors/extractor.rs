@@ -414,15 +414,14 @@ struct IdentifyOpcodes<'a> {
 }
 
 impl Visit for IdentifyOpcodes<'_> {
+    // Find init keys
+    // Init keys always include _cf_chl_opt.cNounce
     fn visit_object_lit(&mut self, n: &swc_ecma_ast::ObjectLit) {
-        let mut is_correct = true;
+        n.visit_children_with(self);
         let mut keys: Vec<config_builder::PayloadKey> = vec![];
-        if self.init_keys.keys.len() == 0 && n.props.len() == 13
-            || n.props.len() == 15
-            || n.props.len() == 12
-            || n.props.len() == 10
-            || n.props.len() == 9
-        {
+        // if self.init_keys.keys.len() == 0 && n.props.len() > 5 {
+        let str = utils::node_to_string(&n);
+        if str.contains("_cf_chl_opt.cNounce") {
             for p in &n.props {
                 let kv = p.as_prop().unwrap().as_key_value().unwrap();
 
@@ -439,7 +438,7 @@ impl Visit for IdentifyOpcodes<'_> {
                     } else if kv.value.is_member() {
                         let mem = kv.value.as_member().unwrap();
                         if !mem.prop.is_ident() {
-                            is_correct = false;
+                            println!("Cant be it: {}", utils::node_to_string(&mem));
                             return;
                         }
                         let key = mem.prop.as_ident().unwrap().sym.to_string();
@@ -454,19 +453,14 @@ impl Visit for IdentifyOpcodes<'_> {
                         // TODO: handle this properly
                         val.value_type = "STRING".to_owned();
                     } else {
-                        // println!(
-                        //     "Unhandled type in init keys: {:?}",
-                        //     utils::node_to_string(&kv)
-                        // );
-                        is_correct = false;
                     }
+                } else {
+                    println!("Cant be it 2: {}", utils::node_to_string(&kv));
+                    return;
                 }
-
                 // self.init_keys.keys.push(val)
                 keys.push(val);
             }
-        }
-        if is_correct {
             self.init_keys.keys = keys;
         }
     }
@@ -551,12 +545,24 @@ impl VisitMut for Visitor<'_> {
         let mapping_clone = identifier.handler_mapping.clone();
 
         if identifier.init_keys.keys.len() == 0 {
-            println!("Could not get init keys dynamically");
-            return;
+            println!("[!] Could not get init keys dynamically, using cache");
+            let cached_keys = fs::read("./data/init_keys.json");
+            if cached_keys.is_err() {
+                return;
+            }
+            let cached = cached_keys.unwrap();
+            let str = std::str::from_utf8(&cached).unwrap();
+            let res: Result<config_builder::InitKeys, serde_json::Error> =
+                serde_json::from_str(str.into());
+            if res.is_err() {
+                return;
+            }
+            identifier.init_keys = res.unwrap()
+        } else {
+            println!("[*] Writing extracted init keys to file (./data/init_keys.json)");
+            let json = serde_json::to_string_pretty(&identifier.init_keys).unwrap();
+            fs::write("./data/init_keys.json", json.clone()).expect("Could not write file");
         }
-        println!("[*] Writing extracted init keys to file (./data/init_keys.json)");
-        let json = serde_json::to_string_pretty(&identifier.init_keys).unwrap();
-        fs::write("./data/init_keys.json", json.clone()).expect("Could not write file");
         self.cnfg.payloads.init = identifier.init_keys.marshal(&self.cnfg);
 
         for k in mapping_clone.keys() {
