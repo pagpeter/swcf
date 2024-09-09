@@ -25,9 +25,14 @@ fn main() {
     let html_result = text.unwrap();
     log.debug("Got result HTML, parsing it...");
 
-    let challenge_data = extract_required::parse_challenge_data(&html_result).unwrap();
+    let challenge_data = extract_required::parse_challenge_data(&html_result);
 
-    session.cnfg.chl_data = challenge_data;
+    if challenge_data.is_err() {
+        log.error("Could not extract challenge data");
+        return
+    }
+
+    session.cnfg.chl_data = challenge_data.unwrap();
 
     log.success(&format!(
         "Parsed ChallengeData: {}",

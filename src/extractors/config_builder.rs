@@ -104,7 +104,6 @@ pub struct MagicBits {
 pub struct CRq {
     pub ru: String,
     pub ra: String,
-    pub rm: String,
     pub d: String,
     pub t: String,
     #[serde(skip_deserializing)]
